@@ -91,6 +91,8 @@ class AppConfig(BaseModel):
     agents: AgentsConfig = AgentsConfig()
     llm: LLMConfig = LLMConfig()
     storage: StorageConfig = StorageConfig()
+    # Offline fixture replay instead of live fetching (tests, smoke script). Replay output is never live data.
+    replay_dir: str | None = None
 
 
 class Secrets(BaseSettings):

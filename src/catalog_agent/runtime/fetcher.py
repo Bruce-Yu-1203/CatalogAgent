@@ -192,3 +192,53 @@ class PlaywrightFetcher:
             await self._browser.close()
         if self._pw:
             await self._pw.stop()
+
+
+class ReplayFetcher:
+    """Offline fetcher over saved snapshots: `manifest.json` maps URL -> gzipped HTML file.
+
+    Used for fixture replay (tests, smoke script). Unknown URLs behave like HTTP 404. Readiness
+    signals are checked on the saved DOM, so a snapshot captured before rendering finished behaves
+    like an incomplete render until the final attempt.
+    """
+
+    def __init__(
+        self,
+        fixtures_dir: str | Path,
+        ready_selectors: dict[str, str],
+        allowed_hosts: list[str],
+        robots_file: str | None = "robots.txt",
+    ):
+        self.dir = Path(fixtures_dir)
+        self.manifest: dict[str, str] = json.loads((self.dir / "manifest.json").read_text())
+        self.ready_selectors = ready_selectors
+        self.allowed_hosts = {h.lower() for h in allowed_hosts}
+        robots_path = self.dir / robots_file if robots_file else None
+        self.robots = RobotsPolicy(robots_path.read_text()) if robots_path and robots_path.exists() else None
+        self.fetched: list[str] = []
+
+    def check_url(self, url: str) -> None:
+        parts = urlsplit(url)
+        if parts.scheme != "https" or (parts.hostname or "").lower() not in self.allowed_hosts:
+            raise FetchError(ErrorCode.OFF_SCOPE_REDIRECT, f"host not allowed: {url}")
+        if self.robots is not None and not self.robots.allowed(url):
+            raise FetchError(ErrorCode.ROBOTS_DISALLOWED, f"robots.txt disallows {url}")
+
+    async def fetch(self, url: str, kind: str, require_ready: bool = True) -> PageSnapshot:
+        self.check_url(url)
+        self.fetched.append(url)
+        name = self.manifest.get(url)
+        if name is None:
+            raise FetchError(ErrorCode.NOT_FOUND, f"no fixture for {url}", 404)
+        with gzip.open(self.dir / name, "rt", encoding="utf-8") as f:
+            html = f.read()
+        selector = self.ready_selectors.get(kind)
+        if selector and require_ready:
+            from bs4 import BeautifulSoup
+
+            if BeautifulSoup(html, "lxml").select_one(selector) is None:
+                raise FetchError(ErrorCode.INCOMPLETE_RENDER, f"readiness signal missing: {selector}")
+        return make_snapshot(url, url, 200, html)
+
+    async def close(self) -> None:
+        return None

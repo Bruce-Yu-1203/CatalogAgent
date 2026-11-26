@@ -262,23 +262,27 @@ class Repository:
                 (run_id, now),
             )
             candidates = await cur.fetchall()
-            if not candidates:
-                cur = await c.execute(
-                    "SELECT COUNT(*) FROM crawl_tasks WHERE run_id = ? AND status IN ('RETRY_WAIT','RUNNING')",
-                    (run_id,),
-                )
-                return None, ("waiting" if (await cur.fetchone())[0] else "empty")
             done = await self.products_done_by_root(c, run_id)
             limit = run["max_products_per_category"]
-            chosen = None
-            for row in candidates:
-                full = done.get(row["root"], 0) >= limit if row["root"] else False
-                if row["task_type"] in (TaskType.PRODUCT.value, TaskType.LISTING.value) and full:
-                    continue
-                chosen = row
-                break
+
+            def eligible(row: aiosqlite.Row) -> bool:
+                if row["task_type"] == TaskType.DISCOVERY.value or not row["root"]:
+                    return True
+                return done.get(row["root"], 0) < limit
+
+            chosen = next((r for r in candidates if eligible(r)), None)
             if chosen is None:
-                return None, "products"
+                # Nothing claimable now. Wait only for work that can still run: tasks in flight, or
+                # retries whose category quota is not full. Otherwise the category budget is spent.
+                cur = await c.execute(
+                    "SELECT task_type, root, status FROM crawl_tasks WHERE run_id = ?"
+                    " AND status IN ('RETRY_WAIT','RUNNING')",
+                    (run_id,),
+                )
+                live = [r for r in await cur.fetchall() if r["status"] == "RUNNING" or eligible(r)]
+                if live:
+                    return None, "waiting"
+                return None, ("products" if candidates or await self._has_open(c, run_id) else "empty")
             if run["pages_used"] >= run["max_pages"]:
                 return None, "pages"
             reserve = 0
@@ -297,6 +301,12 @@ class Repository:
             cur = await c.execute("SELECT * FROM crawl_tasks WHERE task_id = ?", (chosen["task_id"],))
             task = self._row_to_task(await cur.fetchone())
             return task, None
+
+    async def _has_open(self, c: aiosqlite.Connection, run_id: str) -> bool:
+        cur = await c.execute(
+            "SELECT COUNT(*) FROM crawl_tasks WHERE run_id = ? AND status IN ('PENDING','RETRY_WAIT')", (run_id,)
+        )
+        return bool((await cur.fetchone())[0])
 
     async def reserved_model_calls(self, task_id: int) -> int:
         cur = await self.conn.execute("SELECT reserved_model_calls FROM crawl_tasks WHERE task_id = ?", (task_id,))

@@ -1,0 +1,9 @@
+{
+  "https://www.safcodental.com/catalog": "catalog.html.gz",
+  "https://www.safcodental.com/catalog/gloves": "listing_gloves.html.gz",
+  "https://www.safcodental.com/catalog/sutures-surgical-products": "listing_sutures.html.gz",
+  "https://www.safcodental.com/catalog/sutures-surgical-products/sutures": "listing_sutures_sutures.html.gz",
+  "https://www.safcodental.com/product/safco-nitrilex-surpass-trade": "product_surpass_gloves.html.gz",
+  "https://www.safcodental.com/product/safco-surestitch-trade-sutures": "product_surestitch_sutures.html.gz",
+  "https://www.safcodental.com/product/soft-tissue-trimmer": "product_trimmer_incomplete_render.html.gz"
+}

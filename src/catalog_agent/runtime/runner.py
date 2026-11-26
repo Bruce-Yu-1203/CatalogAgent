@@ -12,7 +12,7 @@ from catalog_agent.adapters import safco
 from catalog_agent.config import AppConfig
 from catalog_agent.contracts import RunStatus
 from catalog_agent.extraction.llm import ModelClient, ModelUnavailable, model_from_env
-from catalog_agent.runtime.fetcher import Fetcher, PlaywrightFetcher, SnapshotStore
+from catalog_agent.runtime.fetcher import Fetcher, PlaywrightFetcher, ReplayFetcher, SnapshotStore
 from catalog_agent.runtime.lock import DatabaseLock
 from catalog_agent.runtime.orchestrator import Orchestrator
 from catalog_agent.storage.repository import Repository
@@ -35,8 +35,10 @@ def new_run_id() -> str:
     return datetime.now(UTC).strftime("run_%Y%m%d_%H%M%S")
 
 
-async def playwright_fetcher(cfg: AppConfig) -> Fetcher:
+async def default_fetcher(cfg: AppConfig) -> Fetcher:
     adapter = ADAPTERS[cfg.site.adapter]
+    if cfg.replay_dir:
+        return ReplayFetcher(cfg.replay_dir, adapter.READY_SELECTORS, cfg.site.allowed_hosts)
     base = cfg.site.discovery_url.split("/", 3)
     f = PlaywrightFetcher(
         allowed_hosts=cfg.site.allowed_hosts,
@@ -69,7 +71,7 @@ async def execute(
     run_id: str | None = None,
     resume: bool = False,
     extensions: Extensions | None = None,
-    fetcher_factory: FetcherFactory = playwright_fetcher,
+    fetcher_factory: FetcherFactory = default_fetcher,
     model_factory: ModelFactory = _env_model,
     quiet_logs: bool = False,
 ) -> dict[str, Any]:

@@ -29,11 +29,17 @@ def crawl(
     config: Annotated[Path, typer.Option(help="YAML configuration")] = Path("configs/safco.yaml"),
     mode: Annotated[str, typer.Option(help="deterministic | hybrid")] = "hybrid",
     run_id: Annotated[str | None, typer.Option(help="explicit run id")] = None,
+    replay: Annotated[Path | None, typer.Option(help="replay saved fixtures (offline) instead of live")] = None,
+    db: Annotated[str | None, typer.Option(help="override storage.database")] = None,
 ) -> None:
     """Start a new bounded crawl."""
     if mode not in ("deterministic", "hybrid"):
         raise typer.BadParameter("mode must be deterministic or hybrid")
     cfg = load_config(config)
+    if replay is not None:
+        cfg.replay_dir = str(replay)
+    if db is not None:
+        cfg.storage.database = db
     try:
         res = asyncio.run(execute(database=cfg.storage.database, cfg=cfg, mode=mode, run_id=run_id))
     except LockHeldError as e:

@@ -1,11 +1,1 @@
-[
-  {
-    "task_id": 39,
-    "type": "product",
-    "url": "https://www.safcodental.com/product/soft-tissue-trimmer",
-    "status": "RETRY_WAIT",
-    "error_code": "INCOMPLETE_RENDER",
-    "error": "readiness signal missing: #pdp-grouped .product-item-sku",
-    "attempts": 1
-  }
-]
+[]

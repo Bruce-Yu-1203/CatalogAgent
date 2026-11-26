@@ -1,10 +1,10 @@
 {
-  "run_id": "run_20261126_live",
+  "run_id": "run_20261126_live2",
   "mode": "deterministic",
   "status": "BUDGET_EXHAUSTED",
   "termination_reason": "MAX_PRODUCTS_PER_CATEGORY",
   "coverage_status": "partial",
-  "started_at": "2026-11-26T23:07:14Z",
+  "started_at": "2026-11-26T23:31:05Z",
   "finished_at": null,
   "invocations": [
     {
@@ -12,13 +12,13 @@
       "model_id": null,
       "model_unavailable": null,
       "requeued": 0,
-      "seconds": 205.9,
+      "seconds": 121.6,
       "status": "BUDGET_EXHAUSTED"
     }
   ],
   "budgets": {
     "max_pages": 150,
-    "pages_used": 48,
+    "pages_used": 37,
     "max_products_per_category": 10,
     "max_model_calls": 60,
     "model_calls_used": 0,
@@ -29,8 +29,7 @@
   "tasks": {
     "by_status": {
       "COMPLETED": 37,
-      "PENDING": 68,
-      "RETRY_WAIT": 1
+      "PENDING": 69
     },
     "by_type": {
       "discovery": 1,
@@ -38,7 +37,7 @@
       "product": 89
     },
     "outstanding": 69,
-    "retries": 10
+    "retries": 0
   },
   "discovery": {
     "degraded_discovery": false,
@@ -153,7 +152,7 @@
   },
   "catalog": {
     "unique_products": 20,
-    "observed_skus": 93,
+    "observed_skus": 91,
     "duplicate_identity_count": 0
   },
   "model_usage": {
@@ -164,7 +163,7 @@
     "patch_entries_rejected": 0,
     "tool_calls": 0
   },
-  "extraction_seconds_total": 0.24,
+  "extraction_seconds_total": 0.23,
   "per_category": {
     "gloves": {
       "root": "https://www.safcodental.com/catalog/gloves",
@@ -217,7 +216,7 @@
       "partial": 0,
       "quarantined": 0,
       "products_exported": 10,
-      "variants_exported": 40,
+      "variants_exported": 38,
       "field_fill_rate": {
         "product": {
           "name": 1.0,
@@ -232,9 +231,9 @@
           "sku": 1.0,
           "variant_name": 1.0,
           "attributes": 0.0,
-          "pack_label": 0.3,
-          "pack_quantity": 0.3,
-          "pack_unit": 0.3,
+          "pack_label": 0.3421,
+          "pack_quantity": 0.3421,
+          "pack_unit": 0.3421,
           "price": 1.0,
           "currency": 1.0,
           "availability_raw": 1.0
@@ -245,28 +244,18 @@
       "llm_fallback_rate": 0.0,
       "evidence_rejection_rate": null,
       "variant_coverage": {
-        "expected_skus": 40,
-        "exported_skus": 40
+        "expected_skus": 38,
+        "exported_skus": 38
       },
       "missing_reason_distribution": {
         "manufacturer": {
           "not_applicable": 10
         },
         "variants.pack_label": {
-          "not_visible": 28
+          "not_visible": 25
         }
       }
     }
   },
-  "failed_tasks": [
-    {
-      "task_id": 39,
-      "type": "product",
-      "url": "https://www.safcodental.com/product/soft-tissue-trimmer",
-      "status": "RETRY_WAIT",
-      "error_code": "INCOMPLETE_RENDER",
-      "error": "readiness signal missing: #pdp-grouped .product-item-sku",
-      "attempts": 1
-    }
-  ]
+  "failed_tasks": []
 }

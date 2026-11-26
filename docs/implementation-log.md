@@ -183,9 +183,48 @@ retry-wait fix: 23/23 passed each time (before the extraction and agent-loop fil
 
 1. Run a hybrid crawl with real credentials (`LLM_PROVIDER=anthropic`, `LLM_MODEL`, `LLM_API_KEY`) to verify
    A-07 and measure what the attribute gap repair adds; then build the P1 baseline-vs-hybrid evaluation.
-2. Accept JSON-LD after the first missing-table attempt when JSON-LD lists variants (saves ~20% of fetches).
-3. Extend pack parsing (`Box of N`, `N-pack`) and strip tooltip text from variant names.
+2. ~~Accept JSON-LD after the first missing-table attempt~~ (done in M6).
+3. ~~Extend pack parsing and strip tooltip text from variant names~~ (done in M6).
 4. Find a robots-compliant route past page 1 (e.g. `products.xml` sitemap filtered by category) before any
    full-site crawl.
 5. The live run used `deterministic` mode while the CLI default is `hybrid`; without credentials a hybrid
    run degrades and reports `MODEL_UNAVAILABLE`.
+
+## M6 — Verification and P0 gap fixes (second session, 2026-11-26)
+
+**Fixes** (commit "M6: accept structured data…", each with a regression test):
+
+1. A product page whose variant table never renders is accepted on the first attempt when its
+   ProductGroup JSON-LD is present (`READY_FALLBACK_SELECTORS` in the adapter; both fetchers). The M5 run
+   spent 10 retries on such pages.
+2. Pack parsing also reads `Box of N` and `N-pack`. Volume labels (`1cc jar`) still stay null.
+3. Variant labels use only the description label element, not the SDS link and "Details" tooltip that
+   share the cell. New real fixture: `product_orasoothe_tooltips.html.gz` (captured in the M5 run).
+
+**Final live run** `run_20261126_live2` (deterministic, default config, started 23:31 UTC), which
+replaced the M5 run's files in `outputs/`:
+
+| Measure | M5 run `run_20261126_live` | Final run `run_20261126_live2` |
+|---|---|---|
+| Wall time / fetches | 206 s / 48 | 122 s / 37 |
+| Retries | 10 | 0 |
+| Products | 20 accepted | 20 accepted (Feather blades replaced by Soft Tissue Trimmer, which had been stuck in retry) |
+| Variants | 93 | 91 (53 gloves, 38 sutures & surgical); 91/91 observed SKUs exported |
+| Pages using JSON-LD as evidence | 5 | 6 |
+| Table price vs JSON-LD price | 64 agree / 0 disagree | 60 agree / 0 disagree (31 JSON-LD only) |
+| SKU set equals JSON-LD SKU set | 20/20 | 20/20 |
+| Sutures & surgical pack fill rate | 30% | 34% |
+| Duplicate SKU identities | 0 | 0 |
+
+**Spot check**: sample records compared with their saved snapshots (Safco Nitrilex Surpass: 5 SKUs, $15.99
+each, 300/box or 250/box; HemoStat: 1 SKU, "Box of 20", $125.99; Ossify bone graft: 3 SKUs from JSON-LD,
+pack null). The values matched what the pages showed at capture time. This was checked against saved
+snapshots, not by reloading the live pages.
+
+**Tests**: `uv run pytest` 41 passed in 16.1 s (discovery 11, extraction 8, agent loop 9, persistence 6,
+runtime 7). `./scripts/smoke.sh` passed (replay: 4 products, 25 variant rows).
+
+**P0 status after M6**: every P0 checklist item is done and tested, with two open items:
+the LLM path has been verified only with fake models (needs `LLM_API_KEY` for a live hybrid run), and the
+commits are local (not pushed). P1 is not started: AGENTS.md and the constitution allow P1 only after all
+P0 gates pass, and the live-model gate is still open.

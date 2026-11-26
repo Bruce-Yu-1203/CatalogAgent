@@ -6,17 +6,17 @@ Products). Design: [docs/](docs/README.md). What was built and measured, milesto
 
 ## 1. Overview and results at a glance
 
-Measured on the live site, run `run_20261126_live` (2026-11-26, deterministic mode, 206 s):
+Measured on the live site, run `run_20261126_live2` (2026-11-26, deterministic mode, 122 s):
 
 | | Result |
 |---|---|
 | Products exported | 20 (10 gloves, 10 sutures & surgical), all `accepted`, 0 partial, 0 quarantined |
-| Variants (SKUs) | 93 (53 gloves, 40 sutures & surgical); every SKU observed on each page was exported (93/93) |
-| Price check | 64 table prices agree with the page's own JSON-LD offer price, 0 disagree; 29 prices came from JSON-LD because the table never rendered |
-| Pages fetched | 48 of a 150-page budget (1 discovery, 16 listings, 31 product-page attempts incl. 10 render retries) |
+| Variants (SKUs) | 91 (53 gloves, 38 sutures & surgical); every SKU observed on each page was exported (91/91) |
+| Price check | 60 table prices agree with the page's own JSON-LD offer price, 0 disagree; 31 prices came from JSON-LD because the table never rendered (6 pages) |
+| Pages fetched | 37 of a 150-page budget (1 discovery, 16 listings, 20 product pages), 0 retries |
 | Stop | `BUDGET_EXHAUSTED` / `MAX_PRODUCTS_PER_CATEGORY` (10 per category configured); 69 tasks left resumable |
 | Duplicate SKU identities | 0 |
-| Tests | 37 passed (P0 suite, offline), smoke script passed |
+| Tests | 41 passed (P0 suite, offline), smoke script passed |
 | LLM usage in the live run | **none**: no model credentials were available, so the run used deterministic mode. The LLM path is implemented and tested only with scripted fake models. |
 
 Outputs: [`outputs/products.json`](outputs/products.json), [`outputs/variants.csv`](outputs/variants.csv),
@@ -97,7 +97,7 @@ degraded recovery. Offline replay of saved fixtures: add `--replay tests/fixture
 The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with nested variants in
 `products.json`, one row per variant in `variants.csv` (33 columns, in PRD order), with evidence refs,
 `llm_fields` and `missing` reasons. All 20 records in `outputs/` come from the single run
-`run_20261126_live`. Example (abridged, real):
+`run_20261126_live2`. Example (abridged, real):
 
 ```json
 {"name": "Safco Nitrilex Surpass Gloves", "product_key": "DRCCS", "brand": "Safco",
@@ -132,11 +132,11 @@ The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with n
 
 | Failure | Handling (tested in `tests/test_runtime.py`) |
 |---|---|
-| Timeout, connection, 5xx, incomplete render | retry with backoff; final attempt accepts the page without the readiness signal |
+| Timeout, connection, 5xx, incomplete render | retry with backoff; a product page with JSON-LD is accepted without the table; final attempt accepts any page |
 | 429 | wait at least Retry-After, slow the host |
 | 401/403/CAPTCHA text | pause the run (`PAUSED` / `ACCESS_RESTRICTED`), task kept resumable, never bypassed |
 | 404, robots-disallowed, off-host redirect, unsupported page | terminal failure, recorded |
-| Variant table not rendered | JSON-LD variant rows used as the evidence source (5 live products) |
+| Variant table not rendered | after the readiness wait, JSON-LD variant rows are the evidence source (6 live products) |
 | Model error / missing key / no progress / budget | loop stops; verified fields kept; record `partial` |
 | SKU with conflicting rows, no verifiable variants | quarantined |
 | Crash mid-run | requeue after lock; reserved budget of the interrupted attempt stays consumed |
@@ -144,7 +144,7 @@ The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with n
 ## 9. Where AI adds value (measured)
 
 Honest result: **not measured on live data.** No model credentials were available, so the live run is
-deterministic. In that run the deterministic parsers resolved every critical field (93/93 SKUs and
+deterministic. In that run the deterministic parsers resolved every critical field (91/91 SKUs and
 prices verified). The only gap they leave on Safco pages is unstructured variant attribute text (e.g.
 `C-3, chromic gut, 5-0, 18", 12/box`): variant attribute fill rate is 19% for gloves and 0% for sutures,
 which is where the hybrid loop is meant to help. The loop is exercised in `tests/test_agent_loop.py`
@@ -159,10 +159,9 @@ baseline-vs-hybrid evaluation (P1, FR-13) was not built.
 and then runs the identical traversal; it is bounded by `max_pages`, `max_products_per_category`,
 `max_model_calls_per_run` and `max_invocation_seconds`, and a budget stop leaves resumable work. It was
 **not** run against the live site and no multi-root traversal was verified end to end. Sizing with
-measured inputs: ≈ 4.3 s per fetch attempt in this run (206 s / 48 attempts, two workers sharing a 2 s
-pacer) and 10 render retries over 31 product-page attempts (32%), so a 6,300-page crawl would need about
-6,300 × 1.32 ≈ 8,300 attempts × 4.3 s ≈ 10 h on one worker. The
-render retries are the main cost and could be cut by accepting JSON-LD earlier. A full crawl also needs
+measured inputs: ≈ 3.3 s per page fetch in this run (122 s / 37 fetches, two workers sharing a 2 s
+pacer, 0 retries), so a 6,300-page crawl would take roughly 6,300 × 3.3 s ≈ 5.8 h on one worker; the
+binding limit is the polite request rate, not compute. A full crawl also needs
 a robots-compliant way past page 1 of each listing (sitemap `products.xml` is a candidate). Deployment
 path: [Architecture §9](docs/03-overall-architecture.md#9-deployment-path).
 
@@ -181,18 +180,17 @@ is design only.
 - LLM extraction was not demonstrated live (no credentials; A-07 unverified). P1 features (classifier
   fallback, repair suggestions, evaluation) are not built and are rejected by config validation if enabled.
 - Variant attributes are mostly empty in deterministic mode (only the table group heading).
-- Pack size is parsed only from `N/unit` tokens; labels like `Box of 20`, `5-pack` or `1cc jar` are left
-  null with `not_visible`, which is imprecise (the text is visible but not in a supported form).
-- Some variant names carry tooltip text (`… SDS | Details + - Contains: …`) from the description cell.
-- Five bone-graft pages never rendered their variant table; their SKUs/prices come from JSON-LD and each
-  cost two wasted readiness retries.
+- Pack size is parsed from `N/unit`, `Box of N` and `N-pack`; volume labels like `1cc jar` stay null with
+  `not_visible` (sutures & surgical pack fill rate 34%).
+- Six product pages (bone grafts and one trimmer) never render their variant table; their SKUs and
+  prices come from the page's JSON-LD after one 15 s readiness wait.
 - Manufacturer is always null (`not_applicable`): Safco shows one label, used as brand.
 - Windows is not supported (`fcntl`). The repository has not been pushed from this environment.
 
 ## 13. Tests
 
-`uv run pytest` on 2026-11-26: **37 passed in 13.5 s**, all offline (saved fixtures, fake fetchers, fake
-models): `test_discovery.py` 10, `test_extraction.py` 5, `test_agent_loop.py` 9, `test_persistence.py` 6,
+`uv run pytest` on 2026-11-26: **41 passed in 16.1 s**, all offline (saved fixtures, fake fetchers, fake
+models): `test_discovery.py` 11, `test_extraction.py` 8, `test_agent_loop.py` 9, `test_persistence.py` 6,
 `test_runtime.py` 7. `./scripts/smoke.sh` passed (lint, format check, tests, replay crawl → export →
 report → resume). Fixtures: `tests/fixtures/live/` are real snapshots; synthetic variants are built in
 the tests and labeled there.

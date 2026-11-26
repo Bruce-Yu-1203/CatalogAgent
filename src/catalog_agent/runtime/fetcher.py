@@ -97,7 +97,9 @@ class PlaywrightFetcher:
         blocked_resource_types: tuple[str, ...] = (),
         blocked_url_parts: tuple[str, ...] = (),
         robots_url: str | None = None,
+        fallback_selectors: dict[str, str] | None = None,
     ):
+        self.fallback_selectors = fallback_selectors or {}
         self.allowed_hosts = {h.lower() for h in allowed_hosts}
         self.user_agent = user_agent
         self.pacer = HostPacer(interval)
@@ -178,7 +180,9 @@ class PlaywrightFetcher:
                 try:
                     await page.wait_for_selector(selector, state="attached", timeout=self.ready_ms)
                 except Exception as e:
-                    if require_ready:
+                    fallback = self.fallback_selectors.get(kind)
+                    usable = fallback is not None and await page.query_selector(fallback) is not None
+                    if require_ready and not usable:
                         raise FetchError(ErrorCode.INCOMPLETE_RENDER, f"readiness signal missing: {selector}") from e
             html = await page.content()
             return make_snapshot(url, final_url, status, html)
@@ -208,7 +212,9 @@ class ReplayFetcher:
         ready_selectors: dict[str, str],
         allowed_hosts: list[str],
         robots_file: str | None = "robots.txt",
+        fallback_selectors: dict[str, str] | None = None,
     ):
+        self.fallback_selectors = fallback_selectors or {}
         self.dir = Path(fixtures_dir)
         self.manifest: dict[str, str] = json.loads((self.dir / "manifest.json").read_text())
         self.ready_selectors = ready_selectors
@@ -236,7 +242,9 @@ class ReplayFetcher:
         if selector and require_ready:
             from bs4 import BeautifulSoup
 
-            if BeautifulSoup(html, "lxml").select_one(selector) is None:
+            soup = BeautifulSoup(html, "lxml")
+            fallback = self.fallback_selectors.get(kind)
+            if soup.select_one(selector) is None and (fallback is None or soup.select_one(fallback) is None):
                 raise FetchError(ErrorCode.INCOMPLETE_RENDER, f"readiness signal missing: {selector}")
         return make_snapshot(url, url, 200, html)
 

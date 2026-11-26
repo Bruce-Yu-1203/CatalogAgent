@@ -58,12 +58,23 @@ _PACK_UNITS = {
 _PACK_RE = re.compile(r"(\d[\d,]*)\s*/\s*([A-Za-z]+)\b")
 
 
+_BOX_OF_RE = re.compile(r"\b(box|case|pack|bag|carton)\s+of\s+(\d[\d,]*)\b", re.IGNORECASE)
+_N_PACK_RE = re.compile(r"\b(\d[\d,]*)\s*-\s*(pack|pk|count|ct)\b", re.IGNORECASE)
+
+
 def parse_pack(text: str | None) -> tuple[str | None, int | None, str | None]:
-    """Find the last 'N/unit' token, e.g. '300/box'. Unknown units keep the label only."""
+    """Pack from the last 'N/unit' token ('300/box'), else 'Box of N' or 'N-pack'. Unknown units keep the label."""
     if not text:
         return None, None, None
     matches = list(_PACK_RE.finditer(text))
     if not matches:
+        m = _BOX_OF_RE.search(text)
+        if m:
+            return m.group(0), int(m.group(2).replace(",", "")), _PACK_UNITS[m.group(1).lower()]
+        m = _N_PACK_RE.search(text)
+        if m:
+            unit = "pack" if m.group(2).lower() in ("pack", "pk") else "each"
+            return m.group(0), int(m.group(1).replace(",", "")), unit
         return None, None, None
     m = matches[-1]
     label = m.group(0)

@@ -101,3 +101,34 @@ def test_one_product_round_trips_through_json_and_csv(tmp_path):
         assert json.loads(row["variant_missing"]) == jv["missing"]
     # In-memory CSV rows equal what was written (no float or encoding drift).
     assert [dict((k, str(v)) for k, v in r.items()) for r in csv_rows([p])] == rows
+
+
+def test_pack_parsing_forms_seen_on_the_live_site():
+    from catalog_agent.extraction.normalize import parse_pack
+
+    assert parse_pack("X-small, 300/box") == ("300/box", 300, "box")
+    assert parse_pack("Box of 20") == ("Box of 20", 20, "box")
+    assert parse_pack("5-pack") == ("5-pack", 5, "pack")
+    assert parse_pack("Soft Tissue Trimmer regular 1/pk") == ("1/pk", 1, "pack")
+    assert parse_pack("Mineralized cortical bone .25-1.0mm 1.0cc jar") == (None, None, None)  # volume, not a pack
+
+
+def test_variant_label_excludes_sds_links_and_tooltips():
+    from conftest import BASE
+
+    snap = snapshot("product_orasoothe_tooltips", url=f"{BASE}/product/orasoothe-reg-sockit-gel")
+    out, _ = validate(snap)
+    names = {v.sku: v.variant_name for v in out.product.variants}
+    assert names["5690102"] == "5-pack" and names["5690106"] == "25-pack"
+    assert not any("SDS" in (n or "") or "Details" in (n or "") for n in names.values())
+    by = {v.sku: v for v in out.product.variants}
+    assert (by["5690102"].pack_quantity, by["5690102"].pack_unit) == (5, "pack")
+
+
+async def test_product_without_rendered_table_is_usable_on_first_attempt_via_structured_data():
+    from conftest import URLS, ScriptedFetcher
+
+    snap = await ScriptedFetcher().fetch(URLS["product_trimmer_incomplete_render"], "product", require_ready=True)
+    assert safco.section_by_id(snap, "variant-table") is None or not safco.section_by_id(snap, "variant-table").rows
+    out, _ = validate(snap)
+    assert out.decision == "accepted" and out.product.variant_count == 2

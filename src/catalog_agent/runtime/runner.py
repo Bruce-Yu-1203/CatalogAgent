@@ -38,7 +38,12 @@ def new_run_id() -> str:
 async def default_fetcher(cfg: AppConfig) -> Fetcher:
     adapter = ADAPTERS[cfg.site.adapter]
     if cfg.replay_dir:
-        return ReplayFetcher(cfg.replay_dir, adapter.READY_SELECTORS, cfg.site.allowed_hosts)
+        return ReplayFetcher(
+            cfg.replay_dir,
+            adapter.READY_SELECTORS,
+            cfg.site.allowed_hosts,
+            fallback_selectors=adapter.READY_FALLBACK_SELECTORS,
+        )
     base = cfg.site.discovery_url.split("/", 3)
     f = PlaywrightFetcher(
         allowed_hosts=cfg.site.allowed_hosts,
@@ -47,6 +52,7 @@ async def default_fetcher(cfg: AppConfig) -> Fetcher:
         timeout_s=cfg.crawler.timeout_seconds,
         readiness_timeout_s=cfg.crawler.readiness_timeout_seconds,
         ready_selectors=adapter.READY_SELECTORS,
+        fallback_selectors=adapter.READY_FALLBACK_SELECTORS,
         blocked_resource_types=adapter.BLOCKED_RESOURCE_TYPES,
         blocked_url_parts=adapter.BLOCKED_URL_PARTS,
         robots_url=f"{base[0]}//{base[2]}/robots.txt",

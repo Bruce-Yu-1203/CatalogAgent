@@ -36,6 +36,12 @@ READY_SELECTORS = {
     "listing": ".ais-Hits-item, .ais-Hits--empty, .category-cms",
     "product": "#pdp-grouped .product-item-sku",
 }
+# If the primary signal never appears, these still make a snapshot usable (checked after the wait).
+# M5 run: five bone-graft pages never rendered their variant table on any of three attempts, but their
+# ProductGroup JSON-LD (with variant SKUs and prices) is always present.
+READY_FALLBACK_SELECTORS = {
+    "product": 'script[type="application/ld+json"]',
+}
 
 # Resources not needed for extraction; blocking them reduces load on third parties and the host.
 BLOCKED_RESOURCE_TYPES = ("image", "font", "media")
@@ -293,7 +299,10 @@ def _build_sections_cached(snapshot_id: str, html: str) -> tuple[Section, ...]:
                     "item_no": _text(sku_el) or "",
                     "product_name": _text(r.select_one('[data-attr="Product Name"]')) or "",
                     "mfr_no": _text(r.select_one('[data-attr="Mfr #"]')) or "",
-                    "description": _text(r.select_one('[data-attr="Description"]')) or "",
+                    # Only the label itself; the cell also holds SDS links and a "Details" tooltip.
+                    "description": _text(r.select_one('[data-attr="Description"] .product-item-name'))
+                    or _text(r.select_one('[data-attr="Description"]'))
+                    or "",
                     "stock": _text(r.select_one(".stock-status")) or "",
                     "price": tiers[0][1] if tiers else "",
                     "price_tiers": "; ".join(f"{q}={p}" for q, p in tiers),

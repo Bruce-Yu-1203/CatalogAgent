@@ -55,7 +55,12 @@ class ScriptedFetcher(ReplayFetcher):
     """Replay fetcher with injectable failures: {url: [FetchError | 'ok' | BaseException, ...]}."""
 
     def __init__(self, failures: dict[str, list[Any]] | None = None, crash_after: int | None = None):
-        super().__init__(LIVE, safco.READY_SELECTORS, ["www.safcodental.com", "safcodental.com"])
+        super().__init__(
+            LIVE,
+            safco.READY_SELECTORS,
+            ["www.safcodental.com", "safcodental.com"],
+            fallback_selectors=safco.READY_FALLBACK_SELECTORS,
+        )
         self.failures = {k: list(v) for k, v in (failures or {}).items()}
         self.crash_after = crash_after
         self.calls = 0

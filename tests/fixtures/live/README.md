@@ -13,3 +13,4 @@ and are used only for offline tests; they are not exported data.
 | `product_surpass_gloves.html.gz` | /product/safco-nitrilex-surpass-trade |
 | `product_surestitch_sutures.html.gz` | /product/safco-surestitch-trade-sutures |
 | `product_trimmer_incomplete_render.html.gz` | /product/soft-tissue-trimmer (variant table not yet rendered; JSON-LD only) |
+| `product_orasoothe_tooltips.html.gz` | /product/orasoothe-reg-sockit-gel (description cells with SDS links and "Details" tooltips; captured in run `run_20261126_live`) |

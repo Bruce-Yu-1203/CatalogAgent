@@ -185,3 +185,44 @@ async def test_fetcher_rejects_disallowed_and_off_host_urls_without_requesting()
         f.check_url("https://evil.example.com/product/x")
     assert e1.value.code == ErrorCode.ROBOTS_DISALLOWED and e2.value.code == ErrorCode.OFF_SCOPE_REDIRECT
     await asyncio.sleep(0)
+
+
+async def test_playwright_fetcher_accepts_structured_data_when_variant_table_never_renders():
+    """Offline: the real trimmer page (table not rendered) served from a local route, scripts removed."""
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(fixture_html("product_trimmer_incomplete_render"), "lxml")
+    for s in soup.select("script"):
+        if s.get("type") != "application/ld+json":
+            s.decompose()
+    body = str(soup)
+    url = URLS["product_trimmer_incomplete_render"]
+    f = PlaywrightFetcher(
+        ["www.safcodental.com"],
+        "test",
+        1.0,
+        10,
+        1,
+        safco.READY_SELECTORS,
+        fallback_selectors=safco.READY_FALLBACK_SELECTORS,
+    )
+    await f.start()
+
+    async def fulfil(route):
+        if route.request.url.rstrip("/") == url:
+            await route.fulfill(status=200, content_type="text/html", body=body)
+        else:
+            await route.abort()
+
+    await f._context.unroute("**/*")
+    await f._context.route("**/*", fulfil)
+    try:
+        snap = await f.fetch(url, "product", require_ready=True)
+        no_fallback = PlaywrightFetcher(["www.safcodental.com"], "test", 1.0, 10, 1, safco.READY_SELECTORS)
+        no_fallback._context = f._context
+        with pytest.raises(FetchError) as e:
+            await no_fallback.fetch(url, "product", require_ready=True)
+    finally:
+        await f.close()
+    assert e.value.code == ErrorCode.INCOMPLETE_RENDER
+    assert [r.cells["sku"] for r in safco.section_by_id(snap, "structured-data").rows] == ["4605716", "4605738"]

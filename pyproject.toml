@@ -1,0 +1,43 @@
+[project]
+name = "catalog-agent"
+version = "0.1.0"
+description = "Agent-based catalog extraction POC for Safco Dental (gloves, sutures)"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "typer>=0.12",
+    "pyyaml>=6.0",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "playwright>=1.45",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.2",
+    "aiosqlite>=0.20",
+    "langgraph>=0.2",
+    "langchain-core>=0.3",
+    "langchain-anthropic>=0.2",
+]
+
+[project.scripts]
+catalog-agent = "catalog_agent.cli:app"
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.5"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/catalog_agent"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

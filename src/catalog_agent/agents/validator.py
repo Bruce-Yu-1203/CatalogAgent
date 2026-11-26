@@ -197,6 +197,9 @@ class ValidatorAgent:
         elif cand.login_required_price:
             visibility = PriceVisibility.LOGIN_REQUIRED
             missing.append(MissingField(field="price", reason=MissingReason.LOGIN_REQUIRED))
+        elif ev.cell(obs.section_id, obs.row_id, "price"):
+            # The row shows a price that was not extracted (e.g. a rejected model value).
+            missing.append(MissingField(field="price", reason=MissingReason.PARSE_FAILED))
         else:
             missing.append(MissingField(field="price", reason=MissingReason.NOT_VISIBLE))
         if price is None:

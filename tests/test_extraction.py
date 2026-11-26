@@ -1,0 +1,103 @@
+"""Extraction: multiple SKU rows with row-correct price/pack, no visible price, JSON/CSV round trip."""
+
+from __future__ import annotations
+
+import json
+import re
+
+from conftest import fixture_html, snapshot
+
+from catalog_agent.adapters import safco
+from catalog_agent.agents.validator import ValidatorAgent
+from catalog_agent.storage.export import CSV_COLUMNS, csv_rows, read_csv, write_csv, write_json
+
+VALIDATOR = ValidatorAgent(safco, "safco")
+
+
+def validate(snap, lineage=None):
+    cand = safco.parse_product(snap)
+    out, issues = VALIDATOR.validate(cand, snap, "run_test", lineage or [])
+    return out, issues
+
+
+def test_multiple_sku_rows_are_distinct_with_row_correct_price_and_pack():
+    out, _ = validate(snapshot("product_surestitch_sutures"))
+    p = out.product
+    assert out.decision == "accepted" and p.variant_count == 15 == out.expected_skus
+    skus = [v.sku for v in p.variants]
+    assert len(set(skus)) == 15
+    by = {v.sku: v for v in p.variants}
+    # Values read from the live page's own rows (2026-11-26 snapshot).
+    assert by["1025865"].price == "37.49" and by["1025865"].pack_label == "12/box"
+    assert by["1025859"].price == "30.49" and by["1025859"].variant_name.startswith("C-31, silk black")
+    assert by["1025865"].attributes["Group"].startswith("C-3 needle")
+    for v in p.variants:
+        ev = {e.field: e for e in v.evidence}
+        assert ev["sku"].raw_value == v.sku and ev["sku"].row_id == ev["price"].row_id  # same evidence row
+        assert ev["price"].normalized_value == v.price and v.currency == "USD"
+        assert v.pack_quantity == 12 and v.pack_unit == "box"
+    assert p.category_paths == [["Dental Supplies", "Sutures & surgical products", "Sutures"]]
+
+
+def test_structured_data_fallback_when_variant_table_did_not_render():
+    out, _ = validate(snapshot("product_trimmer_incomplete_render"))
+    assert out.decision == "accepted"
+    assert {v.sku: v.price for v in out.product.variants} == {"4605716": "144.99", "4605738": "144.99"}
+    assert all(e.section_id == "structured-data" for v in out.product.variants for e in v.evidence)
+    assert out.product.variants[0].availability.value == "in_stock"
+
+
+def _strip_prices(html: str) -> str:
+    """SYNTHETIC: the real Surpass page with every price removed (table cells and JSON-LD offers)."""
+    html = re.sub(
+        r'<div class="data-attr-mob pdp-col-3-xl-2 tier-price-wrapper.*?</div>\s*</div>\s*</div>', "", html, flags=re.S
+    )
+    return re.sub(r'"price":\s*"[0-9.]+"', '"price": ""', html)
+
+
+def test_no_visible_price_is_null_with_not_visible():
+    html = _strip_prices(fixture_html("product_surpass_gloves"))
+    out, _ = validate(snapshot("product_surpass_gloves", html=html))
+    for v in out.product.variants:
+        assert v.price is None and v.currency is None and v.price_visibility.value == "not_shown"
+        assert {"field": "price", "reason": "not_visible"} in [m.model_dump(mode="json") for m in v.missing]
+        assert [e.field for e in v.evidence] == ["sku"]
+
+
+def test_login_required_price():
+    html = _strip_prices(fixture_html("product_surpass_gloves")).replace(
+        "</body>",
+        "<p>Please sign in to see price</p></body>",  # SYNTHETIC notice
+    )
+    out, _ = validate(snapshot("product_surpass_gloves", html=html))
+    assert all(v.price_visibility.value == "login_required" for v in out.product.variants)
+    assert all(
+        any(m.reason.value == "login_required" for m in v.missing if m.field == "price") for v in out.product.variants
+    )
+
+
+def test_one_product_round_trips_through_json_and_csv(tmp_path):
+    out, _ = validate(snapshot("product_surpass_gloves"), lineage=[["Dental Supplies", "Dental Exam Gloves"]])
+    p = out.product
+    jpath = write_json([p], tmp_path / "products.json")
+    cpath = write_csv([p], tmp_path / "variants.csv")
+    data = json.loads(jpath.read_text())
+    rows = read_csv(cpath)
+    assert len(data) == 1 and len(rows) == p.variant_count == 5
+    assert list(rows[0].keys()) == CSV_COLUMNS
+    j = data[0]
+    assert "product_id" not in j["variants"][0]  # implied by the parent in nested JSON
+    for jv, row in zip(j["variants"], rows, strict=True):
+        assert row["product_id"] == j["product_id"] and row["product_name"] == j["name"]
+        assert row["product_url"] == j["url"] and row["run_id"] == j["run_id"]
+        assert row["category_paths"] == " | ".join(" > ".join(x) for x in j["category_paths"])
+        assert json.loads(row["product_attributes"]) == j["attributes"]
+        assert json.loads(row["product_missing"]) == j["missing"]
+        assert row["sku"] == jv["sku"] and row["price"] == jv["price"] and row["currency"] == jv["currency"]
+        assert row["pack_quantity"] == str(jv["pack_quantity"]) and row["pack_unit"] == jv["pack_unit"]
+        assert row["availability"] == jv["availability"] and row["variant_name"] == jv["variant_name"]
+        assert json.loads(row["evidence"]) == jv["evidence"]
+        assert {e["field"] for e in jv["evidence"]} == {"sku", "price"}
+        assert json.loads(row["variant_missing"]) == jv["missing"]
+    # In-memory CSV rows equal what was written (no float or encoding drift).
+    assert [dict((k, str(v)) for k, v in r.items()) for r in csv_rows([p])] == rows

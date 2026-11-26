@@ -1,0 +1,4329 @@
+[
+  {
+    "product_id": "p_e7c10d09bc0f",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "DRCAN",
+    "url": "https://www.safcodental.com/product/alasta-sup-reg-sup",
+    "name": "Alasta",
+    "brand": "Dash",
+    "manufacturer": null,
+    "description": "Soft-Fit ™ p owder-free nitrile exam gloves. Textured whole hand finish Beaded cuff Non-chlorinated Ambidextrous Blue color Thickness: at palm 3.1 mils; at fingertip 3.9 mils; ± 1.2 Order 10 boxes to purchase a case",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves"
+      ],
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves",
+        "Nitrile gloves"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/d/r/drcan.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {
+      "Thickness": "at palm 3.1 mils; at fingertip 3.9 mils; ± 1.2"
+    },
+    "alternatives": [],
+    "variant_count": 10,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:08:16Z",
+    "variants": [
+      {
+        "variant_id": "v_c3915567572f",
+        "sku": "4680714",
+        "variant_name": "X-small, 100/box",
+        "attributes": {
+          "Group": "100/box"
+        },
+        "pack_label": "100/box",
+        "pack_quantity": 100,
+        "pack_unit": "box",
+        "price": "13.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "4680714",
+            "normalized_value": "4680714",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$13.49",
+            "normalized_value": "13.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_0fdfa5f13e57",
+        "sku": "4680720",
+        "variant_name": "Small,100/box",
+        "attributes": {
+          "Group": "100/box"
+        },
+        "pack_label": "100/box",
+        "pack_quantity": 100,
+        "pack_unit": "box",
+        "price": "13.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "4680720",
+            "normalized_value": "4680720",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$13.49",
+            "normalized_value": "13.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_1c7f82146098",
+        "sku": "4680726",
+        "variant_name": "Medium, 100/box",
+        "attributes": {
+          "Group": "100/box"
+        },
+        "pack_label": "100/box",
+        "pack_quantity": 100,
+        "pack_unit": "box",
+        "price": "13.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "4680726",
+            "normalized_value": "4680726",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$13.49",
+            "normalized_value": "13.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_03859878c050",
+        "sku": "4680732",
+        "variant_name": "Large, 100/box",
+        "attributes": {
+          "Group": "100/box"
+        },
+        "pack_label": "100/box",
+        "pack_quantity": 100,
+        "pack_unit": "box",
+        "price": "13.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "4680732",
+            "normalized_value": "4680732",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$13.49",
+            "normalized_value": "13.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_40354ed08044",
+        "sku": "4681102",
+        "variant_name": "X-small, 200/box",
+        "attributes": {
+          "Group": "200/box"
+        },
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "25.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-6",
+            "raw_value": "4681102",
+            "normalized_value": "4681102",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-6",
+            "raw_value": "$25.99",
+            "normalized_value": "25.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_d245e9fb24d1",
+        "sku": "4681105",
+        "variant_name": "Small, 200/box",
+        "attributes": {
+          "Group": "200/box"
+        },
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "25.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-7",
+            "raw_value": "4681105",
+            "normalized_value": "4681105",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-7",
+            "raw_value": "$25.99",
+            "normalized_value": "25.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_389750eb0c8d",
+        "sku": "4681108",
+        "variant_name": "Medium, 200/box",
+        "attributes": {
+          "Group": "200/box"
+        },
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "25.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-8",
+            "raw_value": "4681108",
+            "normalized_value": "4681108",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-8",
+            "raw_value": "$25.99",
+            "normalized_value": "25.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_e29e57a0508e",
+        "sku": "4681111",
+        "variant_name": "Large, 200/box",
+        "attributes": {
+          "Group": "200/box"
+        },
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "25.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-9",
+            "raw_value": "4681111",
+            "normalized_value": "4681111",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-9",
+            "raw_value": "$25.99",
+            "normalized_value": "25.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_b41745a4d638",
+        "sku": "4681112",
+        "variant_name": "X-large, 200/box",
+        "attributes": {
+          "Group": "200/box"
+        },
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "25.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-10",
+            "raw_value": "4681112",
+            "normalized_value": "4681112",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-10",
+            "raw_value": "$25.99",
+            "normalized_value": "25.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_b2f4cef52f8f",
+        "sku": "4681210",
+        "variant_name": "X-Large, 100/box",
+        "attributes": {
+          "Group": "100/box"
+        },
+        "pack_label": "100/box",
+        "pack_quantity": 100,
+        "pack_unit": "box",
+        "price": "13.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "4681210",
+            "normalized_value": "4681210",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_3c6df9c2d106bf7f",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "$13.49",
+            "normalized_value": "13.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_b417674a303f",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "DRCBM",
+    "url": "https://www.safcodental.com/product/aurelia-reg-amazing-reg",
+    "name": "Aurelia Amazing",
+    "brand": "Supermax",
+    "manufacturer": null,
+    "description": "Powder-free nitrile exam gloves. Thinner and more flexible than standard nitrile. Textured fingertip finish Beaded cuff Chlorinated Ambidextrous Purple color Thickness: at palm 2.0 mils; at fingertips 3.0 mils 300 gloves per box (270 for x-large) Order 10 boxes to purchase a case",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves"
+      ],
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves",
+        "Nitrile gloves"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/d/r/drcbm.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {
+      "Thickness": "at palm 2.0 mils; at fingertips 3.0 mils"
+    },
+    "alternatives": [],
+    "variant_count": 5,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:08:04Z",
+    "variants": [
+      {
+        "variant_id": "v_2e2b091ad56e",
+        "sku": "4871102",
+        "variant_name": "X-small, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "20.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_34269cc76e9f5f66",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "4871102",
+            "normalized_value": "4871102",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_34269cc76e9f5f66",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$20.99",
+            "normalized_value": "20.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_b4caaa825cc3",
+        "sku": "4871105",
+        "variant_name": "Small, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "20.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_34269cc76e9f5f66",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "4871105",
+            "normalized_value": "4871105",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_34269cc76e9f5f66",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$20.99",
+            "normalized_value": "20.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_9eebd98f955e",
+        "sku": "4871108",
+        "variant_name": "Medium, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "20.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_34269cc76e9f5f66",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "4871108",
+            "normalized_value": "4871108",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_34269cc76e9f5f66",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$20.99",
+            "normalized_value": "20.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_ffb34b4fcf18",
+        "sku": "4871111",
+        "variant_name": "Large, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "20.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_34269cc76e9f5f66",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "4871111",
+            "normalized_value": "4871111",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_34269cc76e9f5f66",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$20.99",
+            "normalized_value": "20.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_d5a25cf00075",
+        "sku": "4871114",
+        "variant_name": "X-large, 270/box",
+        "attributes": {},
+        "pack_label": "270/box",
+        "pack_quantity": 270,
+        "pack_unit": "box",
+        "price": "20.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_34269cc76e9f5f66",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "4871114",
+            "normalized_value": "4871114",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_34269cc76e9f5f66",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "$20.99",
+            "normalized_value": "20.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_1861aa6e61c0",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "DRCBO",
+    "url": "https://www.safcodental.com/product/beesure-reg-superslim-trade-nitrile",
+    "name": "BeeSure SuperSlim Nitrile",
+    "brand": "EcoBee",
+    "manufacturer": null,
+    "description": "Powder-free nitrile exam gloves. Super soft and stretchy for comfortable extended wear. Textured fingertip finish Beaded cuff Non-chlorinated Ambidextrous Cobalt blue color Thickness: at palm 2.0 mils; at fingertips 2.0 mils 300 gloves per box Order 10 boxes to purchase a case",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves"
+      ],
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves",
+        "Nitrile gloves"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/d/r/drcbo.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {
+      "Thickness": "at palm 2.0 mils; at fingertips 2.0 mils"
+    },
+    "alternatives": [],
+    "variant_count": 4,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:08:13Z",
+    "variants": [
+      {
+        "variant_id": "v_d8f6bf8f2312",
+        "sku": "4712101",
+        "variant_name": "X-small, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "24.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_54bf7f3eb1869384",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "4712101",
+            "normalized_value": "4712101",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_54bf7f3eb1869384",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$24.99",
+            "normalized_value": "24.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_33695359648e",
+        "sku": "4712103",
+        "variant_name": "Small, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "24.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_54bf7f3eb1869384",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "4712103",
+            "normalized_value": "4712103",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_54bf7f3eb1869384",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$24.99",
+            "normalized_value": "24.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_01fe798f5dba",
+        "sku": "4712105",
+        "variant_name": "Medium, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "24.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_54bf7f3eb1869384",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "4712105",
+            "normalized_value": "4712105",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_54bf7f3eb1869384",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$24.99",
+            "normalized_value": "24.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_aa7acb687049",
+        "sku": "4712107",
+        "variant_name": "Large, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "24.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_54bf7f3eb1869384",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "4712107",
+            "normalized_value": "4712107",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_54bf7f3eb1869384",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$24.99",
+            "normalized_value": "24.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_8f417b791036",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "DRCCW",
+    "url": "https://www.safcodental.com/product/beesure-ultraslim-nitrile",
+    "name": "BeeSure UltraSlim Nitrile",
+    "brand": "EcoBee",
+    "manufacturer": null,
+    "description": "Powder-free nitrile exam gloves. Ultra tactile and donning ease. Textured fingertip finish Beaded cuff Ambidextrous Blue color Thickness: at palm 2.0 mils; at fingertip 3.5 mils 350 gloves per box (Large size 300 gloves per box) Order 10 boxes to purchase a case",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves"
+      ],
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves",
+        "Nitrile gloves"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/d/r/drccw.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {
+      "Thickness": "at palm 2.0 mils; at fingertip 3.5 mils"
+    },
+    "alternatives": [],
+    "variant_count": 4,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:08:02Z",
+    "variants": [
+      {
+        "variant_id": "v_089b717711e0",
+        "sku": "4712110",
+        "variant_name": "X-small, 350/box",
+        "attributes": {},
+        "pack_label": "350/box",
+        "pack_quantity": 350,
+        "pack_unit": "box",
+        "price": "31.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_755cb9470614d6b5",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "4712110",
+            "normalized_value": "4712110",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_755cb9470614d6b5",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$31.99",
+            "normalized_value": "31.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_d6e2f2be5639",
+        "sku": "4712112",
+        "variant_name": "Small, 350/box",
+        "attributes": {},
+        "pack_label": "350/box",
+        "pack_quantity": 350,
+        "pack_unit": "box",
+        "price": "31.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_755cb9470614d6b5",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "4712112",
+            "normalized_value": "4712112",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_755cb9470614d6b5",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$31.99",
+            "normalized_value": "31.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_b7f447eb6546",
+        "sku": "4712114",
+        "variant_name": "Medium, 350/box",
+        "attributes": {},
+        "pack_label": "350/box",
+        "pack_quantity": 350,
+        "pack_unit": "box",
+        "price": "31.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_755cb9470614d6b5",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "4712114",
+            "normalized_value": "4712114",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_755cb9470614d6b5",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$31.99",
+            "normalized_value": "31.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_087238cf20e5",
+        "sku": "4712116",
+        "variant_name": "Large, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "31.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_755cb9470614d6b5",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "4712116",
+            "normalized_value": "4712116",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_755cb9470614d6b5",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$31.99",
+            "normalized_value": "31.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_d1f9f5e18bb9",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "DRCAS",
+    "url": "https://www.safcodental.com/product/lavender-nitrile",
+    "name": "Lavender Nitrile",
+    "brand": "Halyard",
+    "manufacturer": null,
+    "description": "Powder-free nitrile exam gloves. Soft and strong; one of the thinnest nitrile gloves on the market. Thicker and longer cuff! Textured fingertips Beaded cuff Low dermatitis potential Ambidextrous Lavender color Thickness: at palm 2.0 mils; at fingertip 2.8 mils 250 gloves per box (230 for x-large) Order 10 boxes to purchase a case",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves"
+      ],
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves",
+        "Nitrile gloves"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/d/r/drcas.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {
+      "Thickness": "at palm 2.0 mils; at fingertip 2.8 mils"
+    },
+    "alternatives": [],
+    "variant_count": 5,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:07:58Z",
+    "variants": [
+      {
+        "variant_id": "v_0ea6c2d19574",
+        "sku": "3020800",
+        "variant_name": "X-small, 250/box",
+        "attributes": {},
+        "pack_label": "250/box",
+        "pack_quantity": 250,
+        "pack_unit": "box",
+        "price": "38.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_249196cb4bc88902",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "3020800",
+            "normalized_value": "3020800",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_249196cb4bc88902",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$38.99",
+            "normalized_value": "38.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_0e30ab18356b",
+        "sku": "3020810",
+        "variant_name": "Small, 250/box",
+        "attributes": {},
+        "pack_label": "250/box",
+        "pack_quantity": 250,
+        "pack_unit": "box",
+        "price": "38.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_249196cb4bc88902",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "3020810",
+            "normalized_value": "3020810",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_249196cb4bc88902",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$38.99",
+            "normalized_value": "38.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_c2661ff828b3",
+        "sku": "3020815",
+        "variant_name": "Medium, 250/box",
+        "attributes": {},
+        "pack_label": "250/box",
+        "pack_quantity": 250,
+        "pack_unit": "box",
+        "price": "38.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_249196cb4bc88902",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "3020815",
+            "normalized_value": "3020815",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_249196cb4bc88902",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$38.99",
+            "normalized_value": "38.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_308a7865dd78",
+        "sku": "3020822",
+        "variant_name": "Large, 250/box",
+        "attributes": {},
+        "pack_label": "250/box",
+        "pack_quantity": 250,
+        "pack_unit": "box",
+        "price": "38.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_249196cb4bc88902",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "3020822",
+            "normalized_value": "3020822",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_249196cb4bc88902",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$38.99",
+            "normalized_value": "38.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_bcd014265006",
+        "sku": "3020830",
+        "variant_name": "X-large, 230/box",
+        "attributes": {},
+        "pack_label": "230/box",
+        "pack_quantity": 230,
+        "pack_unit": "box",
+        "price": "38.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_249196cb4bc88902",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "3020830",
+            "normalized_value": "3020830",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_249196cb4bc88902",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "$38.99",
+            "normalized_value": "38.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_8a27826bf7a4",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "DRCCX",
+    "url": "https://www.safcodental.com/product/safco-nitrilex-black",
+    "name": "Safco Nitrilex Black Gloves",
+    "brand": "Safco",
+    "manufacturer": null,
+    "description": "Powder-free nitrile exam gloves. Our strongest and thinnest nitrile glove yet. Designed to preserve the sensitivity you have come to expect from the Nitrilex line of gloves. Textured fingertip finish Beaded cuff Non-chlorinated Ambidextreous Black color Polymer coated for easy donning Thickness: at palm 2.0 mils; at fingertip 2.3 mils 200 gloves per box Order 10 boxes to purchase a case",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves"
+      ],
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves",
+        "Nitrile gloves"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/d/r/drccx.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {
+      "Thickness": "at palm 2.0 mils; at fingertip 2.3 mils"
+    },
+    "alternatives": [],
+    "variant_count": 5,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:08:07Z",
+    "variants": [
+      {
+        "variant_id": "v_4c44a3eb3242",
+        "sku": "1027972",
+        "variant_name": "X-small, 200/box",
+        "attributes": {},
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "13.29",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_e15221083cc117da",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "1027972",
+            "normalized_value": "1027972",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_e15221083cc117da",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$13.29",
+            "normalized_value": "13.29",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_ec3c105b88bf",
+        "sku": "1027974",
+        "variant_name": "Small, 200/box",
+        "attributes": {},
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "13.29",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_e15221083cc117da",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "1027974",
+            "normalized_value": "1027974",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_e15221083cc117da",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$13.29",
+            "normalized_value": "13.29",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_96518e5d802b",
+        "sku": "1027976",
+        "variant_name": "Medium, 200/box",
+        "attributes": {},
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "13.29",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_e15221083cc117da",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "1027976",
+            "normalized_value": "1027976",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_e15221083cc117da",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$13.29",
+            "normalized_value": "13.29",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_6f239a1f2c87",
+        "sku": "1027978",
+        "variant_name": "Large, 200/box",
+        "attributes": {},
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "13.29",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_e15221083cc117da",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "1027978",
+            "normalized_value": "1027978",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_e15221083cc117da",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$13.29",
+            "normalized_value": "13.29",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_c1d215020118",
+        "sku": "1027980",
+        "variant_name": "X-large, 200/box",
+        "attributes": {},
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "13.29",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_e15221083cc117da",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "1027980",
+            "normalized_value": "1027980",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_e15221083cc117da",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "$13.29",
+            "normalized_value": "13.29",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_c059040f4342",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "DRCCJ",
+    "url": "https://www.safcodental.com/product/safco-nitrilex-prevail-trade-nitrile-gloves",
+    "name": "Safco Nitrilex Prevail Gloves",
+    "brand": "Safco",
+    "manufacturer": null,
+    "description": "Powder-free nitrile exam gloves. Nitrilex Prevail preserves ultimate tactile sensitivity with the strength you have come to expect from our line of Nitrilex exam gloves. Textured fingertip finish Beaded cuff Non-chlorinated Ambidextrous Blue color Polymer coated for easy donning Thickness at palm 2.5 mils; at fingertips 3.0 mils 300 gloves per box Order 10 boxes to purchase a case",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves"
+      ],
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves",
+        "Nitrile gloves"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/d/r/drccj.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 5,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:08:11Z",
+    "variants": [
+      {
+        "variant_id": "v_bd2251ec1928",
+        "sku": "1028085",
+        "variant_name": "X-small, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_dc113d0db1a88f33",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "1028085",
+            "normalized_value": "1028085",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_dc113d0db1a88f33",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_64eb0d3c5d19",
+        "sku": "1028087",
+        "variant_name": "Small, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_dc113d0db1a88f33",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "1028087",
+            "normalized_value": "1028087",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_dc113d0db1a88f33",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_8d959b10203a",
+        "sku": "1028090",
+        "variant_name": "Medium, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_dc113d0db1a88f33",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "1028090",
+            "normalized_value": "1028090",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_dc113d0db1a88f33",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_d4c101be4105",
+        "sku": "1028093",
+        "variant_name": "Large, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_dc113d0db1a88f33",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "1028093",
+            "normalized_value": "1028093",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_dc113d0db1a88f33",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_d116339ac9ad",
+        "sku": "1028094",
+        "variant_name": "X-large, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_dc113d0db1a88f33",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "1028094",
+            "normalized_value": "1028094",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_dc113d0db1a88f33",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_1583754a2496",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "DRCDJ",
+    "url": "https://www.safcodental.com/product/safco-nitrilex-soothe",
+    "name": "Safco Nitrilex Soothe",
+    "brand": "Safco",
+    "manufacturer": null,
+    "description": "Safco Nitrilex Soothe powder-free nitrile exam gloves feature a colloidal oatmeal coating formulated to help lock in moisture, soothe itching, and support skin hydration after frequent handwashing. These strong, thin nitrile gloves are designed to soften dry skin, promote comfort, and help maintain the skin's natural pH balance, making them ideal for clinicians with dry skin. Made in Malaysia Textured fingertip finish Beaded cuff Non-chlorinated Ambidextreous Chemotherapy drug tested per ASTM D6978 Robin Egg Blue color Moisturizing anti-irritant and anti-inflammatory colloidal oatmeal coated Thickness: at palm 2.5 mils; at fingertip 3.3 mils To purchase a full case, please order as qty of 10",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves"
+      ],
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves",
+        "Nitrile gloves"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/d/r/drcdj.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 5,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:08:09Z",
+    "variants": [
+      {
+        "variant_id": "v_74856c5ae6ad",
+        "sku": "1028073",
+        "variant_name": "X-small, 250/box",
+        "attributes": {},
+        "pack_label": "250/box",
+        "pack_quantity": 250,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_6b35682a3fa512a4",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "1028073",
+            "normalized_value": "1028073",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_6b35682a3fa512a4",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_3932491ec22e",
+        "sku": "1028077",
+        "variant_name": "Small, 250/box",
+        "attributes": {},
+        "pack_label": "250/box",
+        "pack_quantity": 250,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_6b35682a3fa512a4",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "1028077",
+            "normalized_value": "1028077",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_6b35682a3fa512a4",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_f4bc92804e2e",
+        "sku": "1028078",
+        "variant_name": "Medium, 250/box",
+        "attributes": {},
+        "pack_label": "250/box",
+        "pack_quantity": 250,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_6b35682a3fa512a4",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "1028078",
+            "normalized_value": "1028078",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_6b35682a3fa512a4",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_eacc2978a571",
+        "sku": "1028086",
+        "variant_name": "Large, 250/box",
+        "attributes": {},
+        "pack_label": "250/box",
+        "pack_quantity": 250,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_6b35682a3fa512a4",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "1028086",
+            "normalized_value": "1028086",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_6b35682a3fa512a4",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_5556d05f20cd",
+        "sku": "1028088",
+        "variant_name": "X-large, 250/box",
+        "attributes": {},
+        "pack_label": "250/box",
+        "pack_quantity": 250,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_6b35682a3fa512a4",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "1028088",
+            "normalized_value": "1028088",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_6b35682a3fa512a4",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_798dadcb43b4",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "DRCCS",
+    "url": "https://www.safcodental.com/product/safco-nitrilex-surpass-trade",
+    "name": "Safco Nitrilex Surpass Gloves",
+    "brand": "Safco",
+    "manufacturer": null,
+    "description": "Powder-free nitrile exam gloves. A comfortable glove you can wear all day without fatigue. Designed to exceed your expectations in durability and comfort while maintaining tactile sensitivity. Features textured fingertips with the strength you have come to expect in our Nitrilex line of exam gloves. ASTM D6978 tested and approved for use with chemotherapy drugs. Textured fingertip finish Beaded cuff Non-chlorinated Ambidextrous Blue color Thickness: at palm 3.2 mils; at fingertip 3.5 mils 300 gloves per box Order 10 boxes to purchase a case For full Dental Product Shopper review click here.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves"
+      ],
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves",
+        "Nitrile gloves"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/d/r/drccs.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {
+      "Thickness": "at palm 3.2 mils; at fingertip 3.5 mils"
+    },
+    "alternatives": [],
+    "variant_count": 5,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:07:56Z",
+    "variants": [
+      {
+        "variant_id": "v_8779bebc2e5b",
+        "sku": "1027990",
+        "variant_name": "X-small, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_d8ad9ed43aa6646e",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "1027990",
+            "normalized_value": "1027990",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_d8ad9ed43aa6646e",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_ac7db0327bc3",
+        "sku": "1027993",
+        "variant_name": "Small, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_d8ad9ed43aa6646e",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "1027993",
+            "normalized_value": "1027993",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_d8ad9ed43aa6646e",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_233d4ff7f3a1",
+        "sku": "1027996",
+        "variant_name": "Medium, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_d8ad9ed43aa6646e",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "1027996",
+            "normalized_value": "1027996",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_d8ad9ed43aa6646e",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_f95387cc7706",
+        "sku": "1027999",
+        "variant_name": "Large, 300/box",
+        "attributes": {},
+        "pack_label": "300/box",
+        "pack_quantity": 300,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_d8ad9ed43aa6646e",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "1027999",
+            "normalized_value": "1027999",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_d8ad9ed43aa6646e",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_407f4e2e5a89",
+        "sku": "1028001",
+        "variant_name": "X-large, 250/box",
+        "attributes": {},
+        "pack_label": "250/box",
+        "pack_quantity": 250,
+        "pack_unit": "box",
+        "price": "15.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_d8ad9ed43aa6646e",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "1028001",
+            "normalized_value": "1028001",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_d8ad9ed43aa6646e",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "$15.99",
+            "normalized_value": "15.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_480b05f951fb",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "DRCBN",
+    "url": "https://www.safcodental.com/product/safco-nitrilex-reg-ultrasoft-nitrile-gloves",
+    "name": "Safco Nitrilex UltraSoft Gloves",
+    "brand": "Safco",
+    "manufacturer": null,
+    "description": "Powder-free nitrile exam gloves. Ultra-soft and form-fitting with a textured fingertip finish. Gloves dispense easily, one by one. Textured fingertip finish Beaded cuff Chlorinated Ambidextrous Lavender blue color Thickness: at palm 3.2 mils; at fingertips 3.5 mils 200 gloves per box Order 10 boxes to purchase a case",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves"
+      ],
+      [
+        "Dental Supplies",
+        "Dental Exam Gloves",
+        "Nitrile gloves"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/d/r/drcbn.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {
+      "Thickness": "at palm 3.2 mils; at fingertips 3.5 mils"
+    },
+    "alternatives": [],
+    "variant_count": 5,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:08:00Z",
+    "variants": [
+      {
+        "variant_id": "v_8c2f692542f1",
+        "sku": "1028005",
+        "variant_name": "X-small, 200/box",
+        "attributes": {},
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "13.29",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_bd6d3967175141a1",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "1028005",
+            "normalized_value": "1028005",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_bd6d3967175141a1",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$13.29",
+            "normalized_value": "13.29",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_41b8b7a506de",
+        "sku": "1028009",
+        "variant_name": "Small, 200/box",
+        "attributes": {},
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "11.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_bd6d3967175141a1",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "1028009",
+            "normalized_value": "1028009",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_bd6d3967175141a1",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$11.99",
+            "normalized_value": "11.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_6d5a850ef0ee",
+        "sku": "1028012",
+        "variant_name": "Medium, 200/box",
+        "attributes": {},
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "11.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_bd6d3967175141a1",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "1028012",
+            "normalized_value": "1028012",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_bd6d3967175141a1",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$11.99",
+            "normalized_value": "11.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_c142d257b2a1",
+        "sku": "1028016",
+        "variant_name": "Large, 200/box",
+        "attributes": {},
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "13.29",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_bd6d3967175141a1",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "1028016",
+            "normalized_value": "1028016",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_bd6d3967175141a1",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$13.29",
+            "normalized_value": "13.29",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_eed589d112f5",
+        "sku": "1028018",
+        "variant_name": "X-large, 200/box",
+        "attributes": {},
+        "pack_label": "200/box",
+        "pack_quantity": 200,
+        "pack_unit": "box",
+        "price": "11.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_bd6d3967175141a1",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "1028018",
+            "normalized_value": "1028018",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_bd6d3967175141a1",
+            "section_id": "variant-table",
+            "row_id": "row-5",
+            "raw_value": "$11.99",
+            "normalized_value": "11.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_b07b2385305a",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "PFWCC",
+    "url": "https://www.safcodental.com/product/collashield-trade-collagen-membrane",
+    "name": "CollaShield Collagen Membrane",
+    "brand": "Surgical Esthetics",
+    "manufacturer": null,
+    "description": "Fully resorbable (16 weeks) purified porcine Type-I peritoneum membrane for osteogenesis during extraction socket preservation, ridge augmentation, periodontal defect repair or other grafting procedures. Common uses: Extraction ridge preservation. Periodontal defect repair. Vertical and horizontal ridge augmentation. Bone regeneration around teeth and implants. Sinus augmentation. Membrane technique utilizing tacks. Features and benefits: Highly purified porcine peritoneum tissue. Excellent biocompatibility. Easily trimmed and adapted to defect site. Mechanically strong, yet drapable. Fully absorbable. Cell occlusive - inhibits undesired epithelial ingrowth. Can be tacked or sutured in place.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Sutures & surgical products"
+      ],
+      [
+        "Dental Supplies",
+        "Sutures & surgical products",
+        "Bone grafting tissue augmentation"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/p/f/pfwcc.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 3,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:09:23Z",
+    "variants": [
+      {
+        "variant_id": "v_ac2c221bcf92",
+        "sku": "6130050",
+        "variant_name": "CollaShield Collagen Membrane 15x20mm",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "128.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_92213f228733ad2b",
+            "section_id": "structured-data",
+            "row_id": "ld-1",
+            "raw_value": "6130050",
+            "normalized_value": "6130050",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_92213f228733ad2b",
+            "section_id": "structured-data",
+            "row_id": "ld-1",
+            "raw_value": "128.99",
+            "normalized_value": "128.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_0563254849a5",
+        "sku": "6130053",
+        "variant_name": "CollaShield Collagen Membrane 20x30mm",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "152.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_92213f228733ad2b",
+            "section_id": "structured-data",
+            "row_id": "ld-2",
+            "raw_value": "6130053",
+            "normalized_value": "6130053",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_92213f228733ad2b",
+            "section_id": "structured-data",
+            "row_id": "ld-2",
+            "raw_value": "152.99",
+            "normalized_value": "152.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_e890a31c75e0",
+        "sku": "6130056",
+        "variant_name": "CollaShield Collagen Membrane 30x40mm",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "211.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_92213f228733ad2b",
+            "section_id": "structured-data",
+            "row_id": "ld-3",
+            "raw_value": "6130056",
+            "normalized_value": "6130056",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_92213f228733ad2b",
+            "section_id": "structured-data",
+            "row_id": "ld-3",
+            "raw_value": "211.49",
+            "normalized_value": "211.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "product_id": "p_db6c98e2a4d2",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "PFLVV",
+    "url": "https://www.safcodental.com/product/feather-sup-reg-nbsp-sup-microsurgical-blades",
+    "name": "Feather Microsurgical Blades",
+    "brand": "J. Morita",
+    "manufacturer": null,
+    "description": "Advanced instrument system of interchangeable blades and handles. Ultra-sharp, retains cutting efficiency. Ideal for microsurgery & use with a microscope. Optimal shapes & blade thickness. Small tips for surgical precision. Variety of applications including periodontal & regenerative surgery. Multiple handle designs. Made of high-quality stainless steel All blades are gamma-sterilized and can be used immediately after opening the package.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Sutures & surgical products"
+      ],
+      [
+        "Dental Supplies",
+        "Sutures & surgical products",
+        "Surgical blades and scalpels"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/p/f/pflvv.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 4,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:10:16Z",
+    "variants": [
+      {
+        "variant_id": "v_bb7e3d42163a",
+        "sku": "3435243",
+        "variant_name": "390C Feather Microsurgical Blade, 10/box",
+        "attributes": {},
+        "pack_label": "10/box",
+        "pack_quantity": 10,
+        "pack_unit": "box",
+        "price": "89.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_807c966379111111",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "3435243",
+            "normalized_value": "3435243",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_807c966379111111",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$89.99",
+            "normalized_value": "89.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_80291dcaf0b8",
+        "sku": "3435263",
+        "variant_name": "390 Feather Microsurgical Blade, 10/box",
+        "attributes": {},
+        "pack_label": "10/box",
+        "pack_quantity": 10,
+        "pack_unit": "box",
+        "price": "89.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_807c966379111111",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "3435263",
+            "normalized_value": "3435263",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_807c966379111111",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$89.99",
+            "normalized_value": "89.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_72ef2a34bed8",
+        "sku": "3435264",
+        "variant_name": "391 Feather Microsurgical Blade, 10/box",
+        "attributes": {},
+        "pack_label": "10/box",
+        "pack_quantity": 10,
+        "pack_unit": "box",
+        "price": "89.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_807c966379111111",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "3435264",
+            "normalized_value": "3435264",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_807c966379111111",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$89.99",
+            "normalized_value": "89.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_92ad54053ba8",
+        "sku": "3435265",
+        "variant_name": "350 Feather Microsurgical Blade, 10/box",
+        "attributes": {},
+        "pack_label": "10/box",
+        "pack_quantity": 10,
+        "pack_unit": "box",
+        "price": "89.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_807c966379111111",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "3435265",
+            "normalized_value": "3435265",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_807c966379111111",
+            "section_id": "variant-table",
+            "row_id": "row-4",
+            "raw_value": "$89.99",
+            "normalized_value": "89.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_04d2e55e0a10",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "PFWEG",
+    "url": "https://www.safcodental.com/product/foundation-trade",
+    "name": "Foundation",
+    "brand": "J. Morita",
+    "manufacturer": null,
+    "description": "A collagen-based bone augmentation material that is placed into the socket immediately following an extraction to provide support for implants, bridges, and dentures. Promotes bone growth after tooth extraction, allowing implants to be placed in as early as 8 weeks. The surrounding cells and capillaries gradually infiltrate; as the extraction socket heals, it becomes filled with new augmented bone. Easy-to-place, “bullet-shaped” pellets are individually packaged in sterile containers.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Sutures & surgical products"
+      ],
+      [
+        "Dental Supplies",
+        "Sutures & surgical products",
+        "Bone grafting tissue augmentation"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/p/f/pfweg.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 3,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:10:40Z",
+    "variants": [
+      {
+        "variant_id": "v_db7a8eff73ec",
+        "sku": "3430614",
+        "variant_name": "Foundation pellets small size 10/box",
+        "attributes": {},
+        "pack_label": "10/box",
+        "pack_quantity": 10,
+        "pack_unit": "box",
+        "price": "420.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_1083a131e5a31288",
+            "section_id": "structured-data",
+            "row_id": "ld-1",
+            "raw_value": "3430614",
+            "normalized_value": "3430614",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_1083a131e5a31288",
+            "section_id": "structured-data",
+            "row_id": "ld-1",
+            "raw_value": "420.49",
+            "normalized_value": "420.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_0a60becd3794",
+        "sku": "3430626",
+        "variant_name": "Foundation pellets medium size 5/box",
+        "attributes": {},
+        "pack_label": "5/box",
+        "pack_quantity": 5,
+        "pack_unit": "box",
+        "price": "420.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_1083a131e5a31288",
+            "section_id": "structured-data",
+            "row_id": "ld-2",
+            "raw_value": "3430626",
+            "normalized_value": "3430626",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_1083a131e5a31288",
+            "section_id": "structured-data",
+            "row_id": "ld-2",
+            "raw_value": "420.49",
+            "normalized_value": "420.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_20fdc4276fa7",
+        "sku": "3430635",
+        "variant_name": "Foundation pellets assortment 6/box (3 small, 3 medium)",
+        "attributes": {},
+        "pack_label": "6/box",
+        "pack_quantity": 6,
+        "pack_unit": "box",
+        "price": "420.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_1083a131e5a31288",
+            "section_id": "structured-data",
+            "row_id": "ld-3",
+            "raw_value": "3430635",
+            "normalized_value": "3430635",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_1083a131e5a31288",
+            "section_id": "structured-data",
+            "row_id": "ld-3",
+            "raw_value": "420.49",
+            "normalized_value": "420.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_3df1acaac475",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "PFPFT",
+    "url": "https://www.safcodental.com/product/hemostat-sup-trade-sup",
+    "name": "HemoStat",
+    "brand": "Medicom",
+    "manufacturer": null,
+    "description": "Topical hemostatic dressing in the form of a sterile fabric prepared by the chemical treatment of regenerated cellulose. Provides safe and effective control of bleeding for extractions and periodontal surgery. When the fabric comes into contact with blood or fluids, it expands and transforms to a clear, viscous gel which fills voids and seals capillary ends to help stop bleeding.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Sutures & surgical products"
+      ],
+      [
+        "Dental Supplies",
+        "Sutures & surgical products",
+        "Surgical medicaments and packing"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/m/e/medicom-hemostat-20-box.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 1,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:09:59Z",
+    "variants": [
+      {
+        "variant_id": "v_894d9db9445c",
+        "sku": "3152001",
+        "variant_name": "Box of 20",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "125.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_8ce6440236451eee",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "3152001",
+            "normalized_value": "3152001",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_8ce6440236451eee",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$125.99",
+            "normalized_value": "125.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "product_id": "p_64df3e1f9172",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "PFWRD",
+    "url": "https://www.safcodental.com/product/ossif-i-sem-trade",
+    "name": "OSSIF-i sem",
+    "brand": "Surgical Esthetics",
+    "manufacturer": null,
+    "description": "Mineralized cancellous bone allograft Ideal for filling periodontal defects, extraction sockets, apicoectomy and root-resection. Can be used in conjunction with placement of dental implants. Double-sterile packaged jars can be taken directly to the sterile surgical site; material does not need to be transferred to another container. Mineralized cortical/cancellous bone allograft Excellent osteoconductive scaffold used in a variety of surgical procedures, including: extraction socket grafting, implant placement, osseous ridge repair, and sinus augmentations. Outstanding inner porosity and surface area, promotes clot formation and consistent, stable ossification and space maintenance. Double-sterile packaged jars; material does not need to be transferred to another container. Demineralized cancellous bone allograft sponge strips Pliable and resilient sponge matrix that can be adapted to numerous clinical needs including horizontal or vertical ridge augmentation, extraction sockets, recession defects, and can be used in conjunction with the placement of dental implants. Quickly becomes well vascularized following placement, and acts as an osteoconductive and osteoinductive scaffold for bone formation.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Sutures & surgical products"
+      ],
+      [
+        "Dental Supplies",
+        "Sutures & surgical products",
+        "Bone grafting tissue augmentation"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/p/f/pfwrd.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 18,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:09:54Z",
+    "variants": [
+      {
+        "variant_id": "v_faa7e0cbf9e4",
+        "sku": "6130001",
+        "variant_name": "Mineralized cancellous bone .25-1.0mm .5cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "71.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-1",
+            "raw_value": "6130001",
+            "normalized_value": "6130001",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-1",
+            "raw_value": "71.49",
+            "normalized_value": "71.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_0747d6f555d1",
+        "sku": "6130003",
+        "variant_name": "Mineralized cancellous bone .25-1.0mm 1.0cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "93.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-2",
+            "raw_value": "6130003",
+            "normalized_value": "6130003",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-2",
+            "raw_value": "93.99",
+            "normalized_value": "93.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_9152e252797b",
+        "sku": "6130005",
+        "variant_name": "Mineralized cancellous bone .25-1.0mm 2.0cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "137.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-3",
+            "raw_value": "6130005",
+            "normalized_value": "6130005",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-3",
+            "raw_value": "137.49",
+            "normalized_value": "137.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_e7d6aaab2194",
+        "sku": "6130007",
+        "variant_name": "Mineralized cancellous bone 1.0-2.0mm .5cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "71.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-4",
+            "raw_value": "6130007",
+            "normalized_value": "6130007",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-4",
+            "raw_value": "71.49",
+            "normalized_value": "71.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_6a078d27f18f",
+        "sku": "6130009",
+        "variant_name": "Mineralized cancellous bone 1.0-2.0mm 1.0cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "93.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-5",
+            "raw_value": "6130009",
+            "normalized_value": "6130009",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-5",
+            "raw_value": "93.99",
+            "normalized_value": "93.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_91eff1abc1db",
+        "sku": "6130011",
+        "variant_name": "Mineralized cancellous bone 1.0-2.0mm 2.0cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "137.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-6",
+            "raw_value": "6130011",
+            "normalized_value": "6130011",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-6",
+            "raw_value": "137.49",
+            "normalized_value": "137.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_8bac85ea22af",
+        "sku": "6130012",
+        "variant_name": "Mineralized cortical cancellous bone .6-1.25mm 0.25cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "41.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-7",
+            "raw_value": "6130012",
+            "normalized_value": "6130012",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-7",
+            "raw_value": "41.49",
+            "normalized_value": "41.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_bb220bb320a3",
+        "sku": "6130013",
+        "variant_name": "Mineralized cortical cancellous bone .6-1.25mm 0.5cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "65.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-8",
+            "raw_value": "6130013",
+            "normalized_value": "6130013",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-8",
+            "raw_value": "65.99",
+            "normalized_value": "65.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_5079ff959b23",
+        "sku": "6130015",
+        "variant_name": "Mineralized cortical cancellous bone .6-1.25mm 1.0cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "91.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-9",
+            "raw_value": "6130015",
+            "normalized_value": "6130015",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-9",
+            "raw_value": "91.99",
+            "normalized_value": "91.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_2b29c8c97046",
+        "sku": "6130017",
+        "variant_name": "Mineralized cortical cancellous bone .6-1.25mm 2.0cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "130.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-10",
+            "raw_value": "6130017",
+            "normalized_value": "6130017",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-10",
+            "raw_value": "130.99",
+            "normalized_value": "130.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_5369b6d2d404",
+        "sku": "6130019",
+        "variant_name": "Mineralized cortical cancellous bone 1.0-2.0mm .5cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "65.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-11",
+            "raw_value": "6130019",
+            "normalized_value": "6130019",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-11",
+            "raw_value": "65.99",
+            "normalized_value": "65.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_d47639ce374a",
+        "sku": "6130021",
+        "variant_name": "Mineralized cortical cancellous bone 1.0-2.0mm 1.0cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "93.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-12",
+            "raw_value": "6130021",
+            "normalized_value": "6130021",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-12",
+            "raw_value": "93.99",
+            "normalized_value": "93.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_d176d29c16a3",
+        "sku": "6130023",
+        "variant_name": "Mineralized cortical cancellous bone 1.0-2.0mm 2.0cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "130.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-13",
+            "raw_value": "6130023",
+            "normalized_value": "6130023",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-13",
+            "raw_value": "130.99",
+            "normalized_value": "130.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_6c05ae60476d",
+        "sku": "6130025",
+        "variant_name": "Mineralized cortical bone .25-1.0mm .5cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "65.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-14",
+            "raw_value": "6130025",
+            "normalized_value": "6130025",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-14",
+            "raw_value": "65.99",
+            "normalized_value": "65.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_9462472b19a3",
+        "sku": "6130027",
+        "variant_name": "Mineralized cortical bone .25-1.0mm 1.0cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "91.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-15",
+            "raw_value": "6130027",
+            "normalized_value": "6130027",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-15",
+            "raw_value": "91.99",
+            "normalized_value": "91.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_96cde85750be",
+        "sku": "6130029",
+        "variant_name": "Mineralized cortical bone .25-1.0mm 2.0cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "137.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-16",
+            "raw_value": "6130029",
+            "normalized_value": "6130029",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-16",
+            "raw_value": "137.49",
+            "normalized_value": "137.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_fba386dd414a",
+        "sku": "6130031",
+        "variant_name": "Demineralized bone allograft sponges 10 x 6 x 7mm",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "139.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-17",
+            "raw_value": "6130031",
+            "normalized_value": "6130031",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-17",
+            "raw_value": "139.49",
+            "normalized_value": "139.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_9260a3b7abcb",
+        "sku": "6130033",
+        "variant_name": "Demineralized bone allograft sponges 20 x 6 x 7mm",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "279.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-18",
+            "raw_value": "6130033",
+            "normalized_value": "6130033",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_06f1cbcc35a35265",
+            "section_id": "structured-data",
+            "row_id": "ld-18",
+            "raw_value": "279.49",
+            "normalized_value": "279.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "product_id": "p_2f78da622e2a",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "PFPGH",
+    "url": "https://www.safcodental.com/product/orasoothe-reg-sockit-gel",
+    "name": "OraSoothe Sockit!",
+    "brand": "Septodont",
+    "manufacturer": null,
+    "description": "Hydrogel dressing treats intraoral wounds and lesions. Provides fast, continuous pain relief without numbing. Protects from chemical and microbial contamination and promotes optimal healing. Contains no drugs, and has no toxicity or contraindications. Safe if swallowed. Individual 10g syringes are ideal for both in-office and take-home use. FDA approved. Please note: SOCKIT! Gel has changed its name. This product has transitioned to OraSoothe \"SOCKIT\" Gel . The product is the same - only the name has changed.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Sutures & surgical products"
+      ],
+      [
+        "Dental Supplies",
+        "Sutures & surgical products",
+        "Surgical medicaments and packing"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/p/f/pfpgh.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds",
+      "https://www.safcodental.com/media/catalog/product/s/e/septodont-orasoothe-oral-coating-rinse-hygiene-3-4-oz_1.jpg"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 3,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:08:20Z",
+    "variants": [
+      {
+        "variant_id": "v_f638e4804a1f",
+        "sku": "5106359",
+        "variant_name": "Oral Coating Rinse - Hygiene, 3.4 oz Bottle SDS",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "9.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_309836ecd8bcb983",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "5106359",
+            "normalized_value": "5106359",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_309836ecd8bcb983",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$9.99",
+            "normalized_value": "9.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_d603871e1c63",
+        "sku": "5690102",
+        "variant_name": "5-pack SDS | Details + - Contains: 5 individually packed 10g syringes with applicator tip.",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "93.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_309836ecd8bcb983",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "5690102",
+            "normalized_value": "5690102",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_309836ecd8bcb983",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$93.99",
+            "normalized_value": "93.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_f17918d052e2",
+        "sku": "5690106",
+        "variant_name": "25-pack SDS | Details + - Contains: 25 individually packed 10g syringes with applicator tip.",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "309.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_309836ecd8bcb983",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "5690106",
+            "normalized_value": "5690106",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_309836ecd8bcb983",
+            "section_id": "variant-table",
+            "row_id": "row-3",
+            "raw_value": "$309.49",
+            "normalized_value": "309.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "product_id": "p_5233198f72f9",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "PFWRE",
+    "url": "https://www.safcodental.com/product/ossify-sup-reg-sup-min-demin-cortical-cancellous-bone-graft",
+    "name": "Ossify Min/Demin Cortical Cancellous Bone Graft",
+    "brand": "Surgical Esthetics",
+    "manufacturer": null,
+    "description": "Ossify Min/Demin Cortical Cancellous Bone Allograft is a versatile, all-in-one bone graft designed to promote optimal bone regeneration across a wide range of clinical applications. Composed of a 50/50 blend of cortical and cancellous bone, the graft features 30% demineralized bone, leaving 70% of the material mineralized. This unique formulation enhances both osteoconductive and osteoinductive properties, supporting superior bone healing. Suitable for a variety of bone regeneration procedures, including socket grafting, ridge preservation, guided bone regeneration (GBR), and sinus augmentation. 0.5 – 1.0mm particle size.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Sutures & surgical products"
+      ],
+      [
+        "Dental Supplies",
+        "Sutures & surgical products",
+        "Bone grafting tissue augmentation"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/p/f/pfwre.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 3,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:09:38Z",
+    "variants": [
+      {
+        "variant_id": "v_717e89dd1e05",
+        "sku": "5130082",
+        "variant_name": "Ossify Min/Demin Cortical Cancellous bone graft 1cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "102.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_0838d9bf4d508588",
+            "section_id": "structured-data",
+            "row_id": "ld-1",
+            "raw_value": "5130082",
+            "normalized_value": "5130082",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_0838d9bf4d508588",
+            "section_id": "structured-data",
+            "row_id": "ld-1",
+            "raw_value": "102.99",
+            "normalized_value": "102.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_18c1eabd2e8b",
+        "sku": "5130084",
+        "variant_name": "Ossify Min/Demin Cortical Cancellous bone graft 2cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "158.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_0838d9bf4d508588",
+            "section_id": "structured-data",
+            "row_id": "ld-2",
+            "raw_value": "5130084",
+            "normalized_value": "5130084",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_0838d9bf4d508588",
+            "section_id": "structured-data",
+            "row_id": "ld-2",
+            "raw_value": "158.99",
+            "normalized_value": "158.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      },
+      {
+        "variant_id": "v_f77a4c33ef09",
+        "sku": "6130080",
+        "variant_name": "Ossify Min/Demin Cortical Cancellous bone graft 0.5cc jar",
+        "attributes": {},
+        "pack_label": null,
+        "pack_quantity": null,
+        "pack_unit": null,
+        "price": "79.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_0838d9bf4d508588",
+            "section_id": "structured-data",
+            "row_id": "ld-3",
+            "raw_value": "6130080",
+            "normalized_value": "6130080",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_0838d9bf4d508588",
+            "section_id": "structured-data",
+            "row_id": "ld-3",
+            "raw_value": "79.99",
+            "normalized_value": "79.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": [
+          {
+            "field": "pack_label",
+            "reason": "not_visible"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "product_id": "p_68cdfd916bc0",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "PFWRL",
+    "url": "https://www.safcodental.com/product/regenafill-sup-trade-sup-bone-graft-plug",
+    "name": "Regenafill Bone Graft Plug",
+    "brand": "Surgical Esthetics",
+    "manufacturer": null,
+    "description": "Composed of 80% carbonate phosphate based mineral with a carbonate apatite structure combined with 20% Type I Achilles bovine tendon collagen. This mineral is physically and chemically comparable to the mineralized matrix of human bone, which makes it an excellent choice for socket preservation. No membrane needed in most cases. Intended for use in dental surgery including: • Augmentation or reconstructive treatment of the alveolar ridge. • Filling of infrabony periodontal defects. • Filling of defects after root resection, apicoectomy, and cystectomy. • Filling of extraction sockets to enhance preservation of alveolar ridge. • Elevation of the maxillary sinus floor. • Filling of periodontal defects in conjunction with GTR. • Filling of peri-implant defects in conjunction with GBR.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Sutures & surgical products"
+      ],
+      [
+        "Dental Supplies",
+        "Sutures & surgical products",
+        "Bone grafting tissue augmentation"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/p/f/pfwrl.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 2,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:10:09Z",
+    "variants": [
+      {
+        "variant_id": "v_ad8c88b08418",
+        "sku": "6130070",
+        "variant_name": "Regenafill Bone Graft Plug posterior 10mm x 20mm, 5/pack",
+        "attributes": {},
+        "pack_label": "5/pack",
+        "pack_quantity": 5,
+        "pack_unit": "pack",
+        "price": "259.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_754125ba77a5b39e",
+            "section_id": "structured-data",
+            "row_id": "ld-1",
+            "raw_value": "6130070",
+            "normalized_value": "6130070",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_754125ba77a5b39e",
+            "section_id": "structured-data",
+            "row_id": "ld-1",
+            "raw_value": "259.99",
+            "normalized_value": "259.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_8eaa50338d1d",
+        "sku": "6130072",
+        "variant_name": "Regenafill Bone Graft Plug anterior 6mm x 25mm, 5/pack",
+        "attributes": {},
+        "pack_label": "5/pack",
+        "pack_quantity": 5,
+        "pack_unit": "pack",
+        "price": "259.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "InStock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_754125ba77a5b39e",
+            "section_id": "structured-data",
+            "row_id": "ld-2",
+            "raw_value": "6130072",
+            "normalized_value": "6130072",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_754125ba77a5b39e",
+            "section_id": "structured-data",
+            "row_id": "ld-2",
+            "raw_value": "259.99",
+            "normalized_value": "259.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_c6ff782c2709",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "PFPHJ",
+    "url": "https://www.safcodental.com/product/surgicel-reg",
+    "name": "SURGICEL Original Absorbable Hemostat",
+    "brand": "Ethicon",
+    "manufacturer": null,
+    "description": "Sterile, shear-weave, absorbable hemostat used to control bleeding in tooth extractions and oral surgery. Produced from oxidized regenerated cellulose to ensure purity and consistency. Fully absorbable within 7-14 days. Strong yet flexible and malleable to conform to irregular surfaces; may be folded or cut to size.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Sutures & surgical products"
+      ],
+      [
+        "Dental Supplies",
+        "Sutures & surgical products",
+        "Surgical medicaments and packing"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/p/f/pfphj.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {},
+    "alternatives": [],
+    "variant_count": 1,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:09:57Z",
+    "variants": [
+      {
+        "variant_id": "v_d4d97eccc8f6",
+        "sku": "2580213",
+        "variant_name": "1/2\" x 2\" sterile packets, 12/box",
+        "attributes": {},
+        "pack_label": "12/box",
+        "pack_quantity": 12,
+        "pack_unit": "box",
+        "price": "1118.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_8d3559fb619d5ba9",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "2580213",
+            "normalized_value": "2580213",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_8d3559fb619d5ba9",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$1,118.99",
+            "normalized_value": "1118.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  },
+  {
+    "product_id": "p_64dfe8b48c51",
+    "run_id": "run_20261126_live",
+    "source": "safco",
+    "product_key": "PFPJK",
+    "url": "https://www.safcodental.com/product/surgifoam-reg",
+    "name": "Surgifoam",
+    "brand": "Ethicon",
+    "manufacturer": null,
+    "description": "Sterile, water insoluble, malleable porcine gelatin absorbable sponge, intended for hemostatic use by applying to a bleeding surface. Use in oral surgery for the obliteration of dead space created by simple extraction, root amputation and removal of cysts, tumors and impacted teeth. Rapid hemostasis. Easy to handle: compressible, does not require any cutting. Absorbs up to 40 times its own weight. Bioresorbable. The sponge is porous and off-white in appearance.",
+    "category_paths": [
+      [
+        "Dental Supplies",
+        "Sutures & surgical products"
+      ],
+      [
+        "Dental Supplies",
+        "Sutures & surgical products",
+        "Surgical medicaments and packing"
+      ]
+    ],
+    "image_urls": [
+      "https://www.safcodental.com/media/catalog/product/p/f/pfpjk.jpg?width=265&height=265&canvas=265,265&optimize=medium&fit=bounds"
+    ],
+    "attributes": {
+      "Easy to handle": "compressible, does not require any cutting."
+    },
+    "alternatives": [],
+    "variant_count": 2,
+    "record_status": "accepted",
+    "extraction_method": "deterministic",
+    "llm_fields": [],
+    "missing": [
+      {
+        "field": "manufacturer",
+        "reason": "not_applicable"
+      }
+    ],
+    "observed_at": "2026-11-26T23:08:18Z",
+    "variants": [
+      {
+        "variant_id": "v_3bb6489fdc46",
+        "sku": "2580512",
+        "variant_name": "2cm x 6cm x 0.7cm, 12/box",
+        "attributes": {},
+        "pack_label": "12/box",
+        "pack_quantity": 12,
+        "pack_unit": "box",
+        "price": "214.49",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_d798036f0421c01a",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "2580512",
+            "normalized_value": "2580512",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_d798036f0421c01a",
+            "section_id": "variant-table",
+            "row_id": "row-1",
+            "raw_value": "$214.49",
+            "normalized_value": "214.49",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      },
+      {
+        "variant_id": "v_aa77a7af7cc8",
+        "sku": "2580524",
+        "variant_name": "1cm x 1cm x 1cm, 24/box",
+        "attributes": {},
+        "pack_label": "24/box",
+        "pack_quantity": 24,
+        "pack_unit": "box",
+        "price": "251.99",
+        "currency": "USD",
+        "price_visibility": "public",
+        "availability": "in_stock",
+        "availability_raw": "In stock",
+        "llm_fields": [],
+        "evidence": [
+          {
+            "field": "sku",
+            "snapshot_id": "s_d798036f0421c01a",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "2580524",
+            "normalized_value": "2580524",
+            "method": "deterministic"
+          },
+          {
+            "field": "price",
+            "snapshot_id": "s_d798036f0421c01a",
+            "section_id": "variant-table",
+            "row_id": "row-2",
+            "raw_value": "$251.99",
+            "normalized_value": "251.99",
+            "method": "deterministic"
+          }
+        ],
+        "missing": []
+      }
+    ]
+  }
+]

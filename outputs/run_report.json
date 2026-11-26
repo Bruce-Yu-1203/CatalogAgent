@@ -1,0 +1,272 @@
+{
+  "run_id": "run_20261126_live",
+  "mode": "deterministic",
+  "status": "BUDGET_EXHAUSTED",
+  "termination_reason": "MAX_PRODUCTS_PER_CATEGORY",
+  "coverage_status": "partial",
+  "started_at": "2026-11-26T23:07:14Z",
+  "finished_at": null,
+  "invocations": [
+    {
+      "kind": "crawl",
+      "model_id": null,
+      "model_unavailable": null,
+      "requeued": 0,
+      "seconds": 205.9,
+      "status": "BUDGET_EXHAUSTED"
+    }
+  ],
+  "budgets": {
+    "max_pages": 150,
+    "pages_used": 48,
+    "max_products_per_category": 10,
+    "max_model_calls": 60,
+    "model_calls_used": 0,
+    "input_tokens_used": 0,
+    "output_tokens_used": 0,
+    "extensions": []
+  },
+  "tasks": {
+    "by_status": {
+      "COMPLETED": 37,
+      "PENDING": 68,
+      "RETRY_WAIT": 1
+    },
+    "by_type": {
+      "discovery": 1,
+      "listing": 16,
+      "product": 89
+    },
+    "outstanding": 69,
+    "retries": 10
+  },
+  "discovery": {
+    "degraded_discovery": false,
+    "listing_pagination_stops": {
+      "next_page_robots_disallowed": 6,
+      "last_page": 10
+    },
+    "navigation_pages": [
+      {
+        "url": "https://www.safcodental.com/catalog",
+        "type": "discovery",
+        "pagination_stop": null,
+        "children": 2
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/gloves",
+        "type": "listing",
+        "pagination_stop": "next_page_robots_disallowed",
+        "children": 18
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/sutures-surgical-products",
+        "type": "listing",
+        "pagination_stop": "next_page_robots_disallowed",
+        "children": 20
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/gloves/chloroprene-gloves",
+        "type": "listing",
+        "pagination_stop": "last_page",
+        "children": 10
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/gloves/glove-holder",
+        "type": "listing",
+        "pagination_stop": "last_page",
+        "children": 1
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/gloves/latex-gloves",
+        "type": "listing",
+        "pagination_stop": "next_page_robots_disallowed",
+        "children": 12
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/gloves/nitrile-gloves",
+        "type": "listing",
+        "pagination_stop": "next_page_robots_disallowed",
+        "children": 12
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/gloves/surgical-gloves",
+        "type": "listing",
+        "pagination_stop": "last_page",
+        "children": 3
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/gloves/vinyl-gloves",
+        "type": "listing",
+        "pagination_stop": "last_page",
+        "children": 1
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/sutures-surgical-products/bone-grafting",
+        "type": "listing",
+        "pagination_stop": "next_page_robots_disallowed",
+        "children": 12
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/sutures-surgical-products/cold-packs",
+        "type": "listing",
+        "pagination_stop": "last_page",
+        "children": 2
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/sutures-surgical-products/iv-fluids-and-administration-sets",
+        "type": "listing",
+        "pagination_stop": "last_page",
+        "children": 5
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/sutures-surgical-products/periodontal-dressings",
+        "type": "listing",
+        "pagination_stop": "last_page",
+        "children": 3
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/sutures-surgical-products/surgical-blades-and-scalpels",
+        "type": "listing",
+        "pagination_stop": "next_page_robots_disallowed",
+        "children": 12
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/sutures-surgical-products/surgical-medicaments-and-packing",
+        "type": "listing",
+        "pagination_stop": "last_page",
+        "children": 10
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/sutures-surgical-products/suture-needles",
+        "type": "listing",
+        "pagination_stop": "last_page",
+        "children": 1
+      },
+      {
+        "url": "https://www.safcodental.com/catalog/sutures-surgical-products/sutures",
+        "type": "listing",
+        "pagination_stop": "last_page",
+        "children": 5
+      }
+    ]
+  },
+  "catalog": {
+    "unique_products": 20,
+    "observed_skus": 93,
+    "duplicate_identity_count": 0
+  },
+  "model_usage": {
+    "product_pages_with_model": 0,
+    "degraded": {},
+    "fallback_reasons": {},
+    "patch_entries_applied": 0,
+    "patch_entries_rejected": 0,
+    "tool_calls": 0
+  },
+  "extraction_seconds_total": 0.24,
+  "per_category": {
+    "gloves": {
+      "root": "https://www.safcodental.com/catalog/gloves",
+      "product_pages": 10,
+      "accepted": 10,
+      "partial": 0,
+      "quarantined": 0,
+      "products_exported": 10,
+      "variants_exported": 53,
+      "field_fill_rate": {
+        "product": {
+          "name": 1.0,
+          "brand": 1.0,
+          "manufacturer": 0.0,
+          "description": 1.0,
+          "category_paths": 1.0,
+          "image_urls": 1.0,
+          "attributes": 0.8
+        },
+        "variant": {
+          "sku": 1.0,
+          "variant_name": 1.0,
+          "attributes": 0.1887,
+          "pack_label": 1.0,
+          "pack_quantity": 1.0,
+          "pack_unit": 1.0,
+          "price": 1.0,
+          "currency": 1.0,
+          "availability_raw": 1.0
+        }
+      },
+      "validation_failure_rate": 0.0,
+      "quarantine_rate": 0.0,
+      "llm_fallback_rate": 0.0,
+      "evidence_rejection_rate": null,
+      "variant_coverage": {
+        "expected_skus": 53,
+        "exported_skus": 53
+      },
+      "missing_reason_distribution": {
+        "manufacturer": {
+          "not_applicable": 10
+        }
+      }
+    },
+    "sutures-surgical-products": {
+      "root": "https://www.safcodental.com/catalog/sutures-surgical-products",
+      "product_pages": 10,
+      "accepted": 10,
+      "partial": 0,
+      "quarantined": 0,
+      "products_exported": 10,
+      "variants_exported": 40,
+      "field_fill_rate": {
+        "product": {
+          "name": 1.0,
+          "brand": 1.0,
+          "manufacturer": 0.0,
+          "description": 1.0,
+          "category_paths": 1.0,
+          "image_urls": 1.0,
+          "attributes": 0.1
+        },
+        "variant": {
+          "sku": 1.0,
+          "variant_name": 1.0,
+          "attributes": 0.0,
+          "pack_label": 0.3,
+          "pack_quantity": 0.3,
+          "pack_unit": 0.3,
+          "price": 1.0,
+          "currency": 1.0,
+          "availability_raw": 1.0
+        }
+      },
+      "validation_failure_rate": 0.0,
+      "quarantine_rate": 0.0,
+      "llm_fallback_rate": 0.0,
+      "evidence_rejection_rate": null,
+      "variant_coverage": {
+        "expected_skus": 40,
+        "exported_skus": 40
+      },
+      "missing_reason_distribution": {
+        "manufacturer": {
+          "not_applicable": 10
+        },
+        "variants.pack_label": {
+          "not_visible": 28
+        }
+      }
+    }
+  },
+  "failed_tasks": [
+    {
+      "task_id": 39,
+      "type": "product",
+      "url": "https://www.safcodental.com/product/soft-tissue-trimmer",
+      "status": "RETRY_WAIT",
+      "error_code": "INCOMPLETE_RENDER",
+      "error": "readiness signal missing: #pdp-grouped .product-item-sku",
+      "attempts": 1
+    }
+  ]
+}

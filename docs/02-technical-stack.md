@@ -44,6 +44,8 @@ SQLite is chosen for the single-process POC, not as a multi-host queue. PostgreS
 | ADR-08: Product + variant schema | One row per page; untyped JSON | Preserves sellable SKU identity and category-specific attributes, at the cost of joins. |
 | ADR-09: LangGraph for the Extractor loop | Provider SDK tool-calling loop (~100 lines); LangChain AgentExecutor; CrewAI/AutoGen | LangGraph state and conditional edges map directly onto validate → tool loop → revalidate, with a built-in recursion limit and inspectable state per step, and LangChain lets the provider change via config. Cost: two dependencies and a layer of abstraction for a small loop. Multi-agent frameworks were rejected because they add LLM-to-LLM coordination the workflow does not need. Exit: the graph sits behind the `ExtractorAgent` interface, so a plain async loop can replace it without touching callers if the framework slows M3. |
 | ADR-10: Suggest, never apply, selector repairs | Auto-patch selectors; no repair support | Repair suggestions shorten the fix when layouts change, without letting a model silently change parsing for every later page. A human applies and regression-tests the change. |
+| ADR-11: Do not fetch robots-disallowed pagination (added after M0) | Fetch `?page=N`; click "Next" in the browser (client-side routing); query Algolia directly | robots.txt disallows `/*?page=`. Clicking through client-side pagination would avoid the literal URL but not the intent, and Algolia is a third-party host outside `allowed_hosts`. The Navigator records `next_page_robots_disallowed`; coverage comes from page 1 of each root and subcategory listing. Cost: listings with more than 12 products are sampled, not exhausted. |
+| ADR-12: Model provider via `langchain-anthropic` only (added at M3) | `init_chat_model` with several provider packages | One provider package keeps the dependency set small; other providers raise `MODEL_UNAVAILABLE` until their package is added. |
 
 ## 4. Agent roster
 
@@ -54,13 +56,15 @@ Every agent implements the same contract:
 ```python
 class AgentResult(BaseModel):
     outcome: Literal["ok", "partial", "retry", "quarantine", "failed"]
-    output: BaseModel | None      # agent-specific typed payload
-    issues: list[Issue]           # typed validation or processing issues
-    events: list[Event]           # structured telemetry
-    budget_used: Budget           # model calls, tool calls, tokens, seconds
+    output: BaseModel | None  # agent-specific typed payload
+    issues: list[Issue]  # typed validation or processing issues
+    events: list[Event]  # structured telemetry
+    budget_used: Budget  # model calls, tool calls, tokens, seconds
+
 
 class Agent(Protocol):
     name: str
+
     async def run(self, task: AgentInput) -> AgentResult: ...
 ```
 
@@ -92,6 +96,7 @@ site:
   adapter: safco
   allowed_hosts: [www.safcodental.com, safcodental.com]
   scope: selected  # selected | all (permitted discovered roots)
+  discovery_url: https://www.safcodental.com/catalog   # added at M1: page that lists the roots
   category_roots:
     - https://www.safcodental.com/catalog/gloves
     - https://www.safcodental.com/catalog/sutures-surgical-products
@@ -103,6 +108,9 @@ crawler:
   max_pages: 150
   max_products_per_category: 10
   max_invocation_seconds: 3600   # per crawl/resume process; page/product/model budgets are cumulative per run (Architecture §6.1)
+  readiness_timeout_seconds: 15  # added at M1: wait for listing/product DOM signals
+  backoff_base_seconds: 2        # added at M2
+  backoff_max_seconds: 60
 agents:
   extractor:
     llm_enabled: true              # P0; ignored in --mode deterministic
@@ -190,10 +198,12 @@ uv run playwright install chromium
 uv run catalog-agent crawl --config configs/safco.yaml --mode hybrid
 uv run catalog-agent resume --run-id RUN_ID
 uv run catalog-agent resume --run-id RUN_ID --add-pages 50 --add-model-calls 20   # after BUDGET_EXHAUSTED
+uv run catalog-agent resume --run-id RUN_ID --add-products 5   # added at M2: raise the per-category product budget
 uv run catalog-agent export --run-id RUN_ID --format json
 uv run catalog-agent export --run-id RUN_ID --format csv
 uv run catalog-agent report --run-id RUN_ID
-uv run catalog-agent evaluate --fixtures tests/fixtures --mode compare
+uv run catalog-agent evaluate --fixtures tests/fixtures --mode compare   # P1 (FR-13): not built
+uv run catalog-agent crawl --replay tests/fixtures/live --db /tmp/replay.db   # added at M2: offline replay
 uv run pytest
 ```
 

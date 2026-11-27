@@ -288,7 +288,9 @@ def markdown_summary(rep: dict[str, Any]) -> str:
     names = list(cats)
 
     def pct(v: float | None) -> str:
-        return "n/a" if v is None else f"{v * 100:.0f}%"
+        if v is None:
+            return "n/a"
+        return f"{v * 100:.1f}%" if 0 < v < 0.01 else f"{v * 100:.0f}%"
 
     lines += ["| Field completeness | " + " | ".join(names) + " |", "|---|" + "---|" * len(names)]
     for level, fields in (("product", PRODUCT_FIELDS), ("variant", VARIANT_FIELDS)):

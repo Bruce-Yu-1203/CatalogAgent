@@ -1,42 +1,57 @@
 {
-  "run_id": "run_20261127_balanced",
+  "run_id": "run_20261127_full",
+  "summary": {
+    "pages_fetched": 106,
+    "product_pages": 89,
+    "accepted": 89,
+    "partial": 0,
+    "quarantined": 0,
+    "products_exported": 89,
+    "variants_exported": 556,
+    "model_calls": 114,
+    "input_tokens": 400364,
+    "output_tokens": 95445,
+    "cost_usd": 0.0878,
+    "seconds": 434.7,
+    "duplicate_sku_identity_rate": 0.0018,
+    "duplicate_rows_merged": 0
+  },
   "mode": "hybrid",
-  "status": "BUDGET_EXHAUSTED",
-  "termination_reason": "MAX_PRODUCTS_PER_CATEGORY",
-  "coverage_status": "partial",
-  "started_at": "2026-11-27T02:57:50Z",
-  "finished_at": null,
+  "status": "COMPLETED",
+  "termination_reason": "FRONTIER_DRAINED",
+  "coverage_status": "unknown",
+  "started_at": "2026-11-27T19:19:57Z",
+  "finished_at": "2026-11-27T19:27:11Z",
   "invocations": [
     {
       "kind": "crawl",
       "model_id": "anthropic:claude-haiku-5-5",
       "model_unavailable": null,
       "requeued": 0,
-      "seconds": 130.5,
-      "status": "BUDGET_EXHAUSTED"
+      "seconds": 434.7,
+      "status": "COMPLETED"
     }
   ],
   "budgets": {
-    "max_pages": 150,
-    "pages_used": 37,
-    "max_products_per_category": 10,
-    "max_model_calls": 60,
-    "model_calls_used": 24,
-    "input_tokens_used": 57129,
-    "output_tokens_used": 18048,
+    "max_pages": 250,
+    "pages_used": 106,
+    "max_products_per_category": 60,
+    "max_model_calls": 300,
+    "model_calls_used": 114,
+    "input_tokens_used": 400364,
+    "output_tokens_used": 95445,
     "extensions": []
   },
   "tasks": {
     "by_status": {
-      "COMPLETED": 37,
-      "PENDING": 69
+      "COMPLETED": 106
     },
     "by_type": {
       "discovery": 1,
       "listing": 16,
       "product": 89
     },
-    "outstanding": 69,
+    "outstanding": 0,
     "retries": 0
   },
   "discovery": {
@@ -151,30 +166,30 @@
     ]
   },
   "catalog": {
-    "unique_products": 20,
-    "observed_skus": 87,
-    "duplicate_identity_count": 0
+    "unique_products": 89,
+    "observed_skus": 556,
+    "duplicate_identity_count": 1
   },
   "model_usage": {
-    "product_pages_with_model": 20,
+    "product_pages_with_model": 89,
     "degraded": {},
     "fallback_reasons": {
-      "unparsed_attributes": 20
+      "unparsed_attributes": 89
     },
-    "patch_entries_applied": 87,
-    "patch_entries_rejected": 0,
-    "tool_calls": 4
+    "patch_entries_applied": 446,
+    "patch_entries_rejected": 6,
+    "tool_calls": 13
   },
-  "extraction_seconds_total": 78.55,
+  "extraction_seconds_total": 407.45,
   "per_category": {
     "gloves": {
       "root": "https://www.safcodental.com/catalog/gloves",
-      "product_pages": 10,
-      "accepted": 10,
+      "product_pages": 39,
+      "accepted": 39,
       "partial": 0,
       "quarantined": 0,
-      "products_exported": 10,
-      "variants_exported": 51,
+      "products_exported": 39,
+      "variants_exported": 193,
       "field_fill_rate": {
         "product": {
           "name": 1.0,
@@ -183,75 +198,16 @@
           "description": 1.0,
           "category_paths": 1.0,
           "image_urls": 1.0,
-          "attributes": 0.7,
+          "attributes": 0.6154,
           "alternatives": 1.0
         },
         "variant": {
           "sku": 1.0,
           "variant_name": 1.0,
           "attributes": 1.0,
-          "pack_label": 0.9412,
-          "pack_quantity": 0.9412,
-          "pack_unit": 0.9412,
-          "price": 0.9804,
-          "currency": 0.9804,
-          "availability_raw": 1.0
-        }
-      },
-      "validation_failure_rate": 0.0,
-      "quarantine_rate": 0.0,
-      "llm_fallback_rate": 1.0,
-      "evidence_rejection_rate": 0.0,
-      "recovery": {
-        "attempted": 10,
-        "resolved": 10,
-        "success_rate": 1.0
-      },
-      "variant_coverage": {
-        "expected_skus": 51,
-        "exported_skus": 51
-      },
-      "missing_reason_distribution": {
-        "manufacturer": {
-          "not_applicable": 10
-        },
-        "variants.currency": {
-          "not_visible": 1
-        },
-        "variants.pack_label": {
-          "not_visible": 3
-        },
-        "variants.price": {
-          "not_visible": 1
-        }
-      }
-    },
-    "sutures-surgical-products": {
-      "root": "https://www.safcodental.com/catalog/sutures-surgical-products",
-      "product_pages": 10,
-      "accepted": 10,
-      "partial": 0,
-      "quarantined": 0,
-      "products_exported": 10,
-      "variants_exported": 36,
-      "field_fill_rate": {
-        "product": {
-          "name": 1.0,
-          "brand": 1.0,
-          "manufacturer": 0.0,
-          "description": 1.0,
-          "category_paths": 1.0,
-          "image_urls": 1.0,
-          "attributes": 0.1,
-          "alternatives": 1.0
-        },
-        "variant": {
-          "sku": 1.0,
-          "variant_name": 1.0,
-          "attributes": 1.0,
-          "pack_label": 0.75,
-          "pack_quantity": 0.75,
-          "pack_unit": 0.75,
+          "pack_label": 0.9845,
+          "pack_quantity": 0.9845,
+          "pack_unit": 0.9845,
           "price": 1.0,
           "currency": 1.0,
           "availability_raw": 1.0
@@ -262,28 +218,88 @@
       "llm_fallback_rate": 1.0,
       "evidence_rejection_rate": 0.0,
       "recovery": {
-        "attempted": 10,
-        "resolved": 10,
+        "attempted": 39,
+        "resolved": 39,
         "success_rate": 1.0
       },
       "variant_coverage": {
-        "expected_skus": 36,
-        "exported_skus": 36
+        "expected_skus": 193,
+        "exported_skus": 193
       },
       "missing_reason_distribution": {
         "manufacturer": {
-          "not_applicable": 10
+          "not_applicable": 39
         },
         "variants.pack_label": {
-          "not_visible": 9
+          "not_visible": 3
         }
-      }
+      },
+      "issue_distribution": {},
+      "rejected_values": 0
+    },
+    "sutures-surgical-products": {
+      "root": "https://www.safcodental.com/catalog/sutures-surgical-products",
+      "product_pages": 50,
+      "accepted": 50,
+      "partial": 0,
+      "quarantined": 0,
+      "products_exported": 50,
+      "variants_exported": 363,
+      "field_fill_rate": {
+        "product": {
+          "name": 1.0,
+          "brand": 1.0,
+          "manufacturer": 0.0,
+          "description": 1.0,
+          "category_paths": 1.0,
+          "image_urls": 1.0,
+          "attributes": 0.02,
+          "alternatives": 1.0
+        },
+        "variant": {
+          "sku": 1.0,
+          "variant_name": 1.0,
+          "attributes": 0.7438,
+          "pack_label": 0.8099,
+          "pack_quantity": 0.8072,
+          "pack_unit": 0.8072,
+          "price": 1.0,
+          "currency": 1.0,
+          "availability_raw": 1.0
+        }
+      },
+      "validation_failure_rate": 0.0,
+      "quarantine_rate": 0.0,
+      "llm_fallback_rate": 1.0,
+      "evidence_rejection_rate": 0.0232,
+      "recovery": {
+        "attempted": 50,
+        "resolved": 42,
+        "success_rate": 0.84
+      },
+      "variant_coverage": {
+        "expected_skus": 363,
+        "exported_skus": 363
+      },
+      "missing_reason_distribution": {
+        "manufacturer": {
+          "not_applicable": 50
+        },
+        "variants.pack_label": {
+          "not_visible": 69
+        },
+        "variants.pack_quantity": {
+          "parse_failed": 1
+        }
+      },
+      "issue_distribution": {},
+      "rejected_values": 0
     }
   },
   "failed_tasks": [],
   "field_failures": {},
   "render_notes": {
-    "table_not_rendered": 3
+    "table_not_rendered": 16
   },
   "repair_suggestions": []
 }

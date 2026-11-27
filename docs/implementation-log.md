@@ -538,3 +538,21 @@ Final experiment run (`outputs/redesign_experiment.json`): rules alone get 224/2
 after the `data` redesign; with all structured data removed rules get 0 and rules + LLM recover 82, 81 and 82 of the
 82 rendered SKUs (classes, tags, columns), each with price, stock and name; 0 wrong prices and 0 wrong SKUs in every
 group. README §9 rewritten with this run.
+
+## Full two-category sample, query examples, LLM-use table (2026-11-27)
+
+Checked against the requirements document again; three gaps were closed before submission.
+
+- **Sample = everything reachable.** `configs/safco_full_sample.yaml` (default config with 60 products per category,
+  250 pages, 300 model calls, P1 model features on). Live run `run_20261127_full`: 106 pages, 0 retries, 435 s,
+  `COMPLETED`; 89 products (39 gloves, 50 sutures & surgical, all 14 subcategories), all accepted; 556 SKUs. Checks:
+  every page's SKU set equals its JSON-LD SKU set (89/89); all 556 prices equal the JSON-LD offer price; a
+  deterministic re-parse of the same snapshots gives 0 differences in SKU, price, pack and availability. 386 SKUs
+  from the rendered table, 170 from JSON-LD (16 pages whose table never rendered). 114 model calls, all attribute
+  splitting, ≈ $0.088; 0 classifier fallback, 0 repair suggestion. One SKU (`4180087`) is listed by the site on two
+  suture products. `outputs/` now comes from this run; README §1, §6, §9, §10, §11, §12 updated.
+- **Queryable.** `outputs/catalog_sample.sql` (SQLite dump of the run's products and variants; no database file is
+  committed) and three SQL examples in README §6, checked against the dump.
+- **LLM uses.** README §4 maps the four suggested LLM uses to what was built, their defaults and how to see them,
+  and why navigation never uses a model.
+- `summary` prints small rates with one decimal (the duplicate rate showed 0% for 1 of 555).

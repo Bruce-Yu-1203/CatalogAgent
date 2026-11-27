@@ -6,28 +6,28 @@ Products). Design: [docs/](docs/README.md). What was built and measured, milesto
 
 ## 1. Overview and results at a glance
 
-Measured on the live site, run `run_20261127_balanced` (2026-11-27, hybrid mode with `claude-haiku-5-5`,
-classifier fallback and repair suggestions switched on, 131 s):
+Measured on the live site, run `run_20261127_full` (2026-11-27, hybrid mode with `claude-haiku-5-5`, config
+[`configs/safco_full_sample.yaml`](configs/safco_full_sample.yaml): the default config with every discoverable
+product of both categories and the P1 model features switched on; 435 s):
 
 | | Result |
 |---|---|
-| Products exported | 20, all `accepted`, 0 partial, 0 quarantined |
-| Subcategory coverage | every subcategory of both roots is sampled: gloves 10 (chloroprene 2, latex 2, nitrile 2, surgical 2, vinyl 1, glove holder 1); sutures & surgical 10 (all 8 subcategories, including Sutures: Safco SureStitch with 15 variants grouped by needle type) |
-| Variants (SKUs) | 87 (51 gloves, 36 sutures & surgical); every SKU observed on each page was exported (87/87) |
-| Price check | 78 table prices agree with the page's own JSON-LD offer price, 0 disagree; 8 prices came from JSON-LD because the table never rendered (3 pages); 1 variant shows "Non-purchasable" and no price, so its price is null (`not_visible`) although JSON-LD lists one |
-| Alternatives | 160 (8 per product) from the rendered "Trending Products" carousel, `source: trending_carousel`, product itself excluded |
-| Evidence | every exported SKU, price, availability, pack and attribute value carries an evidence ref to its row (87 SKU, 86 price, 87 availability, 75 pack, 197 attribute refs) |
-| Pages fetched | 37 of a 150-page budget (1 discovery, 16 listings, 20 product pages), 0 retries |
-| Stop | `BUDGET_EXHAUSTED` / `MAX_PRODUCTS_PER_CATEGORY` (10 per category configured); remaining products left resumable |
-| Duplicate SKU identities | 0 |
-| LLM usage | 24 model calls, all extraction (17 pages × 1, 2 pages × 2, 1 page × 3: attribute gaps go 8 SKUs per call), 0 repair suggestion, 0 classifier fallback; 57,129 input / 18,048 output tokens ≈ $0.015 at list price |
-| What the model added | structured variant attributes on 87/87 variants (deterministic: 0/87 beyond the table group heading); SKU, price, pack and availability identical to deterministic extraction on the same snapshots (0 differences); recovery 20/20 pages |
-| Repair suggestions | none: the 3 pages whose table never renders are recorded as the render note `table_not_rendered` (expected JSON-LD fallback), not as a selector failure |
+| Products exported | **89, all `accepted`**, 0 partial, 0 quarantined: every product reachable from the two category roots (39 gloves, 50 sutures & surgical) |
+| Subcategory coverage | all 14 subcategories: gloves (chloroprene 10, latex 12, nitrile 12, surgical 3, vinyl 1, glove holder 1); sutures & surgical (bone grafting 12, surgical blades 12, surgical medicaments 10, IV fluids 5, sutures 5, periodontal dressings 3, cold packs 2, suture needles 1) |
+| Variants (SKUs) | **556** (193 gloves, 363 sutures & surgical); every SKU observed on each page was exported (556/556) |
+| Price check | every page's SKU set equals its JSON-LD SKU set (89/89); all 556 exported prices equal the page's own JSON-LD offer price, 0 disagree; 386 SKUs come from the rendered table, 170 from JSON-LD on the 16 pages whose table never rendered |
+| Alternatives | 712 from the rendered "Trending Products" carousel, `source: trending_carousel`, product itself excluded |
+| Evidence | every exported SKU, price and availability carries an evidence ref to its row (556 each), plus 484 pack and the attribute refs |
+| Pages fetched | 106 of a 250-page budget (1 discovery, 16 listings, 89 product pages), 0 retries; run `COMPLETED` / `FRONTIER_DRAINED` |
+| Duplicate SKU identities | 1 of 555 distinct SKUs (0.2%): `4180087` is listed on two different suture product pages by the site itself; both records keep it |
+| LLM usage | 114 model calls, all attribute splitting (89 pages); 0 classifier fallback (no `unknown` page), 0 repair suggestion (no selector failure); 400,364 input / 95,445 output tokens ≈ $0.088 at list price |
+| What the model added | structured variant attributes on 446/556 variants; SKU, price, pack and availability identical to the deterministic parser on the same snapshots (0 differences) |
 | Offline evaluation (FR-13) | 22 frozen pages, 4 hybrid runs: SKU recall 1.0 and price accuracy 1.0 in both modes; held-out attribute recall 0 → 0.54–1.0 with the model (see §9) |
 | Why an LLM (§9) | normal pages and redesigns that keep the page's data: rules get every visible row, no model needed; a synthetic redesign that removes all structured data: rules 0 / 82 visible rows, rules + LLM 82 / 82 with price and stock, 0 wrong values |
 | Tests | 78 passed (P0 + P1 suites, offline), smoke script passed |
 
 Outputs: [`outputs/products.json`](outputs/products.json), [`outputs/variants.csv`](outputs/variants.csv),
+[`outputs/catalog_sample.sql`](outputs/catalog_sample.sql) (SQLite dump, §6), [`outputs/summary.md`](outputs/summary.md),
 [`outputs/run_report.json`](outputs/run_report.json), [`outputs/failed_tasks.json`](outputs/failed_tasks.json),
 [`outputs/repair_suggestions.json`](outputs/repair_suggestions.json), [`outputs/evaluation_report.json`](outputs/evaluation_report.json),
 [`outputs/redesign_experiment.json`](outputs/redesign_experiment.json).
@@ -82,6 +82,19 @@ One Python process per database, two async workers, one shared host pacer. Code:
 
 All return `AgentResult` (`contracts.py`); none writes to storage.
 
+**Where the model is and is not used.** The requirements suggest four LLM uses; this is what each became:
+
+| Suggested use | Here | Default | How to see it |
+|---|---|---|---|
+| Extraction fallback for irregular layouts | Extractor loop: recovers a page whose rules found no variant (generic rows + row mapping, §9), and splits variant labels into attributes | on in `--mode hybrid` | any hybrid run; §9 redesign experiment |
+| Page type detection | Classifier fallback for `unknown` pages, accepted only if the proposed type's DOM signals are present | off (`agents.classifier.llm_fallback_enabled`) | on in `configs/safco_full_sample.yaml`; `test_classifier_fallback.py` |
+| Selector repair suggestions | Recovery proposes replacement selectors after repeated field failures, tests them with `test_selector` on failing and control pages, writes `repair_suggestions.json`; never applied automatically | off (`agents.recovery.repair_suggestions_enabled`) | on in `configs/safco_full_sample.yaml`; `test_repair_suggestions.py` |
+| Reasoning over navigation | deliberately **not** used: navigation stays rule-bound so a model can never widen the crawl scope, and validation stays independent of the model (constitution §III) | n/a | n/a |
+
+The two P1 features ship off because on the current site they rarely trigger (no `unknown` page and no selector
+failure in the latest runs), and turning them on only adds model calls; they are the insurance for a layout
+change, like the extraction fallback.
+
 ## 5. Setup and execution
 
 Requires macOS or Linux, [uv](https://docs.astral.sh/uv/) and `make`. **One command** (tested 2026-11-27):
@@ -125,8 +138,8 @@ degraded recovery. Offline replay of saved fixtures: add `--replay tests/fixture
 
 The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with nested variants in
 `products.json`, one row per variant in `variants.csv` (33 columns, in PRD order), with evidence refs,
-`llm_fields` and `missing` reasons. All 20 records in `outputs/` come from the single run
-`run_20261127_balanced`. Example (abridged, real):
+`llm_fields` and `missing` reasons. All 89 records in `outputs/` come from the single run
+`run_20261127_full`. Example (abridged, real):
 
 ```json
 {"name": "Safco Nitrilex Surpass Gloves", "product_key": "DRCCS", "brand": "Safco",
@@ -135,6 +148,37 @@ The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with n
    "price": "15.99", "currency": "USD", "availability": "in_stock",
    "evidence": [{"field": "sku", "section_id": "variant-table", "row_id": "row-1", "raw_value": "1027990", "method": "deterministic"},
                 {"field": "price", "section_id": "variant-table", "row_id": "row-1", "raw_value": "$15.99", "normalized_value": "15.99", "method": "deterministic"}]}]}
+```
+
+**Query the data.** Every run is stored in SQLite (`data/catalog.db`, tables `crawl_runs`, `crawl_tasks`,
+`products`, `variants`; schema in [`schema.sql`](src/catalog_agent/storage/schema.sql)).
+[`outputs/catalog_sample.sql`](outputs/catalog_sample.sql) is a dump of the products and variants of the sample
+run, so the queries below work without crawling (after a crawl, run them on `data/catalog.db` with
+`WHERE run_id = '...'`):
+
+```bash
+sqlite3 sample.db < outputs/catalog_sample.sql
+```
+
+```sql
+-- products and SKUs per category
+SELECT replace(root, 'https://www.safcodental.com/catalog/', '') AS category,
+       count(*) AS products, sum(variant_count) AS skus
+FROM products GROUP BY root;
+-- gloves 39 / 193, sutures-surgical-products 50 / 363
+
+-- variants that are not in stock (77: Backorder, Special order, Direct from manufacturer)
+SELECT p.name, v.sku, v.availability_raw, v.price
+FROM variants v JOIN products p USING (run_id, product_id)
+WHERE v.availability <> 'in_stock' ORDER BY p.name;
+
+-- where a SKU's price came from: the evidence row in the saved page
+SELECT v.sku, v.price, json_extract(e.value, '$.field') AS field,
+       json_extract(e.value, '$.section_id') AS section, json_extract(e.value, '$.raw_value') AS raw_value
+FROM variants v, json_each(v.evidence_json) e
+WHERE v.sku = '1027990' AND json_extract(e.value, '$.field') IN ('sku', 'price');
+-- 1027990  15.99  sku    variant-table  1027990
+-- 1027990  15.99  price  variant-table  $15.99
 ```
 
 ## 7. Production-minded controls
@@ -237,7 +281,7 @@ documented setup and commands end to end offline.
 | 429 | wait at least Retry-After, slow the host |
 | 401/403/CAPTCHA text | pause the run (`PAUSED` / `ACCESS_RESTRICTED`), task kept resumable, never bypassed |
 | 404, robots-disallowed, off-host redirect, unsupported page | terminal failure, recorded |
-| Variant table not rendered | after the readiness wait, JSON-LD variant rows are the evidence source; recorded as `table_not_rendered`, not a selector failure (3 pages in the current run, 6 in earlier samples) |
+| Variant table not rendered | after the readiness wait, JSON-LD variant rows are the evidence source; recorded as `table_not_rendered`, not a selector failure (16 of 89 pages in the current run) |
 | Model error / missing key / no progress / budget | loop stops; verified fields kept; record `partial` |
 | SKU with conflicting rows, no verifiable variants | quarantined |
 | Crash mid-run | requeue after lock; reserved budget of the interrupted attempt stays consumed |
@@ -334,15 +378,15 @@ redesigned page without prices building no generic rows and never calling the mo
 
 ### Two-category live run
 
-**Current live run** (`run_20261127_balanced`, the source of `outputs/`), hybrid output compared with the
+**Current live run** (`run_20261127_full`, the source of `outputs/`), hybrid output compared with the
 deterministic parser re-run on **the same saved snapshots**:
 
 | | Deterministic | Hybrid (Claude Haiku 5.5, effort `low`) |
 |---|---|---|
-| SKUs / prices exported | 87 / 86 | 87 / 86, identical values (0 differences in price, pack, availability) |
-| Variants with structured attributes (beyond the table group heading) | 0 / 87 | 87 / 87 |
-| Model calls / tokens / list cost | 0 | 24 calls, 75.2k tokens, ≈ $0.015 |
-| Records accepted | 20 / 20 | 20 / 20 |
+| SKUs / prices exported | 556 / 556 | 556 / 556, identical values (0 differences in price, pack, availability) |
+| Variants with structured attributes (beyond the table group heading) | 0 / 556 | 446 / 556 |
+| Model calls / tokens / list cost | 0 | 114 calls, 496k tokens, ≈ $0.088 |
+| Records accepted | 89 / 89 | 89 / 89 |
 
 The deterministic parsers already resolve every critical field on Safco (SKU, price, pack, stock), so the
 model's value here is splitting variant labels like `C-3, chromic gut, 5-0, 18", 12/box` into
@@ -392,7 +436,7 @@ and the typed-feedback retry.
 The listing traversal cannot close this gap: robots.txt disallows `?page=N`, and `scope: all` only adds more
 roots, each with the same page-1 limit. The permitted alternative is the product sitemap advertised in
 robots.txt. A single fetch of `products.xml` on 2026-11-27 returned **3,980 product URLs** (with `lastmod`),
-and **all 89 products discovered in the current run are in it** (0 missing). The sitemap has no category
+and **all 89 products discovered from the listings are in it** (0 missing). The sitemap has no category
 information, so seeding a full crawl from it means fetching every product page and reading its breadcrumb or
 JSON-LD `category`; not built yet. What remains to prove full coverage: seed product tasks from the sitemap,
 crawl the two categories' share, and report expected (listing totals) vs found vs missing.
@@ -417,9 +461,9 @@ evidence that extraction generalizes across categories and that the sitemap is a
 not evidence of complete coverage.
 
 `scope: all` seeds every root found on `/catalog` (20 roots, unit-tested against the saved snapshot) and runs
-the identical traversal; it was **not** run against the live site. Sizing with measured inputs: ≈ 3.5 s per
-page fetch (131 s / 37 fetches in the current run, two workers sharing a 2 s pacer, 0 retries), so crawling all
-3,980 sitemap products would take about 3,980 × 3.5 s ≈ 3.9 h on one worker; the binding limit is the polite
+the identical traversal; it was **not** run against the live site. Sizing with measured inputs: ≈ 4.1 s per
+page fetch (435 s / 106 fetches in the current run, two workers sharing a 2 s pacer, 0 retries, model calls
+included), so crawling all 3,980 sitemap products would take about 3,980 × 4.1 s ≈ 4.5 h on one worker; the binding limit is the polite
 request rate, not compute. `lastmod` allows incremental recrawls. Budgets (`max_pages`,
 `max_products_per_category`, `max_model_calls_per_run`, `max_invocation_seconds`) bound any run and a budget
 stop leaves resumable work. Deployment path: [Architecture §9](docs/03-overall-architecture.md#9-deployment-path).
@@ -442,12 +486,12 @@ evidence rejection rates, duplicate identity count and the missing-reason distri
 monitoring with drift alerts ([§10.2](docs/03-overall-architecture.md#102-production-monitoring-design-only))
 is design only. `uv run catalog-agent summary --run-id RUN_ID` renders these metrics as the tables below,
 adding the issue-code distribution (validator/extractor issues by severity and code), the count of values
-rejected by evidence checks, and the duplicate rate. Measured on the `make demo` run of 2026-11-27
-([`outputs/demo/summary.md`](outputs/demo/summary.md)):
+rejected by evidence checks, and the duplicate rate. Measured on the sample run `run_20261127_full`
+([`outputs/summary.md`](outputs/summary.md); the `make demo` run is in [`outputs/demo/summary.md`](outputs/demo/summary.md)):
 
 | Pages fetched | Product pages | Accepted / partial / quarantined | Products / SKUs exported | Model calls | Tokens in / out | List cost | Time |
 |---|---|---|---|---|---|---|---|
-| 37 | 20 | 20 / 0 / 0 | 20 / 87 | 27 | 69,246 / 19,730 | $0.017 | 151.2 s |
+| 106 | 89 | 89 / 0 / 0 | 89 / 556 | 114 | 400,364 / 95,445 | $0.088 | 434.7 s |
 
 | Field completeness | gloves | sutures-surgical-products |
 |---|---|---|
@@ -457,40 +501,43 @@ rejected by evidence checks, and the duplicate rate. Measured on the `make demo`
 | product.description | 100% | 100% |
 | product.category_paths | 100% | 100% |
 | product.image_urls | 100% | 100% |
-| product.attributes | 70% | 10% |
+| product.attributes | 62% | 2% |
 | product.alternatives | 100% | 100% |
 | variant.sku | 100% | 100% |
 | variant.variant_name | 100% | 100% |
-| variant.attributes | 100% | 100% |
-| variant.pack_label | 94% | 75% |
-| variant.pack_quantity | 94% | 75% |
-| variant.pack_unit | 94% | 75% |
+| variant.attributes | 100% | 74% |
+| variant.pack_label | 98% | 81% |
+| variant.pack_quantity | 98% | 81% |
+| variant.pack_unit | 98% | 81% |
 | variant.price | 100% | 100% |
 | variant.currency | 100% | 100% |
 | variant.availability_raw | 100% | 100% |
 
 | Missing-value and rejection reasons | gloves | sutures-surgical-products |
 |---|---|---|
-| missing manufacturer: not_applicable | 10 | 10 |
-| missing variants.pack_label: not_visible | 3 | 9 |
+| missing manufacturer: not_applicable | 39 | 50 |
+| missing variants.pack_label: not_visible | 3 | 69 |
+| missing variants.pack_quantity: parse_failed | 0 | 1 |
 | rejected values (evidence checks) | 0 | 0 |
-| evidence rejection rate (model patches) | 0% | 0% |
+| evidence rejection rate (model patches) | 0% | 2% |
 
-Duplicates: SKU identity duplicate rate 0% (0 SKUs under more than one product); 0 repeated rows merged with identical values.
+Duplicates: SKU identity duplicate rate 0.2% (1 SKUs under more than one product); 0 repeated rows merged with identical values.
 
 Reading the table: manufacturer is `not_applicable` because Safco shows one label, used as brand; missing pack
-sizes are labels that state no pack (`not_visible`); no row in the issues part means the Validator raised no
-issue on these 20 pages; there were no duplicate SKU identities and no repeated rows.
+sizes are labels that state no pack, mostly volumes and weights on sutures & surgical items (`not_visible`); the
+Validator raised no issue on these 89 pages; the 2% evidence rejection rate is 6 model-proposed attribute values
+that were not in their row and were dropped; the one duplicate identity is a SKU the site lists on two products.
 
 ## 12. Limitations
 
 - Only page 1 of each listing is read (robots.txt disallows `?page=`): 39 of 92 gloves and 50 of 56 sutures &
-  surgical products are reachable that way; 10 products per category were sampled. Full coverage is not
-  proven (see §10 for the sitemap path).
+  surgical products are reachable that way, and the sample run collected all 89. Full coverage of the 148
+  listed products is not proven (see §10 for the sitemap path).
 - Attribute values are verified only by appearing in their own row; key names can vary, ~1 in 20 sampled
   values was semantically wrong, and attribute recall varies between runs (0.54–1.0 held out).
 - The classifier fallback never triggered on the live site (no `unknown` pages); it is tested only on
-  real pages served at a synthetic URL. P1 model features are off in `configs/safco.yaml`.
+  real pages served at a synthetic URL. P1 model features are off in `configs/safco.yaml` and on in
+  `configs/safco_full_sample.yaml`.
 - Evaluation labels were produced by Claude, not a human; no held-out set beyond these 17 pages.
 - In deterministic mode variant attributes are empty except for the table group heading.
 - `alternatives` holds only the items the "Trending Products" carousel had rendered in the DOM when the page
@@ -500,11 +547,11 @@ issue on these 20 pages; there were no duplicate SKU identities and no repeated 
   verified substitute. "Best Value Options" is deliberately not collected: it cross-sells Safco private-label
   products of other types (e.g. prophy angles and curettes on a glove page), which are not alternatives.
 - Pack size is parsed from `N/unit`, `Box of N` and `N-pack`; volume labels like `1cc jar` stay null with
-  `not_visible` (sutures & surgical pack fill rate 75% in the current run).
+  `not_visible` (sutures & surgical pack fill rate 81% in the current run).
 - Some product pages (bone grafts, one trimmer) never render their variant table; their SKUs and prices
   come from the page's JSON-LD after one 15 s readiness wait.
-- The per-category budget is shared round-robin across subcategories (least-sampled first), so each
-  subcategory gets one or two products; only page 1 of each listing is read.
+- With the default budget (10 products per category) the budget is shared round-robin across subcategories
+  (least-sampled first), so each subcategory gets one or two products.
 - The generic redesign path (§9) needs rows that each show a `$` price and an SKU-like code (or exactly one such
   block on a single-variant page); SKUs that exist only in JSON-LD or inline data are not recoverable after a
   redesign that drops both. It was tested on four synthetic redesigns of saved pages, not on a real redesign or

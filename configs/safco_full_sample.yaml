@@ -1,0 +1,49 @@
+# Full two-category sample: configs/safco.yaml with every discoverable product (60 per category), a larger page and
+# model budget, and the P1 model features (classifier fallback, repair suggestions) switched on.
+site:
+  adapter: safco
+  allowed_hosts: [www.safcodental.com, safcodental.com]
+  scope: selected  # selected | all (permitted discovered roots)
+  discovery_url: https://www.safcodental.com/catalog
+  sitemap_url: https://www.safcodental.com/products.xml   # product sitemap listed in robots.txt
+  category_roots:
+    - https://www.safcodental.com/catalog/gloves
+    - https://www.safcodental.com/catalog/sutures-surgical-products
+  user_agent: "CatalogAgent-POC/0.1 (low-rate research crawler)"
+crawler:
+  concurrency: 2
+  request_interval_seconds: 2
+  timeout_seconds: 30
+  readiness_timeout_seconds: 15
+  max_attempts: 3
+  backoff_base_seconds: 2
+  backoff_max_seconds: 60
+  max_pages: 250
+  max_products_per_category: 60
+  max_invocation_seconds: 3600   # per crawl/resume process; page/product/model budgets are cumulative per run
+agents:
+  extractor:
+    llm_enabled: true              # P0; ignored in --mode deterministic
+    max_model_calls_per_task: 3
+    max_tool_calls_per_task: 6
+    max_seconds_per_task: 60
+    attribute_gaps: true
+  classifier:
+    llm_fallback_enabled: true     # P1 (FR-11): implemented and tested; off by default
+    max_model_calls_per_task: 1
+  recovery:
+    repair_suggestions_enabled: true    # P1 (FR-12): implemented and tested; off by default, report only
+    trigger_after_failures: 3
+    max_suggestions_per_run: 5
+llm:
+  max_model_calls_per_run: 300
+  max_input_tokens_per_call: 8000
+  max_output_tokens_per_call: 4000  # includes adaptive thinking
+  max_tool_result_chars: 12000
+  input_price_per_mtok: 0.10    # claude-haiku-5-5 list price (2026-11); cost reporting only
+  output_price_per_mtok: 0.50
+storage:
+  database: data/catalog.db
+  snapshot_dir: data/snapshots
+  output_dir: outputs
+  log_dir: data/logs

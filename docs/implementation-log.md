@@ -385,3 +385,19 @@ the table while JSON-LD lists $10.49 in stock; the export keeps price null (`not
 
 Tests: 66 passed; smoke script passed. The project folder was renamed to `CatalogAgent` on Amy's machine during
 this work; nothing in the code depends on the folder name.
+
+## Review fixes: price conflicts and full-site evidence (2026-11-27)
+
+1. **Conflicting duplicate prices were accepted silently.** Reproduced: a copy of the real Surpass page with
+   its first row repeated at `$999.99` came out `accepted` with no issue, because `parse_product` dropped repeated
+   SKUs before the Validator saw them. **Fix:** the parser keeps every row; the Validator's existing ambiguity
+   check now sees both rows and quarantines the product (`sku_ambiguous`, critical); consistent duplicates are
+   merged with an info issue `duplicate_row_merged`. Two regression tests go from HTML to the validation
+   decision. Re-validating the 20 current live snapshots and all eval fixtures changed nothing (the real data
+   has no duplicate rows). 68 tests pass.
+2. **Full-site coverage has no evidence yet.** Measured from the current run's listing pages: gloves report 92
+   products and 39 unique were discovered (page 1 of the root and subcategories); sutures & surgical report 56
+   and 50 were discovered. One request to `products.xml` (the product sitemap listed in robots.txt) returned
+   3,980 product URLs with `lastmod`; all 89 discovered products are in it. The sitemap has no categories, so a
+   full crawl would fetch every product page and read its category. README §10 and §12 now say full coverage
+   is not proven and give these numbers. Seeding from the sitemap is not built.

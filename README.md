@@ -24,7 +24,7 @@ classifier fallback and repair suggestions switched on, 131 s):
 | What the model added | structured variant attributes on 87/87 variants (deterministic: 0/87 beyond the table group heading); SKU, price, pack and availability identical to deterministic extraction on the same snapshots (0 differences); recovery 20/20 pages |
 | Repair suggestions | none: the 3 pages whose table never renders are recorded as the render note `table_not_rendered` (expected JSON-LD fallback), not as a selector failure |
 | Offline evaluation (FR-13) | 22 frozen pages, 3 hybrid runs: SKU recall 1.0 and price accuracy 1.0 in both modes; held-out attribute recall 0 → 0.54–1.0 with the model (see §9) |
-| Tests | 66 passed (P0 + P1 suites, offline), smoke script passed |
+| Tests | 68 passed (P0 + P1 suites, offline), smoke script passed |
 
 Outputs: [`outputs/products.json`](outputs/products.json), [`outputs/variants.csv`](outputs/variants.csv),
 [`outputs/run_report.json`](outputs/run_report.json), [`outputs/failed_tasks.json`](outputs/failed_tasks.json),
@@ -201,15 +201,28 @@ and the typed-feedback retry.
 
 ## 10. Scaling to full-site crawling
 
-`scope: all` seeds every root found on `/catalog` (20 roots, unit-tested against the saved snapshot)
-and then runs the identical traversal; it is bounded by `max_pages`, `max_products_per_category`,
-`max_model_calls_per_run` and `max_invocation_seconds`, and a budget stop leaves resumable work. It was
-**not** run against the live site and no multi-root traversal was verified end to end. Sizing with
-measured inputs: ≈ 3.3 s per page fetch in this run (122 s / 37 fetches, two workers sharing a 2 s
-pacer, 0 retries), so a 6,300-page crawl would take roughly 6,300 × 3.3 s ≈ 5.8 h on one worker; the
-binding limit is the polite request rate, not compute. A full crawl also needs
-a robots-compliant way past page 1 of each listing (sitemap `products.xml` is a candidate). Deployment
-path: [Architecture §9](docs/03-overall-architecture.md#9-deployment-path).
+**Full coverage is not yet proven.** What has been measured so far:
+
+| Root | Products the listing reports | Unique products discovered (page 1 of root + subcategory listings) | Not reachable |
+|---|---|---|---|
+| Dental Exam Gloves | 92 | 39 | 53 (nitrile 61 and latex 16 exceed one 12-item page) |
+| Sutures & Surgical Products | 56 | 50 | 6 (bone grafting 14, blades & scalpels 15) |
+
+The listing traversal cannot close this gap: robots.txt disallows `?page=N`, and `scope: all` only adds more
+roots, each with the same page-1 limit. The permitted alternative is the product sitemap advertised in
+robots.txt. A single fetch of `products.xml` on 2026-11-27 returned **3,980 product URLs** (with `lastmod`),
+and **all 89 products discovered in the current run are in it** (0 missing). The sitemap has no category
+information, so seeding a full crawl from it means fetching every product page and reading its breadcrumb or
+JSON-LD `category`; not built yet. What remains to prove full coverage: seed product tasks from the sitemap,
+crawl the two categories' share, and report expected (listing totals) vs found vs missing.
+
+`scope: all` seeds every root found on `/catalog` (20 roots, unit-tested against the saved snapshot) and runs
+the identical traversal; it was **not** run against the live site. Sizing with measured inputs: ≈ 3.5 s per
+page fetch (131 s / 37 fetches in the current run, two workers sharing a 2 s pacer, 0 retries), so crawling all
+3,980 sitemap products would take about 3,980 × 3.5 s ≈ 3.9 h on one worker; the binding limit is the polite
+request rate, not compute. `lastmod` allows incremental recrawls. Budgets (`max_pages`,
+`max_products_per_category`, `max_model_calls_per_run`, `max_invocation_seconds`) bound any run and a budget
+stop leaves resumable work. Deployment path: [Architecture §9](docs/03-overall-architecture.md#9-deployment-path).
 
 ## 11. Data-quality monitoring
 
@@ -221,8 +234,9 @@ is design only.
 
 ## 12. Limitations
 
-- Only page 1 of each listing is read (robots.txt disallows `?page=`); 10 products per category were
-  sampled; full coverage is not measured.
+- Only page 1 of each listing is read (robots.txt disallows `?page=`): 39 of 92 gloves and 50 of 56 sutures &
+  surgical products are reachable that way; 10 products per category were sampled. Full coverage is not
+  proven (see §10 for the sitemap path).
 - Attribute values are verified only by appearing in their own row; key names can vary, ~1 in 20 sampled
   values was semantically wrong, and attribute recall varies between runs (0.54–1.0 held out).
 - The classifier fallback never triggered on the live site (no `unknown` pages); it is tested only on
@@ -246,8 +260,8 @@ is design only.
 
 ## 13. Tests
 
-`uv run pytest` on 2026-11-27: **66 passed**, all offline (saved fixtures, fake fetchers, fake models):
-`test_discovery.py` 11, `test_extraction.py` 12, `test_agent_loop.py` 12, `test_persistence.py` 6, `test_runtime.py` 8
+`uv run pytest` on 2026-11-27: **68 passed**, all offline (saved fixtures, fake fetchers, fake models):
+`test_discovery.py` 11, `test_extraction.py` 14, `test_agent_loop.py` 12, `test_persistence.py` 6, `test_runtime.py` 8
 (P0) and `test_classifier_fallback.py` 6, `test_repair_suggestions.py` 6, `test_adversarial.py` 5 (P1).
 `./scripts/smoke.sh` passed (lint, format check, tests, replay crawl → export → report → resume). Fixtures:
 `tests/fixtures/live/` and `tests/fixtures/eval/` are real snapshots; synthetic variants are labelled.

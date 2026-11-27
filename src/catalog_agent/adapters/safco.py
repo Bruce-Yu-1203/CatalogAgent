@@ -124,30 +124,48 @@ def is_category_url(url: str) -> bool:
     return p == "/catalog" or bool(re.fullmatch(r"/catalog(/[a-z0-9-]+)+", p))
 
 
-def classify_signals(snapshot: PageSnapshot) -> tuple[PageType, str]:
-    if snapshot.status in (401, 403, 429):
-        return PageType.BLOCKED, f"http {snapshot.status}"
+def type_signals(snapshot: PageSnapshot) -> dict[PageType, bool]:
+    """DOM signals each page type requires. The classifier's model fallback is accepted only if
+    the signals for the type it proposes are present (the model cannot invent a page type)."""
     soup = soup_for(snapshot)
     title = _text(soup.title) or ""
     body_head = (soup.body.get_text(" ", strip=True)[:3000] if soup.body else "") + " " + title
-    has_product_ld = _ld_of_type(soup, "ProductGroup", "Product") is not None
-    has_form = soup.select_one("#product_addtocart_form") is not None
+    has_product = _ld_of_type(soup, "ProductGroup", "Product") is not None or (
+        soup.select_one("#product_addtocart_form") is not None
+    )
     has_hits = soup.select_one(".ais-Hits, .ais-Hits-list") is not None
+    has_category = soup.select_one(".category-cms") is not None
+    return {
+        PageType.PRODUCT: has_product,
+        PageType.LISTING: has_hits,
+        PageType.CATEGORY: has_category or has_hits,
+        PageType.BLOCKED: not (has_product or has_hits) and bool(_BLOCK_TEXT.search(body_head)),
+        PageType.OTHER: True,
+    }
+
+
+def classify_signals(snapshot: PageSnapshot) -> tuple[PageType, str]:
+    if snapshot.status in (401, 403, 429):
+        return PageType.BLOCKED, f"http {snapshot.status}"
+    sig = type_signals(snapshot)
+    soup = soup_for(snapshot)
     url = snapshot.final_url
-    if not (has_product_ld or has_form or has_hits) and _BLOCK_TEXT.search(body_head):
+    if sig[PageType.BLOCKED]:
         return PageType.BLOCKED, "block/captcha text without catalog signals"
     if is_product_url(url):
-        if has_product_ld or has_form:
+        if sig[PageType.PRODUCT]:
             return PageType.PRODUCT, "product url + ProductGroup/add-to-cart form"
         return PageType.UNKNOWN, "product url without product DOM signals"
     if is_category_url(url):
         if path_of(url) == "/catalog":
             return PageType.CATEGORY, "catalog index"
-        if has_hits:
+        if sig[PageType.LISTING]:
             return PageType.LISTING, "category url + Algolia hits container"
         if soup.select_one(".category-cms, nav.breadcrumbs"):
             return PageType.CATEGORY, "category url + category content"
         return PageType.UNKNOWN, "category url without listing signals"
+    if sig[PageType.PRODUCT] or sig[PageType.LISTING]:
+        return PageType.UNKNOWN, "catalog DOM signals at an unrecognised URL"
     return PageType.OTHER, "url outside catalog patterns"
 
 
@@ -316,6 +334,27 @@ def _build_sections_cached(snapshot_id: str, html: str) -> tuple[Section, ...]:
         sections.append(Section(section_id="variant-table", kind="variant_table", text=text, rows=rows))
 
     body_text = soup.body.get_text(" ", strip=True) if soup.body else ""
+    hits = soup.select(".ais-Hits-item")
+    if hits:
+        sections.append(
+            Section(
+                section_id="listing-hits",
+                kind="listing",
+                text=_text(soup.select_one(".ais-Stats")) or "",
+                rows=[
+                    Row(row_id=f"hit-{i + 1}", cells={"name": _text(h.select_one("[itemprop=name]")) or ""})
+                    for i, h in enumerate(hits[:24])
+                ],
+            )
+        )
+    sections.append(
+        Section(
+            section_id="page-text",
+            kind="page_text",
+            title=_text(soup.title),
+            text=clean_text(body_text)[:1500] if body_text else "",
+        )
+    )
     if _LOGIN_PRICE.search(body_text):
         sections.append(Section(section_id="price-notice", kind="notice", text="login required for price"))
     return tuple(sections)

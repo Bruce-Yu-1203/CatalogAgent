@@ -70,7 +70,7 @@ class Orchestrator:
         self.model = model
         self.model_unavailable_reason = model_unavailable_reason
         self.url_check = url_check or self._default_url_check
-        self.classifier = ClassifierAgent(adapter)
+        self.classifier = ClassifierAgent(adapter, fallback_enabled=cfg.agents.classifier.llm_fallback_enabled)
         self.navigator = NavigatorAgent(adapter)
         self.extractor = ExtractorAgent(adapter, cfg.agents.extractor, cfg.llm)
         self.validator = ValidatorAgent(adapter, adapter.SOURCE)
@@ -156,7 +156,7 @@ class Orchestrator:
             await self._handle_error(task, ctl, ErrorCode.INTERNAL, f"{type(e).__name__}: {e}", None, t0)
             return
         snapshot = self.store.save(snapshot)
-        cres = await self.classifier.run(snapshot)
+        cres = await self._classify(task, snapshot)
         page_type = cres.output.page_type
         snap_meta = {
             "snapshot_id": snapshot.snapshot_id,
@@ -184,14 +184,18 @@ class Orchestrator:
             elif task.task_type == TaskType.PRODUCT and page_type == PageType.PRODUCT:
                 await self._extract(task, snapshot, snap_meta, t0)
             else:
-                # Unknown/unsupported page: recorded for review (P1 classifier fallback is disabled).
+                # Unknown/unsupported page (after the optional model fallback): recorded for review.
                 await self.repo.fail_task(
                     task,
                     TaskStatus.FAILED,
                     ErrorCode.UNSUPPORTED_PAGE.value,
                     f"expected {task.task_type.value}, classified {page_type.value}: {cres.output.reason}",
                     snapshot=snap_meta,
-                    outcome={"review": True, "page_type": page_type.value},
+                    outcome={
+                        "review": True,
+                        "page_type": page_type.value,
+                        "classifier_events": [e.model_dump() for e in cres.events],
+                    },
                 )
                 log_event(
                     "task_failed",
@@ -202,6 +206,35 @@ class Orchestrator:
                 )
         except Exception as e:
             await self._handle_error(task, ctl, ErrorCode.INTERNAL, f"{type(e).__name__}: {e}", None, t0, snap_meta)
+
+    async def _classify(self, task: CrawlTask, snapshot: PageSnapshot) -> AgentResult:
+        """Rules first; a model fallback call is reserved in the run budget before it is made."""
+        rule_type, _ = self.adapter.classify_signals(snapshot)
+        allowed = False
+        if (
+            rule_type == PageType.UNKNOWN
+            and self.model is not None
+            and self.mode == "hybrid"
+            and self.cfg.agents.classifier.llm_fallback_enabled
+            and self.cfg.agents.classifier.max_model_calls_per_task > 0
+        ):
+            allowed = await self.repo.reserve_model_calls(task.run_id, 1)
+        cres = await self.classifier.run(snapshot, model=self.model, model_allowed=allowed)
+        b = cres.budget_used
+        if allowed:
+            await self.repo.add_model_usage(task.run_id, b.input_tokens, b.output_tokens)
+        fb = next((e for e in cres.events if e.event == "classifier_fallback"), None)
+        if fb is not None:
+            log_event(
+                "classifier_fallback",
+                run_id=task.run_id,
+                task_id=task.task_id,
+                agent="classifier",
+                outcome=fb.outcome,
+                **fb.data,
+            )
+            await self.repo.bump_counters(task.run_id, **{f"classifier_fallback_{fb.outcome}": 1})
+        return cres
 
     async def _navigate(
         self, task: CrawlTask, snapshot: PageSnapshot, page_type: PageType, snap_meta: dict, t0: float

@@ -41,15 +41,8 @@ class ExtractorAgentConfig(BaseModel):
 
 
 class ClassifierAgentConfig(BaseModel):
-    llm_fallback_enabled: bool = False  # P1, not implemented
-    max_model_calls_per_task: int = 1
-
-    @field_validator("llm_fallback_enabled")
-    @classmethod
-    def _p1_disabled(cls, v: bool) -> bool:
-        if v:
-            raise ValueError("classifier LLM fallback is P1 and not implemented in this build")
-        return v
+    llm_fallback_enabled: bool = False  # P1 (FR-11): off by default
+    max_model_calls_per_task: int = Field(1, ge=0, le=1)
 
 
 class RecoveryAgentConfig(BaseModel):

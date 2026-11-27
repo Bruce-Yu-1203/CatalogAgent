@@ -308,6 +308,24 @@ class Repository:
         )
         return bool((await cur.fetchone())[0])
 
+    async def reserve_model_calls(self, run_id: str, n: int) -> bool:
+        """Reserve n run-level model calls before use; False if the run budget does not allow it."""
+        async with self.tx("reserve_model") as c:
+            cur = await c.execute(
+                "UPDATE crawl_runs SET model_calls_used = model_calls_used + ? WHERE run_id = ?"
+                " AND model_calls_used + ? <= max_model_calls",
+                (n, run_id, n),
+            )
+            return cur.rowcount == 1
+
+    async def add_model_usage(self, run_id: str, in_tok: int, out_tok: int) -> None:
+        async with self.tx("model_usage") as c:
+            await c.execute(
+                "UPDATE crawl_runs SET input_tokens_used = input_tokens_used + ?,"
+                " output_tokens_used = output_tokens_used + ? WHERE run_id = ?",
+                (in_tok, out_tok, run_id),
+            )
+
     async def reserved_model_calls(self, task_id: int) -> int:
         cur = await self.conn.execute("SELECT reserved_model_calls FROM crawl_tasks WHERE task_id = ?", (task_id,))
         return (await cur.fetchone())[0]

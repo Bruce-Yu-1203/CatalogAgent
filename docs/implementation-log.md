@@ -556,3 +556,6 @@ Checked against the requirements document again; three gaps were closed before s
 - **LLM uses.** README §4 maps the four suggested LLM uses to what was built, their defaults and how to see them,
   and why navigation never uses a model.
 - `summary` prints small rates with one decimal (the duplicate rate showed 0% for 1 of 555).
+- README §10 restated as a five-step full-coverage argument: why listings stop at 89 (robots disallows `?page=`,
+  `?p=`), the sitemap as the permitted path (already built as `--sitemap-sample`), the evidence so far, how coverage
+  would be counted against the listing totals, and that the 4.5 h full run was not done before submission.

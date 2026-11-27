@@ -426,20 +426,30 @@ and the typed-feedback retry.
 
 ## 10. Scaling to full-site crawling
 
-**Full coverage is not yet proven.** What has been measured so far:
+**Full coverage within the site's rules: the path, the evidence, and what was not run.**
 
-| Root | Products the listing reports | Unique products discovered (page 1 of root + subcategory listings) | Not reachable |
+| Root | Products the listing reports | Unique products discovered (page 1 of root + subcategory listings) | Not reachable from listings |
 |---|---|---|---|
 | Dental Exam Gloves | 92 | 39 | 53 (nitrile 61 and latex 16 exceed one 12-item page) |
 | Sutures & Surgical Products | 56 | 50 | 6 (bone grafting 14, blades & scalpels 15) |
 
-The listing traversal cannot close this gap: robots.txt disallows `?page=N`, and `scope: all` only adds more
-roots, each with the same page-1 limit. The permitted alternative is the product sitemap advertised in
-robots.txt. A single fetch of `products.xml` on 2026-11-27 returned **3,980 product URLs** (with `lastmod`),
-and **all 89 products discovered from the listings are in it** (0 missing). The sitemap has no category
-information, so seeding a full crawl from it means fetching every product page and reading its breadcrumb or
-JSON-LD `category`; not built yet. What remains to prove full coverage: seed product tasks from the sitemap,
-crawl the two categories' share, and report expected (listing totals) vs found vs missing.
+1. **Why listings alone stop at 89.** robots.txt disallows the pagination parameters (`?page=`, `?p=`), so the
+   crawler reads only the first 12-item page of each listing and records `next_page_robots_disallowed`.
+   `scope: all` only adds more roots with the same limit. The crawler never bypasses this.
+2. **The permitted path is the sitemap.** The same robots.txt advertises the site's sitemap; its product sitemap
+   `products.xml` returned **3,980 product URLs** (with `lastmod`) on 2026-11-27. Seeding from it is built:
+   `crawl --sitemap-sample N` makes one robots-checked, paced request for the sitemap and seeds N product pages
+   (all of them when N ≥ 3,980), instead of category discovery. The crawl is resumable and budget-bounded like
+   any other run.
+3. **Evidence so far.** All 89 products discovered from the listings are in the sitemap (0 missing). A random
+   30-product sitemap run across 18 top-level categories extracted every product (30/30 accepted, 224/224 SKUs,
+   below), so extraction does not depend on arriving from a category page.
+4. **How full coverage is checked.** The sitemap has no categories, so every product page is fetched and its
+   breadcrumb (`category_paths`) decides the category: run `crawl --sitemap-sample 3980` with `crawler.max_pages`
+   raised to at least 3,980 (or continue with `resume --add-pages`), then count products
+   per root with SQL (§6) and compare with the listing totals (92 and 56): found vs missing.
+5. **Not run before submission.** At the polite rate this is about 4.5 h (sizing below). Full coverage of the 148
+   listed products is therefore designed and partly evidenced, not measured.
 
 **Extraction outside the two categories (sitemap sample).** `crawl --sitemap-sample 30 --sample-seed 20261127`
 seeded 30 random products from `products.xml` (18 different top-level categories, from restoratives and burs

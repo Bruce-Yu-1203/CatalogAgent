@@ -415,6 +415,8 @@ def section_by_id(snapshot: PageSnapshot, section_id: str) -> Section | None:
 # Which cell of a row holds the SKU / price, per section kind (used by the Validator).
 SKU_CELL = {"variant-table": "item_no", "structured-data": "sku"}
 PRICE_CELL = {"variant-table": "price", "structured-data": "price"}
+AVAILABILITY_CELL = {"variant-table": "stock", "structured-data": "availability"}
+GROUP_CELL = {"variant-table": "group"}
 
 
 # ---------------------------------------------------------------------------

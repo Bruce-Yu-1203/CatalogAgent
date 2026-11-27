@@ -6,7 +6,7 @@ import hashlib
 from enum import StrEnum
 from typing import Any, Literal, Protocol
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 # ---------------------------------------------------------------------------
 # Enums (PRD §5)
@@ -199,14 +199,25 @@ class MissingField(BaseModel):
     reason: MissingReason
 
 
+EVIDENCE_FIELDS = ("sku", "price", "pack_label", "availability_raw")
+
+
 class EvidenceRef(BaseModel):
-    field: Literal["sku", "price"]
+    # `sku`, `price`, `pack_label`, `availability_raw` or `attributes.<key>` (PRD §5.3).
+    field: str
     snapshot_id: str
     section_id: str
     row_id: str | None = None
     raw_value: str
     normalized_value: str
     method: Literal["deterministic", "llm"]
+
+    @field_validator("field")
+    @classmethod
+    def _known_path(cls, v: str) -> str:
+        if v in EVIDENCE_FIELDS or (v.startswith("attributes.") and len(v) > len("attributes.")):
+            return v
+        raise ValueError(f"unsupported evidence field {v!r}")
 
 
 class Alternative(BaseModel):

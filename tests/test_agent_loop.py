@@ -90,7 +90,7 @@ async def test_a_valid_patch_is_accepted_and_listed_in_llm_fields():
     assert {e.method for e in v.evidence} == {"llm"} and {e.row_id for e in v.evidence} == {"ld-3"}
     first = next(x for x in p.variants if x.sku == "1027990")
     assert first.attributes == {"Size": "X-small"} and first.llm_fields == ["attributes.Size"]
-    assert first.price == "15.99" and all(e.method == "deterministic" for e in first.evidence)
+    assert first.price == "15.99" and all(e.method == "deterministic" for e in first.evidence if e.field in ("sku", "price"))
     # Read-only tool results reached the model wrapped as untrusted data.
     tool_msgs = [m for m in model.calls[1]["messages"] if m["role"] == "tool"]
     assert tool_msgs and all(m["content"].startswith("<untrusted_page_data>") for m in tool_msgs)

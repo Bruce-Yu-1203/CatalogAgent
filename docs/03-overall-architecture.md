@@ -142,7 +142,7 @@ When no pending, running or retry-scheduled tasks remain, the run is finalized. 
 
 The format is defined once in [PRD §5.3](01-prd.md#53-evidence-reference) and used unchanged in SQLite, JSON and CSV. Only verified references are stored; a value that fails verification is rejected.
 
-All other fields (pack, availability, attributes, description, images, alternatives) pass schema and business checks only. When the model supplies one of them, its path is added to the product's `llm_fields`, so consumers can tell schema-checked model values from deterministic ones. Evidence for these fields is P1.
+All other fields (pack, availability, attributes, description, images, alternatives) pass schema and business checks only. When the model supplies one of them, its path is added to the product's `llm_fields`, so consumers can tell schema-checked model values from deterministic ones. Evidence for these fields is P1. **Implemented (P1):** pack, availability and attribute values now carry evidence refs resolved against their own row; description, images and alternatives remain schema-checked only.
 
 Quality gate rules:
 

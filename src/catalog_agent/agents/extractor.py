@@ -367,6 +367,8 @@ class ExtractorAgent:
                     new.variant_name = name
                     new.llm_fields.append("variant_name")
                     new.pack_label = parse_pack(name)[0]
+                    if new.pack_label:
+                        new.llm_fields.append("pack_label")
                 cand.variants.append(new)
                 by_sku[sku] = new
                 applied += 1

@@ -61,7 +61,7 @@ def test_no_visible_price_is_null_with_not_visible():
     for v in out.product.variants:
         assert v.price is None and v.currency is None and v.price_visibility.value == "not_shown"
         assert {"field": "price", "reason": "not_visible"} in [m.model_dump(mode="json") for m in v.missing]
-        assert [e.field for e in v.evidence] == ["sku"]
+        assert "price" not in [e.field for e in v.evidence] and v.evidence[0].field == "sku"
 
 
 def test_login_required_price():
@@ -97,7 +97,7 @@ def test_one_product_round_trips_through_json_and_csv(tmp_path):
         assert row["pack_quantity"] == str(jv["pack_quantity"]) and row["pack_unit"] == jv["pack_unit"]
         assert row["availability"] == jv["availability"] and row["variant_name"] == jv["variant_name"]
         assert json.loads(row["evidence"]) == jv["evidence"]
-        assert {e["field"] for e in jv["evidence"]} == {"sku", "price"}
+        assert {e["field"] for e in jv["evidence"]} == {"sku", "price", "pack_label", "availability_raw"}
         assert json.loads(row["variant_missing"]) == jv["missing"]
     # In-memory CSV rows equal what was written (no float or encoding drift).
     assert [dict((k, str(v)) for k, v in r.items()) for r in csv_rows([p])] == rows
@@ -132,3 +132,26 @@ async def test_product_without_rendered_table_is_usable_on_first_attempt_via_str
     assert safco.section_by_id(snap, "variant-table") is None or not safco.section_by_id(snap, "variant-table").rows
     out, _ = validate(snap)
     assert out.decision == "accepted" and out.product.variant_count == 2
+
+
+def test_p1_evidence_for_pack_availability_and_attributes_resolves_to_the_same_row():
+    out, _ = validate(snapshot("product_surestitch_sutures"))
+    for v in out.product.variants:
+        ev = {e.field: e for e in v.evidence}
+        assert {"sku", "price", "pack_label", "availability_raw", "attributes.Group"} <= set(ev)
+        assert len({e.row_id for e in v.evidence}) == 1  # one row backs every value
+        assert ev["pack_label"].raw_value == v.pack_label and ev["pack_label"].normalized_value == "12 box"
+        assert ev["availability_raw"].normalized_value == v.availability.value != "unknown"
+        assert ev["attributes.Group"].raw_value == v.attributes["Group"]
+
+
+def test_unsupported_evidence_field_is_rejected_by_the_schema():
+    import pytest
+    from pydantic import ValidationError
+
+    from catalog_agent.contracts import EvidenceRef
+
+    with pytest.raises(ValidationError):
+        EvidenceRef(
+            field="description", snapshot_id="s", section_id="x", raw_value="a", normalized_value="a", method="llm"
+        )

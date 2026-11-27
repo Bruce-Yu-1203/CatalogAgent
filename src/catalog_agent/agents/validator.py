@@ -54,6 +54,16 @@ class EvidenceChecker:
         # Exact cell equality: a substring match does not establish row association.
         return value is not None and value.strip() == raw.strip() and raw.strip() != ""
 
+    def cell_named(self, section_id: str, row_id: str | None, cell_map: dict[str, str]) -> str | None:
+        sec = self.sections.get(section_id)
+        row = sec.row(row_id) if sec and row_id else None
+        name = cell_map.get(section_id)
+        return row.cells.get(name) if row and name else None
+
+    def in_row(self, section_id: str, row_id: str | None, raw: str) -> bool:
+        """Case-insensitive containment in the row's own cells (P1 evidence for pack/attributes)."""
+        return bool(raw.strip()) and raw.strip().lower() in self.row_text(section_id, row_id).lower()
+
     def row_text(self, section_id: str, row_id: str | None) -> str:
         sec = self.sections.get(section_id)
         row = sec.row(row_id) if sec and row_id else None
@@ -236,6 +246,46 @@ class ValidatorAgent:
                 issues.append(Issue(code="attribute_ungrounded", message=f"{k}={v!r} not in row text", field=key))
                 continue
             attrs[k] = v
+
+        # P1: evidence for pack, availability and attributes, resolved against the same row.
+        def ref(fld: str, raw: str, norm: str, llm: bool) -> EvidenceRef:
+            return EvidenceRef(
+                field=fld,
+                snapshot_id=snapshot.snapshot_id,
+                section_id=obs.section_id,
+                row_id=obs.row_id,
+                raw_value=raw,
+                normalized_value=norm,
+                method="llm" if llm else "deterministic",
+            )
+
+        if pack_label is not None:
+            if ev.in_row(obs.section_id, obs.row_id, pack_label):
+                norm = f"{pack_qty} {pack_unit}" if pack_qty is not None and pack_unit else pack_label
+                evidence.append(ref("pack_label", pack_label, norm, "pack_label" in llm_fields))
+            else:
+                rejected += 1
+                pack_label = pack_qty = pack_unit = None
+                missing.append(MissingField(field="pack_label", reason=MissingReason.PARSE_FAILED))
+        if obs.availability_raw:
+            cell = ev.cell_named(obs.section_id, obs.row_id, self.adapter.AVAILABILITY_CELL)
+            if cell is not None and cell.strip() == obs.availability_raw.strip():
+                evidence.append(ref("availability_raw", obs.availability_raw, avail.value, False))
+            else:
+                rejected += 1
+                avail, avail_raw = Availability.UNKNOWN, None
+                missing.append(MissingField(field="availability_raw", reason=MissingReason.PARSE_FAILED))
+        for k in list(attrs):
+            v = attrs[k]
+            group = ev.cell_named(obs.section_id, obs.row_id, self.adapter.GROUP_CELL)
+            grounded = (v == group) if k == "Group" else ev.in_row(obs.section_id, obs.row_id, v)
+            if grounded:
+                evidence.append(ref(f"attributes.{k}", v, v, f"attributes.{k}" in llm_fields))
+            else:
+                rejected += 1
+                attrs.pop(k)
+                llm_fields = [f for f in llm_fields if f != f"attributes.{k}"]
+
         variant = Variant(
             variant_id=variant_id_for(pid, obs.sku),
             product_id=pid,

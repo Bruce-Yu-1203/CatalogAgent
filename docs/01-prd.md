@@ -93,7 +93,7 @@ A **product** is a logical catalog entry; a **variant** is a sellable item (SKU)
 | `variant_count` | integer | no | Number of exported variants. | — |
 | `record_status` | enum | no | `accepted` or `partial`. Quarantined records are not exported. | — |
 | `extraction_method` | enum | no | `deterministic`, or `hybrid` when the model supplied at least one accepted value in the product or its variants. | — |
-| `llm_fields` | array of path | no (may be empty) | Product-level fields whose accepted value came from the model. These passed schema checks; only SKU and price are evidence-verified. | — |
+| `llm_fields` | array of path | no (may be empty) | Product-level fields whose accepted value came from the model. These passed schema checks; SKU and price are verified by exact cell match, and (P1) pack, availability and attribute values by match within their own row. | — |
 | `missing` | array of `{field, reason}` | no (may be empty) | Product-level fields left null and why (§5.4). | — |
 | `observed_at` | string (ISO 8601 UTC) | no | Snapshot time. | — |
 
@@ -115,18 +115,18 @@ A **product** is a logical catalog entry; a **variant** is a sellable item (SKU)
 | `availability` | enum | no | `in_stock`, `out_of_stock`, `backorder`, `limited` or `unknown`. | availability |
 | `availability_raw` | string | yes | Stock text as displayed. | availability |
 | `llm_fields` | array of path | no (may be empty) | Variant-level fields whose accepted value came from the model. | — |
-| `evidence` | array of evidence refs (§5.3) | no | Exactly one ref for `sku`, plus one for `price` when `price` is set. | — |
+| `evidence` | array of evidence refs (§5.3) | no | Exactly one ref for `sku`, plus one for `price` when `price` is set; since P1 also one for `pack_label`, `availability_raw` and each `attributes.<key>` when set, all on the same row. | — |
 | `missing` | array of `{field, reason}` | no (may be empty) | Variant-level fields left null and why. | — |
 
 Variants inherit `run_id` and `observed_at` from their product.
 
 ### 5.3 Evidence reference
 
-The same object is stored in SQLite, nested in JSON and JSON-encoded in the CSV `evidence` column. Only verified references are exported; a value whose evidence fails verification is rejected, so there is no status field.
+The same object is stored in SQLite, nested in JSON and JSON-encoded in the CSV `evidence` column. Only verified references are exported; a value whose evidence fails verification is rejected, so there is no status field. Verification rules: `sku`, `price` and `availability_raw` must equal the row's cell exactly; `pack_label` and attribute values must occur within the same row's cells (the `Group` attribute must equal the group heading).
 
 | Field | Type | Nullable | Description |
 |---|---|---|---|
-| `field` | enum | no | `sku` or `price` in the POC (P1 adds more paths). |
+| `field` | path | no | `sku`, `price` (P0); `pack_label`, `availability_raw`, `attributes.<key>` (P1). Any other value is rejected by the schema. |
 | `snapshot_id` | string | no | Immutable snapshot the value was read from. |
 | `section_id` | string | no | Section of that snapshot, as returned by the snapshot tools. |
 | `row_id` | string | yes | Variant row, when the value comes from a variant table or list. |

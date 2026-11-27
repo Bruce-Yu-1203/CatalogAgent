@@ -1,5 +1,5 @@
 # One-command entry points. Everything runs through `uv`; see README §5.
-.PHONY: setup demo demo-offline test
+.PHONY: setup demo demo-offline tour test
 
 RUN_ID ?= demo_$(shell date +%Y%m%d_%H%M%S)
 MODE ?= hybrid
@@ -28,6 +28,11 @@ demo-offline:
 	uv run catalog-agent export --db $(OFFLINE_DIR)/catalog.db --run-id $(RUN_ID) --out-dir $(OFFLINE_DIR)/out > /dev/null
 	uv run catalog-agent report --db $(OFFLINE_DIR)/catalog.db --run-id $(RUN_ID) --out-dir $(OFFLINE_DIR)/out > /dev/null
 	uv run catalog-agent summary --db $(OFFLINE_DIR)/catalog.db --run-id $(RUN_ID) --out $(OFFLINE_DIR)/out/summary.md
+
+# One-minute offline tour: run -> budget stop -> resume -> output -> evidence (README "Two-minute path").
+tour:
+	uv sync --frozen
+	./scripts/tour.sh
 
 test:
 	./scripts/smoke.sh

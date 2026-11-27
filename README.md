@@ -4,6 +4,21 @@ Agent-based catalog extraction POC for Safco Dental Supply (Dental Exam Gloves; 
 Products). Design: [docs/](docs/README.md). What was built and measured, milestone by milestone:
 [docs/implementation-log.md](docs/implementation-log.md).
 
+## Two-minute path
+
+1. **Run it** (offline, no credentials, about 1 minute): `make tour` crawls saved real pages of both categories,
+   stops on a deliberately small page budget, resumes the same run, then prints products, variants and the
+   evidence behind one price. `make demo` does the same live against the site (§5).
+2. **Output:** [`outputs/products.json`](outputs/products.json) and [`outputs/variants.csv`](outputs/variants.csv),
+   89 products and 556 SKUs from one live run, all `accepted`; quality tables in
+   [`outputs/summary.md`](outputs/summary.md); SQL examples in §6.
+3. **Evidence:** every exported SKU, price and stock value points to the row of the saved page it was read from,
+   and the Validator re-reads that row from the HTML before accepting it (example in §6).
+4. **Recovery:** crashes, throttling and budget stops leave a resumable run; nothing is fetched or written twice
+   (§7.2–7.7, §8).
+5. **Why an LLM:** rules handle normal pages with no model call; after a redesign that breaks every rule, the LLM
+   recovers all visible rows, each checked against its own row (§9, first table).
+
 ## 1. Overview and results at a glance
 
 Measured on the live site, run `run_20261127_full` (2026-11-27, hybrid mode with `claude-haiku-5-5`, config
@@ -103,6 +118,7 @@ Requires macOS or Linux, [uv](https://docs.astral.sh/uv/) and `make`. **One comm
 git clone https://github.com/Bruce-Yu-1203/CatalogAgent.git && cd CatalogAgent
 make demo           # setup, live bounded crawl of both categories, export, run report, summary tables
 make demo-offline   # the same pipeline on saved fixtures: no network, no credentials
+make tour           # one-minute offline tour: run, budget stop, resume, output, evidence
 ```
 
 `make demo` writes `outputs/demo/` (`products.json`, `variants.csv`, `run_report.json`,

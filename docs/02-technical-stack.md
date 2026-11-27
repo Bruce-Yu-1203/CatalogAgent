@@ -216,6 +216,7 @@ uv run catalog-agent summary --run-id RUN_ID        # run summary + data-quality
 uv run catalog-agent experiment --run-id RUN_ID     # original vs synthetic-redesign 2x2 on a run's saved pages
 make demo                                           # one command: setup, live bounded crawl, export, report, summary
 make demo-offline                                   # the same on saved fixtures
+make tour                                           # offline tour: run, budget stop, resume, output, evidence
 uv run catalog-agent crawl --replay tests/fixtures/live --db /tmp/replay.db   # added at M2: offline replay
 uv run pytest
 ```

@@ -567,3 +567,7 @@ Checked against the requirements document again; three gaps were closed before s
   failed. The cap is removed (budgets still bound a run) and the CLI now re-validates the config after its overrides,
   so an invalid value fails at `crawl`. Regression test: a 3,980-product sitemap pass stopped at `BUDGET_EXHAUSTED`
   resumes from its stored config with `--add-pages` without re-reading the sitemap. 79 tests pass.
+- **Two-minute path and tour.** README opens with a five-step reading path (run, output, evidence, recovery, why an
+  LLM). `make tour` (`scripts/tour.sh`) replays the saved real pages offline in about 5 s: a run stopped by a page
+  budget of 8 (`BUDGET_EXHAUSTED`), `resume --add-pages 60` to completion with no duplicate tasks (46/46 distinct),
+  the 4 products and their variants, and the evidence rows behind SKU `1027990`.

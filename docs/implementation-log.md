@@ -271,8 +271,8 @@ real model. Remaining non-P0 items: commits are not pushed; P1 not started.
 At Amy's request every 24-hour, timebox, take-home, assessment, "Frontier Dental" and assignment
 reference was removed from the docs (constitution amended to 1.1.0, then retitled "CatalogAgent
 Constitution" in 1.1.1). The Tech Stack repository layout now matches the files that exist. The project
-name is CatalogAgent; the GitHub repo is to be renamed `catalog-agent` (pending at the time of writing:
-the rename must be done in GitHub settings). `main` was first pushed to GitHub at `d3ae07c`.
+name is CatalogAgent; Amy renamed the GitHub repo to `CatalogAgent`
+(https://github.com/Bruce-Yu-1203/CatalogAgent) and the local remote was updated to match. `main` was first pushed to GitHub at `d3ae07c`.
 
 ## P1 (2026-11-27)
 

@@ -143,7 +143,7 @@ Credentials (`LLM_PROVIDER`, `LLM_MODEL`, `LLM_API_KEY`) come from `.env` or the
 ## 6. Repository layout
 
 ```text
-catalog-agent/               # repository root (GitHub: Bruce-Yu-1203/catalog-agent)
+CatalogAgent/                # repository root (GitHub: Bruce-Yu-1203/CatalogAgent)
 ├── pyproject.toml           # package `catalog-agent`, CLI `catalog-agent`
 ├── uv.lock
 ├── README.md

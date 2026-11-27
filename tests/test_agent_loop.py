@@ -90,7 +90,9 @@ async def test_a_valid_patch_is_accepted_and_listed_in_llm_fields():
     assert {e.method for e in v.evidence} == {"llm"} and {e.row_id for e in v.evidence} == {"ld-3"}
     first = next(x for x in p.variants if x.sku == "1027990")
     assert first.attributes == {"Size": "X-small"} and first.llm_fields == ["attributes.Size"]
-    assert first.price == "15.99" and all(e.method == "deterministic" for e in first.evidence if e.field in ("sku", "price"))
+    assert first.price == "15.99" and all(
+        e.method == "deterministic" for e in first.evidence if e.field in ("sku", "price")
+    )
     # Read-only tool results reached the model wrapped as untrusted data.
     tool_msgs = [m for m in model.calls[1]["messages"] if m["role"] == "tool"]
     assert tool_msgs and all(m["content"].startswith("<untrusted_page_data>") for m in tool_msgs)
@@ -260,3 +262,33 @@ async def test_hybrid_run_reserves_and_settles_model_budget_outside_the_model(tm
     tasks = await repo.tasks("run_h")
     assert all(t["reserved_model_calls"] == 0 for t in tasks)  # every reservation settled
     await repo.close()
+
+
+async def test_second_recovery_case_corrects_itself_from_typed_validation_feedback():
+    snap = gap_snapshot()
+    wrong = {
+        "sku": MISSING,
+        "section_id": "structured-data",
+        "row_id": "ld-1",
+        "sku_raw": MISSING,
+        "price_raw": "15.99",
+    }
+    right = {**wrong, "row_id": "ld-3"}
+    model = FakeModel([patch([wrong], 0), patch([right], 1)])
+    res, out, _ = await run_loop(model, snap, allowance=3, attribute_gaps=False)
+    # The second call saw a typed rejection for the first patch.
+    fb = [m for m in model.calls[1]["messages"] if m["role"] == "tool"][-1]["content"]
+    assert json.loads(fb)["issues"][0]["code"] == "sku_not_in_cited_row"
+    assert res.budget_used.model_calls == 2 and out.decision == "accepted"
+    assert next(v for v in out.product.variants if v.sku == MISSING).price == "15.99"
+    loop = next(e for e in res.events if e.event == "model_loop")
+    assert loop.data["feedback_retries"] == 1 and loop.outcome == "resolved"
+
+
+async def test_repeated_identical_rejections_stop_as_no_progress():
+    snap = gap_snapshot()
+    wrong = {"sku": MISSING, "section_id": "structured-data", "row_id": "ld-1", "sku_raw": MISSING}
+    model = FakeModel([patch([wrong], 0), patch([wrong], 1), patch([wrong], 2)])
+    res, out, _ = await run_loop(model, snap, allowance=3, attribute_gaps=False)
+    assert res.budget_used.model_calls == 2 and out.decision == "partial"
+    assert next(e for e in res.events if e.event == "model_loop").outcome == "no_progress"

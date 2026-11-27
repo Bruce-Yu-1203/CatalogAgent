@@ -71,6 +71,8 @@ class LoopState(TypedDict, total=False):
     patches_rejected: int
     stop_reason: str | None
     tool_names: list[str]
+    last_rejections: str
+    retries: int
 
 
 def _approx_tokens(messages: list[dict[str, Any]]) -> int:
@@ -152,6 +154,7 @@ class ExtractorAgent:
                     "output_tokens": state["output_tokens"],
                     "patches_applied": state["patches_applied"],
                     "patches_rejected": state["patches_rejected"],
+                    "feedback_retries": state.get("retries", 0),
                     "gaps_left": [g.kind for g in state["gaps"]],
                 },
             )
@@ -253,6 +256,7 @@ class ExtractorAgent:
             cand = s["candidate"].model_copy(deep=True)
             applied = rejected = 0
             msgs = list(s["messages"])
+            last_feedback: list[dict] = []
             for tc in reply.tool_calls:
                 if tc.name != "submit_patch":
                     msgs.append({"role": "tool", "tool_call_id": tc.id, "content": '{"error":"ignored"}'})
@@ -260,9 +264,14 @@ class ExtractorAgent:
                 a, r, feedback = self._apply_patch(cand, tc.args, checker)
                 applied += a
                 rejected += r
+                last_feedback.extend(feedback.get("issues", []))
                 msgs.append({"role": "tool", "tool_call_id": tc.id, "content": json.dumps(feedback)})
             new_gaps = find_gaps(cand, snap, self.adapter, cfg.attribute_gaps)
-            progress = len(new_gaps) < len(s["gaps"]) or applied > 0
+            # A rejected patch with typed feedback earns another turn (bounded by the call allowance);
+            # an empty patch, or the same rejections twice, is no progress.
+            signature = json.dumps(sorted(json.dumps(x, sort_keys=True) for x in last_feedback), sort_keys=True)
+            retry = rejected > 0 and signature != s.get("last_rejections")
+            progress = len(new_gaps) < len(s["gaps"]) or applied > 0 or retry
             if new_gaps:
                 msgs.append({"role": "user", "content": "Remaining gaps: " + gap_message(cand, new_gaps)})
             return {
@@ -272,6 +281,8 @@ class ExtractorAgent:
                 "patches_applied": s["patches_applied"] + applied,
                 "patches_rejected": s["patches_rejected"] + rejected,
                 "stop_reason": None if progress else "no_progress",
+                "last_rejections": signature,
+                "retries": s.get("retries", 0) + (1 if retry and not applied else 0),
             }
 
         def route_plan(s: LoopState) -> str:
@@ -333,10 +344,14 @@ class ExtractorAgent:
     ) -> tuple[int, int, dict[str, Any]]:
         """Merge verified entries; reject anything ungrounded. Known deterministic values are never overwritten."""
         applied = rejected = 0
-        notes: list[str] = []
+        notes: list[dict[str, str]] = []  # typed validation feedback for the next model turn
         entries = args.get("variants") if isinstance(args, dict) else None
         if not isinstance(entries, list):
-            return 0, 1, {"accepted": 0, "rejected": 1, "notes": ["variants must be a list"]}
+            return (
+                0,
+                1,
+                {"accepted": 0, "rejected": 1, "issues": [{"code": "schema", "detail": "variants must be a list"}]},
+            )
         by_sku = {v.sku: v for v in cand.variants}
         for e in entries[:60]:
             if not isinstance(e, dict):
@@ -347,7 +362,7 @@ class ExtractorAgent:
             attrs = e.get("attributes") if isinstance(e.get("attributes"), dict) else {}
             if not sku or sku != sku_raw.strip() or not checker.verify("sku", sec, row, sku_raw):
                 rejected += 1
-                notes.append(f"{sku!r}: SKU evidence did not resolve to the cited row")
+                notes.append({"sku": sku, "field": "sku", "code": "sku_not_in_cited_row", "detail": f"{sec}/{row}"})
                 continue
             obs = by_sku.get(sku)
             row_text = checker.row_text(sec, row).lower()
@@ -361,7 +376,9 @@ class ExtractorAgent:
                         new.price_raw, new.price_section_id, new.price_row_id = price_raw, sec, row
                         new.llm_fields.append("price")
                     else:
-                        notes.append(f"{sku}: price not verified in row; left null")
+                        notes.append(
+                            {"sku": sku, "field": "price", "code": "price_not_in_cited_row", "detail": str(price_raw)}
+                        )
                 name = e.get("variant_name")
                 if isinstance(name, str) and name and name.lower() in row_text:
                     new.variant_name = name
@@ -391,7 +408,9 @@ class ExtractorAgent:
                         applied += 1
                     else:
                         rejected += 1
-                        notes.append(f"{sku}: price not verified in its own row")
+                        notes.append(
+                            {"sku": sku, "field": "price", "code": "price_not_in_own_row", "detail": str(price_raw)}
+                        )
             added = 0
             for k, v in list(attrs.items())[:12]:
                 if not (isinstance(k, str) and isinstance(v, str)) or not k.strip() or not v.strip():
@@ -401,11 +420,13 @@ class ExtractorAgent:
                     continue  # never overwrite a known value
                 if v.strip().lower() not in row_text:
                     rejected += 1
-                    notes.append(f"{sku}: attribute {k}={v!r} not found in row text")
+                    notes.append(
+                        {"sku": sku, "field": f"attributes.{k}", "code": "attribute_not_in_row", "detail": v[:80]}
+                    )
                     continue
                 obs.attributes[k] = v.strip()
                 obs.llm_fields.append(f"attributes.{k}")
                 added += 1
             if added:
                 applied += 1
-        return applied, rejected, {"accepted": applied, "rejected": rejected, "notes": notes[:10]}
+        return applied, rejected, {"accepted": applied, "rejected": rejected, "issues": notes[:10]}

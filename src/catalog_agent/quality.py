@@ -111,6 +111,14 @@ async def build_report(repo: Repository, run_id: str) -> dict[str, Any]:
             "quarantine_rate": _rate(sum(o["decision"] == "quarantined" for o in outs), n_pages),
             "llm_fallback_rate": _rate(sum(bool(o.get("model_used")) for o in outs), n_pages),
             "evidence_rejection_rate": _rate(sum(o.get("patches_rejected", 0) for o in outs), patches),
+            "recovery": {
+                "attempted": sum(bool(o.get("model_used")) for o in outs),
+                "resolved": sum(bool(o.get("model_used")) and not o.get("gaps_remaining") for o in outs),
+                "success_rate": _rate(
+                    sum(bool(o.get("model_used")) and not o.get("gaps_remaining") for o in outs),
+                    sum(bool(o.get("model_used")) for o in outs),
+                ),
+            },
             "variant_coverage": {
                 "expected_skus": sum(o.get("expected_skus", 0) for o in outs),
                 "exported_skus": sum(o.get("variants", 0) for o in outs),

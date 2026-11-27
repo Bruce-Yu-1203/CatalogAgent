@@ -11,6 +11,7 @@ Observed in the M0 spike (2026-11-26):
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from functools import lru_cache
@@ -351,52 +352,142 @@ def _price_tiers(row: Tag) -> list[tuple[str, str]]:
 _GENERIC_SKIP = {"script", "style", "template", "svg", "noscript", "head", "img", "path"}
 _GENERIC_PRICE = re.compile(r"^\$\s?\d[\d,]*(\.\d{1,2})?$")
 _GENERIC_CODE = re.compile(r"^(?=.*\d)[A-Za-z0-9][A-Za-z0-9-]{3,20}$")
+GENERIC_SKU_RE = _GENERIC_CODE  # what an SKU cited on a generic row must look like (Validator)
 
 
-def _leaf_cells(el: Tag, limit: int = 24) -> list[str]:
-    cells: list[str] = []
+def _sig(el: Tag) -> str:
+    return el.name + "".join(f".{c}" for c in sorted(el.get("class", [])))
+
+
+def _visible_leaves(el: Tag) -> list[Tag]:
+    out: list[Tag] = []
     for node in el.find_all(True):
         if node.name in _GENERIC_SKIP or any(p.name in _GENERIC_SKIP for p in node.parents):
             continue
-        if node.find(lambda t: isinstance(t, Tag) and t.name not in _GENERIC_SKIP) is not None:
-            continue
+        if node.find(lambda t: isinstance(t, Tag) and t.name not in _GENERIC_SKIP) is None:
+            out.append(node)
+    return out
+
+
+def _column_index(el: Tag) -> dict[int, int]:
+    """Direct child -> column number. A child whose text repeats or contains its previous sibling's (e.g. the same
+    price block rendered once for mobile and once for desktop) shares that sibling's column."""
+    out: dict[int, int] = {}
+    col, prev = -1, None
+    for k in el.find_all(True, recursive=False):
+        t = _text(k) or ""
+        if not (prev and t and (t in prev or prev in t)):
+            col += 1
+        out[id(k)] = col
+        prev = t
+    return out
+
+
+def _leaf_cells(el: Tag, limit: int = 48, columns: list[str] | None = None) -> list[tuple[str, str]]:
+    """(key, text) per visible leaf. The key is a short hash of the leaf's tag/class path inside the row, so the
+    same position in two rows of one template has the same key whatever the class names are; a model can name
+    a key once and the code can apply it to every row. With `columns` (labels of the header row, one per direct
+    child), the key is prefixed with the label of the column the leaf sits in, e.g. "Item # k3fa9c2"."""
+    cells: list[tuple[str, str]] = []
+    seen: dict[str, int] = {}
+    col_of = _column_index(el) if columns else {}
+    for node in _visible_leaves(el):
         t = _text(node)
-        if t and (not cells or cells[-1] != t):
-            cells.append(t[:200])
+        if not t or (cells and cells[-1][1] == t):
+            continue
+        chain = [a for a in reversed(list(node.parents)) if a is not el and el in a.parents]
+        path = ">".join(_sig(a) for a in chain) + f">{_sig(node)}"
+        n = seen.get(path, 0)
+        seen[path] = n + 1
+        key = "k" + hashlib.sha1(f"{path}#{n}".encode()).hexdigest()[:6]
+        if columns:
+            top = chain[0] if chain else node
+            idx = col_of.get(id(top))
+            if idx is not None and idx < len(columns) and columns[idx]:
+                key = f"{columns[idx][:30]} {key}"
+        cells.append((key, t[:200]))
         if len(cells) >= limit:
             break
     return cells
 
 
-def generic_rows(soup: BeautifulSoup) -> list[Row]:
+def _qualifies(cells: list[tuple[str, str]]) -> bool:
+    return any(_GENERIC_PRICE.match(t) for _, t in cells) and any(_GENERIC_CODE.match(t) for _, t in cells)
+
+
+def _single_block(root: Tag) -> Tag | None:
+    """Fallback for single-variant pages: the one smallest element that shows both a price and an SKU-like code
+    (no descendant does both). Zero or several such elements mean no generic row: the evidence is ambiguous."""
+    flags: dict[int, tuple[bool, bool]] = {}
+    minimal: list[Tag] = []
+
+    def walk(el: Tag) -> tuple[bool, bool]:
+        kids = [c for c in el.find_all(True, recursive=False) if c.name not in _GENERIC_SKIP]
+        if not kids:
+            t = _text(el) or ""
+            f = (bool(_GENERIC_PRICE.match(t)), bool(_GENERIC_CODE.match(t)))
+        else:
+            fs = [walk(c) for c in kids]
+            f = (any(x[0] for x in fs), any(x[1] for x in fs))
+            if f == (True, True) and not any(x == (True, True) for x in fs):
+                minimal.append(el)
+        flags[id(el)] = f
+        return f
+
+    walk(root)
+    return minimal[0] if len(minimal) == 1 else None
+
+
+def _header_columns(first_row: Tag) -> list[str]:
+    """Column labels of a generic table, one per direct child of a row: the nearest preceding sibling of the same
+    tag that shows no price, only short texts (e.g. "Item #", "Mfr #", "Price") and as many children as the row.
+    The labels become part of the cell keys, so the model reads "Item #" and "Mfr #" instead of guessing."""
+    width = len(set(_column_index(first_row).values()))
+    for sib in first_row.find_previous_siblings(first_row.name, limit=3):
+        texts = [_text(k) or "" for k in sib.find_all(True, recursive=False)]
+        if (
+            len(texts) == width >= 3
+            and sum(bool(t) for t in texts) >= 3
+            and all(len(t) <= 40 and not _GENERIC_PRICE.match(t) for t in texts)
+        ):
+            return texts
+    return []
+
+
+def generic_rows(soup: BeautifulSoup) -> tuple[list[Row], list[str]]:
+    """(rows, column labels) for an unrecognised layout; ([], []) when there is no usable row structure."""
     root = soup.select_one("main") or soup.body
     if root is None:
-        return []
+        return [], []
     # Qualifying sibling groups, keyed by tag and class signature; groups split across containers (e.g. one
     # table per variant group, some with a single row) are joined in document order. The signature with the most
-    # rows wins and needs at least two rows in total.
-    by_sig: dict[tuple, list[list[str]]] = {}
+    # rows wins and needs at least two rows in total; otherwise a single-variant block is tried.
+    by_sig: dict[str, list[Tag]] = {}
     for parent in [root, *root.find_all(True)]:
         if parent.name in _GENERIC_SKIP:
             continue
-        groups: dict[tuple, list[Tag]] = {}
+        groups: dict[str, list[Tag]] = {}
         for child in parent.find_all(True, recursive=False):
-            groups.setdefault((child.name, tuple(sorted(child.get("class", [])))), []).append(child)
+            groups.setdefault(_sig(child), []).append(child)
         for sig, members in groups.items():
-            rows = [_leaf_cells(m) for m in members]
-            if all(any(_GENERIC_PRICE.match(c) for c in r) and any(_GENERIC_CODE.match(c) for c in r) for r in rows):
-                by_sig.setdefault(sig, []).extend(rows)
+            if all(_qualifies(_leaf_cells(m)) for m in members):
+                by_sig.setdefault(sig, []).extend(members)
     best = max(by_sig.values(), key=len, default=[])[:60]
     if len(best) < 2:
-        return []  # one lone element is not a repeated row structure (single-variant pages stay unrecovered)
+        single = _single_block(root)
+        best = [single] if single is not None else []
+    if not best:
+        return [], []
+    labels = _header_columns(best[0])
     out: list[Row] = []
-    for i, r in enumerate(best):
-        cells = {f"c{j + 1}": c for j, c in enumerate(r)}
+    for i, el in enumerate(best):
+        r = _leaf_cells(el, columns=labels or None)
+        cells = dict(r)
         # The row's first displayed price is its price (as the table parser takes the first quantity tier);
         # later prices in the same row (tiers, sale prices) are never accepted as the variant price.
-        cells["price"] = next(c for c in r if _GENERIC_PRICE.match(c))
+        cells["price"] = next(t for _, t in r if _GENERIC_PRICE.match(t))
         out.append(Row(row_id=f"generic-{i + 1}", cells=cells))
-    return out
+    return out, labels
 
 
 def build_sections(snapshot: PageSnapshot) -> list[Section]:
@@ -484,9 +575,10 @@ def _build_sections_cached(snapshot_id: str, html: str) -> tuple[Section, ...]:
         sections.append(Section(section_id="variant-table", kind="variant_table", text=text, rows=rows))
 
     if not any(sec.rows for sec in sections) and _ld_of_type(soup, "ProductGroup", "Product") is None:
-        rows = generic_rows(soup)
+        rows, labels = generic_rows(soup)
         if rows:
-            sections.append(Section(section_id="page-rows", kind="generic_rows", text="", rows=rows))
+            text = ("Column labels in page order: " + " | ".join(t for t in labels if t)) if labels else ""
+            sections.append(Section(section_id="page-rows", kind="generic_rows", text=text, rows=rows))
 
     body_text = soup.body.get_text(" ", strip=True) if soup.body else ""
     hits = soup.select(".ais-Hits-item")

@@ -1,7 +1,7 @@
 {
   "run_id": "run_20261127_sitemap30_merge_hybrid",
   "model_id": "anthropic:claude-haiku-5-5",
-  "note": "Offline replay of the run's saved product pages. C and D use SYNTHETIC redesigned copies (JSON-LD removed, every class renamed); reference SKUs and prices come from the original page's JSON-LD.",
+  "note": "Offline replay of the run's saved product pages. C and D use SYNTHETIC redesigned copies (JSON-LD removed and every class renamed; 'tags' also changes element types, 'columns' also reverses the children of repeated elements); reference SKUs and prices come from the original page's JSON-LD.",
   "summary": {
     "A": {
       "pages": "original",
@@ -46,13 +46,13 @@
       "extra_skus": 0,
       "skus_from_llm": 0,
       "pages_with_model_call": 30,
-      "model_calls": 47,
-      "input_tokens": 149348,
-      "output_tokens": 34943,
-      "cost_usd": 0.03241
+      "model_calls": 41,
+      "input_tokens": 146175,
+      "output_tokens": 35662,
+      "cost_usd": 0.03245
     },
-    "C": {
-      "pages": "redesign",
+    "C:classes": {
+      "pages": "redesign:classes",
       "mode": "deterministic",
       "products": 30,
       "accepted": 0,
@@ -75,29 +75,125 @@
       "output_tokens": 0,
       "cost_usd": 0.0
     },
-    "D": {
-      "pages": "redesign",
+    "D:classes": {
+      "pages": "redesign:classes",
       "mode": "hybrid",
       "products": 30,
-      "accepted": 16,
-      "partial": 14,
+      "accepted": 23,
+      "partial": 7,
       "quarantined": 0,
       "reference_skus": 224,
-      "sku_completeness": 0.25,
+      "sku_completeness": 0.3661,
       "shown_skus": 82,
-      "sku_completeness_of_shown_rows": 0.6829,
-      "price_completeness": 0.25,
-      "pack_label_completeness": 0.1652,
+      "sku_completeness_of_shown_rows": 1.0,
+      "price_completeness": 0.3661,
+      "pack_label_completeness": 0.192,
       "availability_raw_completeness": 0.0,
-      "variant_name_completeness": 0.25,
+      "variant_name_completeness": 0.3661,
       "wrong_prices": 0,
       "extra_skus": 0,
-      "skus_from_llm": 56,
-      "pages_with_model_call": 17,
-      "model_calls": 35,
-      "input_tokens": 124453,
-      "output_tokens": 26522,
-      "cost_usd": 0.02571
+      "skus_from_llm": 82,
+      "pages_with_model_call": 23,
+      "model_calls": 56,
+      "input_tokens": 204881,
+      "output_tokens": 29084,
+      "cost_usd": 0.03503
+    },
+    "C:tags": {
+      "pages": "redesign:tags",
+      "mode": "deterministic",
+      "products": 30,
+      "accepted": 0,
+      "partial": 30,
+      "quarantined": 0,
+      "reference_skus": 224,
+      "sku_completeness": 0.0,
+      "shown_skus": 82,
+      "sku_completeness_of_shown_rows": 0.0,
+      "price_completeness": 0.0,
+      "pack_label_completeness": 0.0,
+      "availability_raw_completeness": 0.0,
+      "variant_name_completeness": 0.0,
+      "wrong_prices": 0,
+      "extra_skus": 0,
+      "skus_from_llm": 0,
+      "pages_with_model_call": 0,
+      "model_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0
+    },
+    "D:tags": {
+      "pages": "redesign:tags",
+      "mode": "hybrid",
+      "products": 30,
+      "accepted": 22,
+      "partial": 8,
+      "quarantined": 0,
+      "reference_skus": 224,
+      "sku_completeness": 0.2768,
+      "shown_skus": 82,
+      "sku_completeness_of_shown_rows": 0.7561,
+      "price_completeness": 0.2768,
+      "pack_label_completeness": 0.1696,
+      "availability_raw_completeness": 0.0,
+      "variant_name_completeness": 0.2768,
+      "wrong_prices": 0,
+      "extra_skus": 0,
+      "skus_from_llm": 62,
+      "pages_with_model_call": 23,
+      "model_calls": 53,
+      "input_tokens": 187070,
+      "output_tokens": 26371,
+      "cost_usd": 0.03189
+    },
+    "C:columns": {
+      "pages": "redesign:columns",
+      "mode": "deterministic",
+      "products": 30,
+      "accepted": 0,
+      "partial": 30,
+      "quarantined": 0,
+      "reference_skus": 224,
+      "sku_completeness": 0.0,
+      "shown_skus": 82,
+      "sku_completeness_of_shown_rows": 0.0,
+      "price_completeness": 0.0,
+      "pack_label_completeness": 0.0,
+      "availability_raw_completeness": 0.0,
+      "variant_name_completeness": 0.0,
+      "wrong_prices": 0,
+      "extra_skus": 0,
+      "skus_from_llm": 0,
+      "pages_with_model_call": 0,
+      "model_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0
+    },
+    "D:columns": {
+      "pages": "redesign:columns",
+      "mode": "hybrid",
+      "products": 30,
+      "accepted": 23,
+      "partial": 7,
+      "quarantined": 0,
+      "reference_skus": 224,
+      "sku_completeness": 0.3661,
+      "shown_skus": 82,
+      "sku_completeness_of_shown_rows": 1.0,
+      "price_completeness": 0.3661,
+      "pack_label_completeness": 0.1786,
+      "availability_raw_completeness": 0.0,
+      "variant_name_completeness": 0.3661,
+      "wrong_prices": 0,
+      "extra_skus": 0,
+      "skus_from_llm": 82,
+      "pages_with_model_call": 23,
+      "model_calls": 58,
+      "input_tokens": 205113,
+      "output_tokens": 28554,
+      "cost_usd": 0.03479
     }
   },
   "groups": {
@@ -880,8 +976,8 @@
           },
           "llm_skus": 0,
           "model_calls": 3,
-          "input_tokens": 24147,
-          "output_tokens": 1752,
+          "input_tokens": 27331,
+          "output_tokens": 4037,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -905,8 +1001,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1816,
-          "output_tokens": 567,
+          "input_tokens": 2081,
+          "output_tokens": 694,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -930,8 +1026,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1956,
-          "output_tokens": 583,
+          "input_tokens": 2221,
+          "output_tokens": 591,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -955,8 +1051,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 2281,
-          "output_tokens": 727,
+          "input_tokens": 2546,
+          "output_tokens": 756,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -980,8 +1076,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 2512,
-          "output_tokens": 1322,
+          "input_tokens": 2777,
+          "output_tokens": 1272,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1005,8 +1101,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1807,
-          "output_tokens": 562,
+          "input_tokens": 2072,
+          "output_tokens": 601,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1030,8 +1126,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1812,
-          "output_tokens": 841,
+          "input_tokens": 2077,
+          "output_tokens": 598,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1054,9 +1150,9 @@
             "variant_name": 4
           },
           "llm_skus": 0,
-          "model_calls": 2,
-          "input_tokens": 4811,
-          "output_tokens": 1107,
+          "model_calls": 1,
+          "input_tokens": 2518,
+          "output_tokens": 1061,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1080,8 +1176,8 @@
           },
           "llm_skus": 0,
           "model_calls": 3,
-          "input_tokens": 17511,
-          "output_tokens": 2731,
+          "input_tokens": 18121,
+          "output_tokens": 2598,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1105,8 +1201,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1999,
-          "output_tokens": 640,
+          "input_tokens": 2264,
+          "output_tokens": 741,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1130,8 +1226,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 2186,
-          "output_tokens": 1041,
+          "input_tokens": 2451,
+          "output_tokens": 1008,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1155,8 +1251,8 @@
           },
           "llm_skus": 0,
           "model_calls": 3,
-          "input_tokens": 9623,
-          "output_tokens": 2280,
+          "input_tokens": 10412,
+          "output_tokens": 2099,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1180,8 +1276,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1978,
-          "output_tokens": 683,
+          "input_tokens": 2243,
+          "output_tokens": 658,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1205,8 +1301,8 @@
           },
           "llm_skus": 0,
           "model_calls": 2,
-          "input_tokens": 6576,
-          "output_tokens": 1346,
+          "input_tokens": 7427,
+          "output_tokens": 1685,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1230,8 +1326,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 2601,
-          "output_tokens": 1166,
+          "input_tokens": 2866,
+          "output_tokens": 1161,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1255,8 +1351,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1802,
-          "output_tokens": 614,
+          "input_tokens": 2067,
+          "output_tokens": 606,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1280,8 +1376,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1919,
-          "output_tokens": 706,
+          "input_tokens": 2184,
+          "output_tokens": 590,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1305,8 +1401,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 2539,
-          "output_tokens": 956,
+          "input_tokens": 2804,
+          "output_tokens": 766,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1330,8 +1426,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 2067,
-          "output_tokens": 927,
+          "input_tokens": 2332,
+          "output_tokens": 1106,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1355,8 +1451,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 2239,
-          "output_tokens": 1070,
+          "input_tokens": 2504,
+          "output_tokens": 862,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1380,8 +1476,8 @@
           },
           "llm_skus": 0,
           "model_calls": 3,
-          "input_tokens": 7657,
-          "output_tokens": 1223,
+          "input_tokens": 8012,
+          "output_tokens": 1120,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1404,9 +1500,9 @@
             "variant_name": 7
           },
           "llm_skus": 0,
-          "model_calls": 2,
-          "input_tokens": 5221,
-          "output_tokens": 1374,
+          "model_calls": 1,
+          "input_tokens": 2705,
+          "output_tokens": 1458,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1429,9 +1525,9 @@
             "variant_name": 1
           },
           "llm_skus": 0,
-          "model_calls": 3,
-          "input_tokens": 6520,
-          "output_tokens": 839,
+          "model_calls": 1,
+          "input_tokens": 2041,
+          "output_tokens": 565,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1455,8 +1551,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1965,
-          "output_tokens": 752,
+          "input_tokens": 2230,
+          "output_tokens": 697,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1479,9 +1575,9 @@
             "variant_name": 2
           },
           "llm_skus": 0,
-          "model_calls": 3,
-          "input_tokens": 7229,
-          "output_tokens": 1067,
+          "model_calls": 1,
+          "input_tokens": 2165,
+          "output_tokens": 676,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1505,8 +1601,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 2452,
-          "output_tokens": 734,
+          "input_tokens": 2717,
+          "output_tokens": 688,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1530,8 +1626,8 @@
           },
           "llm_skus": 0,
           "model_calls": 3,
-          "input_tokens": 18539,
-          "output_tokens": 5345,
+          "input_tokens": 18629,
+          "output_tokens": 4901,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1555,8 +1651,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1809,
-          "output_tokens": 486,
+          "input_tokens": 2074,
+          "output_tokens": 704,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1580,8 +1676,8 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1827,
-          "output_tokens": 699,
+          "input_tokens": 2092,
+          "output_tokens": 684,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
@@ -1605,16 +1701,16 @@
           },
           "llm_skus": 0,
           "model_calls": 1,
-          "input_tokens": 1947,
-          "output_tokens": 803,
+          "input_tokens": 2212,
+          "output_tokens": 679,
           "gaps_before_model": [
             "unparsed_attributes"
           ]
         }
       ]
     },
-    "C": {
-      "pages": "redesign",
+    "C:classes": {
+      "pages": "redesign:classes",
       "mode": "deterministic",
       "per_page": [
         {
@@ -1661,7 +1757,9 @@
           "model_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "gaps_before_model": []
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/plasdent-endo-foam-inserts",
@@ -1759,7 +1857,9 @@
           "model_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "gaps_before_model": []
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/rubber-dam-forceps-premier",
@@ -1782,7 +1882,9 @@
           "model_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "gaps_before_model": []
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/bluephase-reg-g4",
@@ -2003,7 +2105,9 @@
           "model_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "gaps_before_model": []
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/premier-sup-reg-sup-implant-cement-trade-plus",
@@ -2291,7 +2395,9 @@
           "model_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "gaps_before_model": []
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/gum-sup-reg-sup-crayola-sup-trade-sup-pip-squeaks-patient-pack-bundle",
@@ -2314,7 +2420,9 @@
           "model_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "gaps_before_model": []
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/keyprint-reg-keymodel-reg-3d-print-resin",
@@ -2343,8 +2451,8 @@
         }
       ]
     },
-    "D": {
-      "pages": "redesign",
+    "D:classes": {
+      "pages": "redesign:classes",
       "mode": "hybrid",
       "per_page": [
         {
@@ -2372,26 +2480,28 @@
         },
         {
           "url": "https://www.safcodental.com/product/weingart-slim-pliers-hu-friedy",
-          "decision": "partial",
+          "decision": "accepted",
           "reference_skus": 1,
-          "exported_skus": 0,
-          "matched_skus": 0,
+          "exported_skus": 1,
+          "matched_skus": 1,
           "extra_skus": [],
           "shown_skus": 1,
-          "matched_shown_skus": 0,
-          "prices_correct": 0,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
           "prices_wrong": [],
           "filled": {
-            "price": 0,
+            "price": 1,
             "pack_label": 0,
             "availability_raw": 0,
-            "variant_name": 0
+            "variant_name": 1
           },
-          "llm_skus": 0,
-          "model_calls": 0,
-          "input_tokens": 0,
-          "output_tokens": 0,
-          "gaps_before_model": []
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5114,
+          "output_tokens": 954,
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/plasdent-endo-foam-inserts",
@@ -2412,8 +2522,8 @@
           },
           "llm_skus": 2,
           "model_calls": 2,
-          "input_tokens": 4989,
-          "output_tokens": 1286,
+          "input_tokens": 5877,
+          "output_tokens": 886,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2436,9 +2546,9 @@
             "variant_name": 4
           },
           "llm_skus": 4,
-          "model_calls": 2,
-          "input_tokens": 6551,
-          "output_tokens": 1678,
+          "model_calls": 3,
+          "input_tokens": 12530,
+          "output_tokens": 1310,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2461,58 +2571,62 @@
             "variant_name": 6
           },
           "llm_skus": 6,
-          "model_calls": 2,
-          "input_tokens": 8215,
-          "output_tokens": 2241,
+          "model_calls": 3,
+          "input_tokens": 14490,
+          "output_tokens": 1810,
           "gaps_before_model": [
             "no_variants"
           ]
         },
         {
           "url": "https://www.safcodental.com/product/biosurf-disinfectant",
-          "decision": "partial",
+          "decision": "accepted",
           "reference_skus": 1,
-          "exported_skus": 0,
-          "matched_skus": 0,
+          "exported_skus": 1,
+          "matched_skus": 1,
           "extra_skus": [],
           "shown_skus": 1,
-          "matched_shown_skus": 0,
-          "prices_correct": 0,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
           "prices_wrong": [],
           "filled": {
-            "price": 0,
+            "price": 1,
             "pack_label": 0,
             "availability_raw": 0,
-            "variant_name": 0
+            "variant_name": 1
           },
-          "llm_skus": 0,
-          "model_calls": 0,
-          "input_tokens": 0,
-          "output_tokens": 0,
-          "gaps_before_model": []
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5029,
+          "output_tokens": 981,
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/rubber-dam-forceps-premier",
-          "decision": "partial",
+          "decision": "accepted",
           "reference_skus": 1,
-          "exported_skus": 0,
-          "matched_skus": 0,
+          "exported_skus": 1,
+          "matched_skus": 1,
           "extra_skus": [],
           "shown_skus": 1,
-          "matched_shown_skus": 0,
-          "prices_correct": 0,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
           "prices_wrong": [],
           "filled": {
-            "price": 0,
-            "pack_label": 0,
+            "price": 1,
+            "pack_label": 1,
             "availability_raw": 0,
-            "variant_name": 0
+            "variant_name": 1
           },
-          "llm_skus": 0,
-          "model_calls": 0,
-          "input_tokens": 0,
-          "output_tokens": 0,
-          "gaps_before_model": []
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5026,
+          "output_tokens": 1047,
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/bluephase-reg-g4",
@@ -2532,34 +2646,34 @@
             "variant_name": 4
           },
           "llm_skus": 4,
-          "model_calls": 2,
-          "input_tokens": 6755,
-          "output_tokens": 2090,
+          "model_calls": 3,
+          "input_tokens": 13176,
+          "output_tokens": 1465,
           "gaps_before_model": [
             "no_variants"
           ]
         },
         {
           "url": "https://www.safcodental.com/product/3m-sup-trade-sup-filtek-sup-trade-sup-supreme-flowable-restorative",
-          "decision": "partial",
+          "decision": "accepted",
           "reference_skus": 27,
-          "exported_skus": 0,
-          "matched_skus": 0,
+          "exported_skus": 20,
+          "matched_skus": 20,
           "extra_skus": [],
           "shown_skus": 20,
-          "matched_shown_skus": 0,
-          "prices_correct": 0,
+          "matched_shown_skus": 20,
+          "prices_correct": 20,
           "prices_wrong": [],
           "filled": {
-            "price": 0,
-            "pack_label": 0,
+            "price": 20,
+            "pack_label": 3,
             "availability_raw": 0,
-            "variant_name": 0
+            "variant_name": 20
           },
-          "llm_skus": 0,
-          "model_calls": 2,
-          "input_tokens": 20989,
-          "output_tokens": 463,
+          "llm_skus": 20,
+          "model_calls": 3,
+          "input_tokens": 17119,
+          "output_tokens": 1716,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2582,9 +2696,9 @@
             "variant_name": 2
           },
           "llm_skus": 2,
-          "model_calls": 3,
-          "input_tokens": 8899,
-          "output_tokens": 1772,
+          "model_calls": 2,
+          "input_tokens": 5953,
+          "output_tokens": 1171,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2607,9 +2721,9 @@
             "variant_name": 4
           },
           "llm_skus": 4,
-          "model_calls": 2,
-          "input_tokens": 6572,
-          "output_tokens": 1837,
+          "model_calls": 3,
+          "input_tokens": 13319,
+          "output_tokens": 1626,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2632,9 +2746,9 @@
             "variant_name": 4
           },
           "llm_skus": 4,
-          "model_calls": 2,
-          "input_tokens": 6530,
-          "output_tokens": 1758,
+          "model_calls": 3,
+          "input_tokens": 12313,
+          "output_tokens": 1564,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2657,9 +2771,9 @@
             "variant_name": 2
           },
           "llm_skus": 2,
-          "model_calls": 3,
-          "input_tokens": 8845,
-          "output_tokens": 1406,
+          "model_calls": 2,
+          "input_tokens": 5977,
+          "output_tokens": 1084,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2705,35 +2819,37 @@
             "variant_name": 6
           },
           "llm_skus": 6,
-          "model_calls": 2,
-          "input_tokens": 7895,
-          "output_tokens": 2261,
+          "model_calls": 3,
+          "input_tokens": 13234,
+          "output_tokens": 1517,
           "gaps_before_model": [
             "no_variants"
           ]
         },
         {
           "url": "https://www.safcodental.com/product/spider-man-patient-stickers",
-          "decision": "partial",
+          "decision": "accepted",
           "reference_skus": 1,
-          "exported_skus": 0,
-          "matched_skus": 0,
+          "exported_skus": 1,
+          "matched_skus": 1,
           "extra_skus": [],
           "shown_skus": 1,
-          "matched_shown_skus": 0,
-          "prices_correct": 0,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
           "prices_wrong": [],
           "filled": {
-            "price": 0,
-            "pack_label": 0,
+            "price": 1,
+            "pack_label": 1,
             "availability_raw": 0,
-            "variant_name": 0
+            "variant_name": 1
           },
-          "llm_skus": 0,
-          "model_calls": 0,
-          "input_tokens": 0,
-          "output_tokens": 0,
-          "gaps_before_model": []
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5069,
+          "output_tokens": 1301,
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/premier-sup-reg-sup-implant-cement-trade-plus",
@@ -2753,9 +2869,9 @@
             "variant_name": 2
           },
           "llm_skus": 2,
-          "model_calls": 3,
-          "input_tokens": 9036,
-          "output_tokens": 1642,
+          "model_calls": 2,
+          "input_tokens": 6199,
+          "output_tokens": 1068,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2778,9 +2894,9 @@
             "variant_name": 6
           },
           "llm_skus": 6,
-          "model_calls": 1,
-          "input_tokens": 3479,
-          "output_tokens": 1152,
+          "model_calls": 3,
+          "input_tokens": 13218,
+          "output_tokens": 1573,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2827,8 +2943,8 @@
           },
           "llm_skus": 3,
           "model_calls": 2,
-          "input_tokens": 6135,
-          "output_tokens": 1769,
+          "input_tokens": 7194,
+          "output_tokens": 1301,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2851,9 +2967,9 @@
             "variant_name": 2
           },
           "llm_skus": 2,
-          "model_calls": 1,
-          "input_tokens": 2274,
-          "output_tokens": 824,
+          "model_calls": 2,
+          "input_tokens": 5912,
+          "output_tokens": 1070,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2923,8 +3039,8 @@
           },
           "llm_skus": 2,
           "model_calls": 2,
-          "input_tokens": 5118,
-          "output_tokens": 1591,
+          "input_tokens": 5992,
+          "output_tokens": 853,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -2970,9 +3086,751 @@
             "variant_name": 5
           },
           "llm_skus": 5,
+          "model_calls": 3,
+          "input_tokens": 12606,
+          "output_tokens": 1292,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/nti-reg-diamond-discs",
+          "decision": "partial",
+          "reference_skus": 27,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/bracket-tweezer-direct-bond-integra-miltex",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
           "model_calls": 2,
-          "input_tokens": 7074,
-          "output_tokens": 1810,
+          "input_tokens": 5052,
+          "output_tokens": 795,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/gum-sup-reg-sup-crayola-sup-trade-sup-pip-squeaks-patient-pack-bundle",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 1,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5309,
+          "output_tokens": 1219,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/keyprint-reg-keymodel-reg-3d-print-resin",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 3,
+          "input_tokens": 9173,
+          "output_tokens": 1481,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        }
+      ]
+    },
+    "C:tags": {
+      "pages": "redesign:tags",
+      "mode": "deterministic",
+      "per_page": [
+        {
+          "url": "https://www.safcodental.com/product/alpen-sup-sub-reg-sub-sup-carbide-burs",
+          "decision": "partial",
+          "reference_skus": 76,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/weingart-slim-pliers-hu-friedy",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/plasdent-endo-foam-inserts",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-radiance-trade-disposable-prophy-angles",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/supereba-reg",
+          "decision": "partial",
+          "reference_skus": 6,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/biosurf-disinfectant",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/rubber-dam-forceps-premier",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/bluephase-reg-g4",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/3m-sup-trade-sup-filtek-sup-trade-sup-supreme-flowable-restorative",
+          "decision": "partial",
+          "reference_skus": 27,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 20,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/irrigator-sup-trade-sup-plus",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/dryz-reg",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/kerr-trade-traverse-trade-rotary-glide-path-file",
+          "decision": "partial",
+          "reference_skus": 10,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/attest-super-rapid-readout-biological-indicator",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/personalized-premium-lip-balm-spf15",
+          "decision": "partial",
+          "reference_skus": 10,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/kerr-autofit-trade-greater-taper",
+          "decision": "partial",
+          "reference_skus": 6,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/spider-man-patient-stickers",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/premier-sup-reg-sup-implant-cement-trade-plus",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-5-percent-sodium-fluoride-varnish",
+          "decision": "partial",
+          "reference_skus": 6,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/pola-rapid",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/brixton-a-w-syringe-sleeves",
+          "decision": "partial",
+          "reference_skus": 3,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 3,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/premier-reg-bur-blocks",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/turbosensor-360",
+          "decision": "partial",
+          "reference_skus": 7,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/6-toothcase-dental-bag-with-pocket",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/beautifil-reg-kids-sa",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-nbsp-dentasoft-reg-ultracare-trade-cross-clean-toothbrushes",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-plastic-drinking-cups",
+          "decision": "partial",
+          "reference_skus": 5,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 5,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
           "gaps_before_model": [
             "no_variants"
           ]
@@ -3021,7 +3879,9 @@
           "model_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "gaps_before_model": []
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/gum-sup-reg-sup-crayola-sup-trade-sup-pip-squeaks-patient-pack-bundle",
@@ -3044,7 +3904,751 @@
           "model_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/keyprint-reg-keymodel-reg-3d-print-resin",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        }
+      ]
+    },
+    "D:tags": {
+      "pages": "redesign:tags",
+      "mode": "hybrid",
+      "per_page": [
+        {
+          "url": "https://www.safcodental.com/product/alpen-sup-sub-reg-sub-sup-carbide-burs",
+          "decision": "partial",
+          "reference_skus": 76,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
           "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/weingart-slim-pliers-hu-friedy",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5132,
+          "output_tokens": 1035,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/plasdent-endo-foam-inserts",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 2,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 5882,
+          "output_tokens": 864,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-radiance-trade-disposable-prophy-angles",
+          "decision": "accepted",
+          "reference_skus": 4,
+          "exported_skus": 4,
+          "matched_skus": 4,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 4,
+          "prices_correct": 4,
+          "prices_wrong": [],
+          "filled": {
+            "price": 4,
+            "pack_label": 4,
+            "availability_raw": 0,
+            "variant_name": 4
+          },
+          "llm_skus": 4,
+          "model_calls": 3,
+          "input_tokens": 11079,
+          "output_tokens": 899,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/supereba-reg",
+          "decision": "accepted",
+          "reference_skus": 6,
+          "exported_skus": 6,
+          "matched_skus": 6,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 6,
+          "prices_correct": 6,
+          "prices_wrong": [],
+          "filled": {
+            "price": 6,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 6
+          },
+          "llm_skus": 6,
+          "model_calls": 3,
+          "input_tokens": 14483,
+          "output_tokens": 1539,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/biosurf-disinfectant",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5015,
+          "output_tokens": 891,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/rubber-dam-forceps-premier",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 1,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5067,
+          "output_tokens": 1036,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/bluephase-reg-g4",
+          "decision": "accepted",
+          "reference_skus": 4,
+          "exported_skus": 4,
+          "matched_skus": 4,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 4,
+          "prices_correct": 4,
+          "prices_wrong": [],
+          "filled": {
+            "price": 4,
+            "pack_label": 1,
+            "availability_raw": 0,
+            "variant_name": 4
+          },
+          "llm_skus": 4,
+          "model_calls": 3,
+          "input_tokens": 13204,
+          "output_tokens": 1546,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/3m-sup-trade-sup-filtek-sup-trade-sup-supreme-flowable-restorative",
+          "decision": "partial",
+          "reference_skus": 27,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 20,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 1,
+          "input_tokens": 3511,
+          "output_tokens": 506,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/irrigator-sup-trade-sup-plus",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 2,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 5978,
+          "output_tokens": 1019,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/dryz-reg",
+          "decision": "accepted",
+          "reference_skus": 4,
+          "exported_skus": 4,
+          "matched_skus": 4,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 4,
+          "prices_correct": 4,
+          "prices_wrong": [],
+          "filled": {
+            "price": 4,
+            "pack_label": 1,
+            "availability_raw": 0,
+            "variant_name": 4
+          },
+          "llm_skus": 4,
+          "model_calls": 3,
+          "input_tokens": 13362,
+          "output_tokens": 1501,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/kerr-trade-traverse-trade-rotary-glide-path-file",
+          "decision": "accepted",
+          "reference_skus": 10,
+          "exported_skus": 4,
+          "matched_skus": 4,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 4,
+          "prices_correct": 4,
+          "prices_wrong": [],
+          "filled": {
+            "price": 4,
+            "pack_label": 4,
+            "availability_raw": 0,
+            "variant_name": 4
+          },
+          "llm_skus": 4,
+          "model_calls": 3,
+          "input_tokens": 12370,
+          "output_tokens": 1510,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/attest-super-rapid-readout-biological-indicator",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 2,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 6005,
+          "output_tokens": 1089,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/personalized-premium-lip-balm-spf15",
+          "decision": "partial",
+          "reference_skus": 10,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/kerr-autofit-trade-greater-taper",
+          "decision": "accepted",
+          "reference_skus": 6,
+          "exported_skus": 6,
+          "matched_skus": 6,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 6,
+          "prices_correct": 6,
+          "prices_wrong": [],
+          "filled": {
+            "price": 6,
+            "pack_label": 5,
+            "availability_raw": 0,
+            "variant_name": 6
+          },
+          "llm_skus": 6,
+          "model_calls": 3,
+          "input_tokens": 13351,
+          "output_tokens": 1557,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/spider-man-patient-stickers",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 1,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5123,
+          "output_tokens": 1120,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/premier-sup-reg-sup-implant-cement-trade-plus",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 6197,
+          "output_tokens": 1033,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-5-percent-sodium-fluoride-varnish",
+          "decision": "accepted",
+          "reference_skus": 6,
+          "exported_skus": 6,
+          "matched_skus": 6,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 6,
+          "prices_correct": 6,
+          "prices_wrong": [],
+          "filled": {
+            "price": 6,
+            "pack_label": 6,
+            "availability_raw": 0,
+            "variant_name": 6
+          },
+          "llm_skus": 6,
+          "model_calls": 3,
+          "input_tokens": 13279,
+          "output_tokens": 1495,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/pola-rapid",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/brixton-a-w-syringe-sleeves",
+          "decision": "accepted",
+          "reference_skus": 3,
+          "exported_skus": 3,
+          "matched_skus": 3,
+          "extra_skus": [],
+          "shown_skus": 3,
+          "matched_shown_skus": 3,
+          "prices_correct": 3,
+          "prices_wrong": [],
+          "filled": {
+            "price": 3,
+            "pack_label": 3,
+            "availability_raw": 0,
+            "variant_name": 3
+          },
+          "llm_skus": 3,
+          "model_calls": 2,
+          "input_tokens": 7223,
+          "output_tokens": 1180,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/premier-reg-bur-blocks",
+          "decision": "accepted",
+          "reference_skus": 4,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 5938,
+          "output_tokens": 1017,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/turbosensor-360",
+          "decision": "partial",
+          "reference_skus": 7,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/6-toothcase-dental-bag-with-pocket",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/beautifil-reg-kids-sa",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 6012,
+          "output_tokens": 1061,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-nbsp-dentasoft-reg-ultracare-trade-cross-clean-toothbrushes",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-plastic-drinking-cups",
+          "decision": "accepted",
+          "reference_skus": 5,
+          "exported_skus": 5,
+          "matched_skus": 5,
+          "extra_skus": [],
+          "shown_skus": 5,
+          "matched_shown_skus": 5,
+          "prices_correct": 5,
+          "prices_wrong": [],
+          "filled": {
+            "price": 5,
+            "pack_label": 5,
+            "availability_raw": 0,
+            "variant_name": 5
+          },
+          "llm_skus": 5,
+          "model_calls": 3,
+          "input_tokens": 12646,
+          "output_tokens": 1428,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/nti-reg-diamond-discs",
+          "decision": "partial",
+          "reference_skus": 27,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/bracket-tweezer-direct-bond-integra-miltex",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5068,
+          "output_tokens": 937,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/gum-sup-reg-sup-crayola-sup-trade-sup-pip-squeaks-patient-pack-bundle",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 1,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5315,
+          "output_tokens": 1077,
+          "gaps_before_model": [
+            "no_variants"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/keyprint-reg-keymodel-reg-3d-print-resin",
@@ -3065,8 +4669,1492 @@
           },
           "llm_skus": 2,
           "model_calls": 2,
-          "input_tokens": 5097,
-          "output_tokens": 942,
+          "input_tokens": 5830,
+          "output_tokens": 1031,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        }
+      ]
+    },
+    "C:columns": {
+      "pages": "redesign:columns",
+      "mode": "deterministic",
+      "per_page": [
+        {
+          "url": "https://www.safcodental.com/product/alpen-sup-sub-reg-sub-sup-carbide-burs",
+          "decision": "partial",
+          "reference_skus": 76,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/weingart-slim-pliers-hu-friedy",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/plasdent-endo-foam-inserts",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-radiance-trade-disposable-prophy-angles",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/supereba-reg",
+          "decision": "partial",
+          "reference_skus": 6,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/biosurf-disinfectant",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/rubber-dam-forceps-premier",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/bluephase-reg-g4",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/3m-sup-trade-sup-filtek-sup-trade-sup-supreme-flowable-restorative",
+          "decision": "partial",
+          "reference_skus": 27,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 20,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/irrigator-sup-trade-sup-plus",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/dryz-reg",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/kerr-trade-traverse-trade-rotary-glide-path-file",
+          "decision": "partial",
+          "reference_skus": 10,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/attest-super-rapid-readout-biological-indicator",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/personalized-premium-lip-balm-spf15",
+          "decision": "partial",
+          "reference_skus": 10,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/kerr-autofit-trade-greater-taper",
+          "decision": "partial",
+          "reference_skus": 6,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/spider-man-patient-stickers",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/premier-sup-reg-sup-implant-cement-trade-plus",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-5-percent-sodium-fluoride-varnish",
+          "decision": "partial",
+          "reference_skus": 6,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/pola-rapid",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/brixton-a-w-syringe-sleeves",
+          "decision": "partial",
+          "reference_skus": 3,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 3,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/premier-reg-bur-blocks",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/turbosensor-360",
+          "decision": "partial",
+          "reference_skus": 7,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/6-toothcase-dental-bag-with-pocket",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/beautifil-reg-kids-sa",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-nbsp-dentasoft-reg-ultracare-trade-cross-clean-toothbrushes",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-plastic-drinking-cups",
+          "decision": "partial",
+          "reference_skus": 5,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 5,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/nti-reg-diamond-discs",
+          "decision": "partial",
+          "reference_skus": 27,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/bracket-tweezer-direct-bond-integra-miltex",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/gum-sup-reg-sup-crayola-sup-trade-sup-pip-squeaks-patient-pack-bundle",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/keyprint-reg-keymodel-reg-3d-print-resin",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        }
+      ]
+    },
+    "D:columns": {
+      "pages": "redesign:columns",
+      "mode": "hybrid",
+      "per_page": [
+        {
+          "url": "https://www.safcodental.com/product/alpen-sup-sub-reg-sub-sup-carbide-burs",
+          "decision": "partial",
+          "reference_skus": 76,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/weingart-slim-pliers-hu-friedy",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 3,
+          "input_tokens": 8464,
+          "output_tokens": 1315,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/plasdent-endo-foam-inserts",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 2,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 3,
+          "input_tokens": 9357,
+          "output_tokens": 1346,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-radiance-trade-disposable-prophy-angles",
+          "decision": "accepted",
+          "reference_skus": 4,
+          "exported_skus": 4,
+          "matched_skus": 4,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 4,
+          "prices_correct": 4,
+          "prices_wrong": [],
+          "filled": {
+            "price": 4,
+            "pack_label": 4,
+            "availability_raw": 0,
+            "variant_name": 4
+          },
+          "llm_skus": 4,
+          "model_calls": 3,
+          "input_tokens": 12572,
+          "output_tokens": 1254,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/supereba-reg",
+          "decision": "accepted",
+          "reference_skus": 6,
+          "exported_skus": 6,
+          "matched_skus": 6,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 6,
+          "prices_correct": 6,
+          "prices_wrong": [],
+          "filled": {
+            "price": 6,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 6
+          },
+          "llm_skus": 6,
+          "model_calls": 3,
+          "input_tokens": 14474,
+          "output_tokens": 1675,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/biosurf-disinfectant",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5027,
+          "output_tokens": 955,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/rubber-dam-forceps-premier",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 1,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5062,
+          "output_tokens": 1078,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/bluephase-reg-g4",
+          "decision": "accepted",
+          "reference_skus": 4,
+          "exported_skus": 4,
+          "matched_skus": 4,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 4,
+          "prices_correct": 4,
+          "prices_wrong": [],
+          "filled": {
+            "price": 4,
+            "pack_label": 1,
+            "availability_raw": 0,
+            "variant_name": 4
+          },
+          "llm_skus": 4,
+          "model_calls": 3,
+          "input_tokens": 13198,
+          "output_tokens": 1836,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/3m-sup-trade-sup-filtek-sup-trade-sup-supreme-flowable-restorative",
+          "decision": "accepted",
+          "reference_skus": 27,
+          "exported_skus": 20,
+          "matched_skus": 20,
+          "extra_skus": [],
+          "shown_skus": 20,
+          "matched_shown_skus": 20,
+          "prices_correct": 20,
+          "prices_wrong": [],
+          "filled": {
+            "price": 20,
+            "pack_label": 3,
+            "availability_raw": 0,
+            "variant_name": 20
+          },
+          "llm_skus": 20,
+          "model_calls": 3,
+          "input_tokens": 11635,
+          "output_tokens": 1075,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/irrigator-sup-trade-sup-plus",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 2,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 3,
+          "input_tokens": 9422,
+          "output_tokens": 1286,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/dryz-reg",
+          "decision": "accepted",
+          "reference_skus": 4,
+          "exported_skus": 4,
+          "matched_skus": 4,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 4,
+          "prices_correct": 4,
+          "prices_wrong": [],
+          "filled": {
+            "price": 4,
+            "pack_label": 1,
+            "availability_raw": 0,
+            "variant_name": 4
+          },
+          "llm_skus": 4,
+          "model_calls": 3,
+          "input_tokens": 11602,
+          "output_tokens": 762,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/kerr-trade-traverse-trade-rotary-glide-path-file",
+          "decision": "accepted",
+          "reference_skus": 10,
+          "exported_skus": 4,
+          "matched_skus": 4,
+          "extra_skus": [],
+          "shown_skus": 4,
+          "matched_shown_skus": 4,
+          "prices_correct": 4,
+          "prices_wrong": [],
+          "filled": {
+            "price": 4,
+            "pack_label": 4,
+            "availability_raw": 0,
+            "variant_name": 4
+          },
+          "llm_skus": 4,
+          "model_calls": 3,
+          "input_tokens": 12325,
+          "output_tokens": 1462,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/attest-super-rapid-readout-biological-indicator",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 2,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 5964,
+          "output_tokens": 957,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/personalized-premium-lip-balm-spf15",
+          "decision": "partial",
+          "reference_skus": 10,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/kerr-autofit-trade-greater-taper",
+          "decision": "accepted",
+          "reference_skus": 6,
+          "exported_skus": 6,
+          "matched_skus": 6,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 6,
+          "prices_correct": 6,
+          "prices_wrong": [],
+          "filled": {
+            "price": 6,
+            "pack_label": 5,
+            "availability_raw": 0,
+            "variant_name": 6
+          },
+          "llm_skus": 6,
+          "model_calls": 3,
+          "input_tokens": 13248,
+          "output_tokens": 1665,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/spider-man-patient-stickers",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5080,
+          "output_tokens": 1121,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/premier-sup-reg-sup-implant-cement-trade-plus",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 6205,
+          "output_tokens": 1002,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-5-percent-sodium-fluoride-varnish",
+          "decision": "accepted",
+          "reference_skus": 6,
+          "exported_skus": 6,
+          "matched_skus": 6,
+          "extra_skus": [],
+          "shown_skus": 6,
+          "matched_shown_skus": 6,
+          "prices_correct": 6,
+          "prices_wrong": [],
+          "filled": {
+            "price": 6,
+            "pack_label": 6,
+            "availability_raw": 0,
+            "variant_name": 6
+          },
+          "llm_skus": 6,
+          "model_calls": 3,
+          "input_tokens": 13552,
+          "output_tokens": 1527,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/pola-rapid",
+          "decision": "partial",
+          "reference_skus": 4,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/brixton-a-w-syringe-sleeves",
+          "decision": "accepted",
+          "reference_skus": 3,
+          "exported_skus": 3,
+          "matched_skus": 3,
+          "extra_skus": [],
+          "shown_skus": 3,
+          "matched_shown_skus": 3,
+          "prices_correct": 3,
+          "prices_wrong": [],
+          "filled": {
+            "price": 3,
+            "pack_label": 3,
+            "availability_raw": 0,
+            "variant_name": 3
+          },
+          "llm_skus": 3,
+          "model_calls": 2,
+          "input_tokens": 7244,
+          "output_tokens": 1362,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/premier-reg-bur-blocks",
+          "decision": "accepted",
+          "reference_skus": 4,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 5902,
+          "output_tokens": 1054,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/turbosensor-360",
+          "decision": "partial",
+          "reference_skus": 7,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/6-toothcase-dental-bag-with-pocket",
+          "decision": "partial",
+          "reference_skus": 1,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/beautifil-reg-kids-sa",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 6000,
+          "output_tokens": 1166,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-nbsp-dentasoft-reg-ultracare-trade-cross-clean-toothbrushes",
+          "decision": "partial",
+          "reference_skus": 2,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/safco-plastic-drinking-cups",
+          "decision": "accepted",
+          "reference_skus": 5,
+          "exported_skus": 5,
+          "matched_skus": 5,
+          "extra_skus": [],
+          "shown_skus": 5,
+          "matched_shown_skus": 5,
+          "prices_correct": 5,
+          "prices_wrong": [],
+          "filled": {
+            "price": 5,
+            "pack_label": 5,
+            "availability_raw": 0,
+            "variant_name": 5
+          },
+          "llm_skus": 5,
+          "model_calls": 3,
+          "input_tokens": 12614,
+          "output_tokens": 1581,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/nti-reg-diamond-discs",
+          "decision": "partial",
+          "reference_skus": 27,
+          "exported_skus": 0,
+          "matched_skus": 0,
+          "extra_skus": [],
+          "shown_skus": 0,
+          "matched_shown_skus": 0,
+          "prices_correct": 0,
+          "prices_wrong": [],
+          "filled": {
+            "price": 0,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 0
+          },
+          "llm_skus": 0,
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "gaps_before_model": []
+        },
+        {
+          "url": "https://www.safcodental.com/product/bracket-tweezer-direct-bond-integra-miltex",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5047,
+          "output_tokens": 919,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/gum-sup-reg-sup-crayola-sup-trade-sup-pip-squeaks-patient-pack-bundle",
+          "decision": "accepted",
+          "reference_skus": 1,
+          "exported_skus": 1,
+          "matched_skus": 1,
+          "extra_skus": [],
+          "shown_skus": 1,
+          "matched_shown_skus": 1,
+          "prices_correct": 1,
+          "prices_wrong": [],
+          "filled": {
+            "price": 1,
+            "pack_label": 1,
+            "availability_raw": 0,
+            "variant_name": 1
+          },
+          "llm_skus": 1,
+          "model_calls": 2,
+          "input_tokens": 5315,
+          "output_tokens": 1071,
+          "gaps_before_model": [
+            "no_variants"
+          ]
+        },
+        {
+          "url": "https://www.safcodental.com/product/keyprint-reg-keymodel-reg-3d-print-resin",
+          "decision": "accepted",
+          "reference_skus": 2,
+          "exported_skus": 2,
+          "matched_skus": 2,
+          "extra_skus": [],
+          "shown_skus": 2,
+          "matched_shown_skus": 2,
+          "prices_correct": 2,
+          "prices_wrong": [],
+          "filled": {
+            "price": 2,
+            "pack_label": 0,
+            "availability_raw": 0,
+            "variant_name": 2
+          },
+          "llm_skus": 2,
+          "model_calls": 2,
+          "input_tokens": 5804,
+          "output_tokens": 1085,
           "gaps_before_model": [
             "no_variants"
           ]

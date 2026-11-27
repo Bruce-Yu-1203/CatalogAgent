@@ -58,6 +58,9 @@ class EvidenceChecker:
             raw = raw.strip()
             if not raw or row is None or not any(ch.isdigit() for ch in raw) or raw == row.cells.get("price"):
                 return False
+            code = getattr(self.adapter, "GENERIC_SKU_RE", None)
+            if code is not None and not code.match(raw):
+                return False  # e.g. a variant label or a quantity is never accepted as an SKU
             return any(c.strip() == raw for k, c in row.cells.items() if k != "price")
         value = self.cell(section_id, row_id, field)
         # Exact cell equality: a substring match does not establish row association.

@@ -118,6 +118,60 @@ async def test_price_or_sku_not_in_the_evidence_row_is_rejected():
     assert out.decision == "partial"
 
 
+def keys_of(snap, value):
+    row = safco.section_by_id(snap, "page-rows").rows[0]
+    return [k for k, v in row.cells.items() if v == value and k != "price"]
+
+
+async def test_a_row_mapping_is_applied_by_code_to_every_row_and_each_row_is_verified():
+    snap = gap_snapshot()
+    sku_key = keys_of(snap, FIRST)[0]
+    name_key = keys_of(snap, "Nitrilex Surpass nitrile gloves x-small 300/box")[0]
+    mapping = {"section_id": "page-rows", "sku_cell": sku_key, "name_cell": name_key}
+    model = FakeModel([ModelReply(tool_calls=[tool("submit_patch", 0, variants=[], row_mapping=mapping)])])
+    res, out, _ = await run_loop(model, snap, attribute_gaps=False)
+    # One call for all rows; the first message held 3 sample rows and the total, not every row.
+    assert res.budget_used.model_calls == 1 and '"rows_total": 5' in model.calls[0]["messages"][1]["content"]
+    assert out.decision == "accepted" and [v.sku for v in out.product.variants] == ROWS
+    assert {v.price for v in out.product.variants} == {"15.99"}
+    v = next(x for x in out.product.variants if x.sku == MISSING)
+    assert v.variant_name == "Nitrilex Surpass nitrile gloves medium 300/box" and {"sku", "price"} <= set(v.llm_fields)
+
+
+async def test_a_wrong_row_mapping_is_rejected_row_by_row():
+    snap = gap_snapshot()
+    name_key = keys_of(snap, "Nitrilex Surpass nitrile gloves x-small 300/box")[0]
+    bad = [
+        {"section_id": "page-rows", "sku_cell": name_key},  # a label is not an SKU
+        {"section_id": "page-rows", "sku_cell": "price"},  # the price cell is never an SKU
+        {"section_id": "description", "sku_cell": name_key},  # not a generic row section
+    ]
+    model = FakeModel(
+        [ModelReply(tool_calls=[tool("submit_patch", i, variants=[], row_mapping=m)]) for i, m in enumerate(bad)]
+    )
+    res, out, _ = await run_loop(model, snap, attribute_gaps=False)
+    assert out.product.variants == [] and out.decision == "partial"
+
+
+async def test_single_variant_page_after_redesign_gets_one_generic_row():
+    import gzip
+
+    from conftest import ROOT
+
+    from catalog_agent.runtime.fetcher import make_snapshot
+
+    url = "https://www.safcodental.com/product/surgicel-reg"
+    with gzip.open(ROOT / "tests/fixtures/eval/surgicel-reg.html.gz", "rt", encoding="utf-8") as f:
+        snap = make_snapshot(url, url, 200, simulate_redesign(f.read()))  # SYNTHETIC redesign of a real page
+    [row] = safco.section_by_id(snap, "page-rows").rows
+    assert row.cells["price"] == "$1,118.99"
+    sku_key = [k for k, v in row.cells.items() if v == "2580213"][0]
+    mapping = {"section_id": "page-rows", "sku_cell": sku_key}
+    model = FakeModel([ModelReply(tool_calls=[tool("submit_patch", 0, variants=[], row_mapping=mapping)])])
+    res, out, _ = await run_loop(model, snap, attribute_gaps=False)
+    assert out.decision == "accepted" and [(v.sku, v.price) for v in out.product.variants] == [("2580213", "1118.99")]
+
+
 async def test_generic_rows_need_a_price_and_a_code_or_the_model_is_not_called():
     # SYNTHETIC: redesigned page with every price removed: no row is evidence, so there is no gap to recover.
     html = simulate_redesign(fixture_html("product_surpass_gloves")).replace("$", "USD ")
@@ -195,7 +249,7 @@ async def test_instruction_like_page_text_cannot_change_rules():
     for spec in TOOL_SPECS:
         props = spec["input_schema"]["properties"]
         assert set(props) <= {"section_id"} and spec["input_schema"]["additionalProperties"] is False
-    assert set(SUBMIT_SPEC["input_schema"]["properties"]) == {"variants", "notes"}
+    assert set(SUBMIT_SPEC["input_schema"]["properties"]) == {"variants", "row_mapping", "notes"}
     tools = SnapshotTools(safco, snap, 4000)
     assert "unknown section_id" in tools.call("get_section", {"section_id": "../../etc/passwd"})
     assert "unknown tool" in tools.call("fetch_url", {"url": "https://example.com"})

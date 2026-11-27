@@ -23,15 +23,41 @@ from catalog_agent.contracts import PageSnapshot
 from catalog_agent.extraction.normalize import normalize_price
 from catalog_agent.runtime.fetcher import make_snapshot
 
+REDESIGNS = ("classes", "tags", "columns")
+_TAG_SWAP = {"div": "section", "span": "em", "ul": "ol"}
 
-def simulate_redesign(html: str) -> str:
-    """SYNTHETIC site redesign of a saved page: JSON-LD removed and every class name renamed (consistently, so
-    repeated elements still look alike). Text, ids and structure are unchanged. Never written to `outputs/`."""
+
+def simulate_redesign(html: str, kind: str = "classes") -> str:
+    """SYNTHETIC site redesign of a saved page; never written to `outputs/`. Every kind removes the JSON-LD and
+    renames every class name (consistently, so repeated elements still look alike).
+    - classes: only that; text, tags, ids and structure are unchanged.
+    - tags: also changes the element types (div -> section, span -> em, ul -> ol), as a new front-end would.
+    - columns: also reverses the order of the children of every repeated element (an element that has a sibling
+      with the same tag, e.g. a variant row and its header row), so SKU, label, stock and price change places."""
+    if kind not in REDESIGNS:
+        raise ValueError(f"unknown redesign {kind!r}")
     soup = BeautifulSoup(html, "lxml")
     for tag in soup.select('script[type="application/ld+json"]'):
         tag.decompose()
+    if kind == "columns":
+        repeated = []
+        for parent in soup.find_all(True):
+            sigs: dict[str, list] = {}
+            for child in parent.find_all(True, recursive=False):
+                sigs.setdefault(child.name, []).append(child)
+            repeated += [c for group in sigs.values() if len(group) > 1 for c in group]
+        for el in repeated:
+            kids = el.find_all(True, recursive=False)
+            if len(kids) > 1:
+                for k in kids:
+                    k.extract()
+                for k in reversed(kids):
+                    el.append(k)
     for el in soup.find_all(class_=True):
         el["class"] = ["x" + hashlib.sha1(c.encode()).hexdigest()[:8] for c in el.get("class", [])]
+    if kind == "tags":
+        for el in soup.find_all(list(_TAG_SWAP)):
+            el.name = _TAG_SWAP[el.name]
     return str(soup)
 
 
@@ -181,7 +207,7 @@ GROUPS = {
     "B": ("original", "hybrid"),
     "C": ("redesign", "deterministic"),
     "D": ("redesign", "hybrid"),
-}
+}  # C and D run once per redesign kind and are reported as e.g. "C:classes", "D:columns"
 _FIELDS = ("price", "pack_label", "availability_raw", "variant_name")
 
 
@@ -192,7 +218,12 @@ def reference_variants(adapter: ModuleType, snap: PageSnapshot) -> dict[str, str
 
 
 async def redesign_experiment(
-    cfg: AppConfig, adapter: ModuleType, snaps: list[PageSnapshot], groups: list[str], model: Any = None
+    cfg: AppConfig,
+    adapter: ModuleType,
+    snaps: list[PageSnapshot],
+    groups: list[str],
+    model: Any = None,
+    kinds: tuple[str, ...] = ("classes",),
 ) -> dict[str, Any]:
     extractor = ExtractorAgent(adapter, cfg.agents.extractor, cfg.llm)
     validator = ValidatorAgent(adapter, adapter.SOURCE)
@@ -202,13 +233,18 @@ async def redesign_experiment(
     for s in snaps:
         table = adapter.section_by_id(s, "variant-table")
         shown[s.url] = {r.cells.get("item_no") for r in (table.rows if table else [])} - {"", None}
-    redesigned = {s.url: make_snapshot(s.url, s.final_url, s.status, simulate_redesign(s.html)) for s in snaps}
+    redesigned = {
+        k: {s.url: make_snapshot(s.url, s.final_url, s.status, simulate_redesign(s.html, k)) for s in snaps}
+        for k in kinds
+    }
+    runs = [(g, None) for g in groups if GROUPS[g][0] == "original"]
+    runs += [(g, k) for k in kinds for g in groups if GROUPS[g][0] == "redesign"]
     out: dict[str, Any] = {}
-    for g in groups:
+    for g, kind in runs:
         pages_kind, mode = GROUPS[g]
         pages = []
         for s in snaps:
-            snap = s if pages_kind == "original" else redesigned[s.url]
+            snap = s if kind is None else redesigned[kind][s.url]
             res = await extractor.run(
                 ExtractorInput(
                     snapshot=snap,
@@ -245,7 +281,11 @@ async def redesign_experiment(
                     ][0],
                 }
             )
-        out[g] = {"pages": pages_kind, "mode": mode, "per_page": pages}
+        out[g if kind is None else f"{g}:{kind}"] = {
+            "pages": pages_kind if kind is None else f"redesign:{kind}",
+            "mode": mode,
+            "per_page": pages,
+        }
     return out
 
 

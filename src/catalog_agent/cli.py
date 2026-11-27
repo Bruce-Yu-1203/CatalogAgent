@@ -168,6 +168,7 @@ def evaluate(
 def experiment(
     run_id: Annotated[str, typer.Option(help="run whose saved product snapshots are replayed")],
     groups: Annotated[str, typer.Option(help="subset of A,B,C,D")] = "A,B,C,D",
+    redesigns: Annotated[str, typer.Option(help="redesign kinds for C and D: classes,tags,columns")] = "classes",
     config: Path = Path("configs/safco.yaml"),
     db: Annotated[str | None, typer.Option(help="override storage.database")] = None,
     out: Path = Path("outputs/redesign_experiment.json"),
@@ -196,7 +197,8 @@ def experiment(
             await repo.close()
         store = SnapshotStore(cfg.storage.snapshot_dir)
         snaps = [store.load(t["snapshot_path"]) for t in tasks if t["page_type"] == "product" and t["snapshot_path"]]
-        return await redesign_experiment(cfg, safco, snaps, gs, model)
+        kinds = tuple(k.strip() for k in redesigns.split(",") if k.strip())
+        return await redesign_experiment(cfg, safco, snaps, gs, model, kinds)
 
     result = asyncio.run(run())
     summary = summarize_experiment(result, cfg.llm.input_price_per_mtok, cfg.llm.output_price_per_mtok)
@@ -205,7 +207,8 @@ def experiment(
         "model_id": getattr(model, "model_id", None),
         "note": (
             "Offline replay of the run's saved product pages. C and D use SYNTHETIC redesigned copies (JSON-LD "
-            "removed, every class renamed); reference SKUs and prices come from the original page's JSON-LD."
+            "removed and every class renamed; 'tags' also changes element types, 'columns' also reverses the "
+            "children of repeated elements); reference SKUs and prices come from the original page's JSON-LD."
         ),
         "summary": summary,
         "groups": result,

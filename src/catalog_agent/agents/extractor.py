@@ -45,9 +45,13 @@ Rules:
   a row you need is missing or truncated.
 - For a missing_variant gap, return the SKU with section_id, row_id and sku_raw, and price_raw copied exactly
   from that row's price cell (it may lack a currency symbol).
-- For a no_variants gap the page layout was not recognised: return one entry per row of the page-rows section,
-  with the SKU (Item #) copied exactly from one whole cell of that row, price_raw copied from that row's "price"
-  cell, and variant_name copied from that row's label. Skip a row if you cannot tell which cell is its SKU.
+- For a no_variants gap the page layout was not recognised. You see sample rows of the page-rows section; cells
+  are keyed by their position in the row template, so the same key means the same column in every row. Return
+  row_mapping with section_id "page-rows", sku_cell = the key of the item number (the store's own SKU / Item #,
+  not a manufacturer number) and name_cell = the key of the variant label; the code applies it to every row and
+  takes each row's "price" cell. Use the column labels, when given, to tell the SKU from other codes. The sample
+  rows and labels are all you need: call submit_patch in your first reply, without other tools. Leave variants
+  empty unless a row does not follow the template.
 - For an unparsed_attributes gap, return attributes for every listed SKU. Do not repeat values that already
   have their own field (pack size, stock, item or manufacturer number). Use Title Case keys and the same key
   for the same property across rows.
@@ -333,7 +337,9 @@ class ExtractorAgent:
                     "content": "Gaps to resolve: "
                     + gap_message(candidate, gaps)
                     + "\nVariant rows (from get_variant_rows): <untrusted_page_data>"
-                    + tools.call("get_variant_rows", {})
+                    + tools.call(
+                        "get_variant_rows", {"sample": 3} if any(g.kind == "no_variants" for g in gaps) else {}
+                    )
                     + "</untrusted_page_data>",
                 },
             ],
@@ -344,6 +350,31 @@ class ExtractorAgent:
 
     # ---------------------------------------------------------- patch merge
 
+    @staticmethod
+    def _expand_mapping(mapping: dict[str, Any], checker: EvidenceChecker) -> list[dict[str, Any]]:
+        """Apply a model-proposed column mapping to every row of one section. Each produced entry is checked by
+        `_apply_patch` exactly like an entry the model wrote by hand (whole-cell SKU, row price)."""
+        sec = checker.sections.get(str(mapping.get("section_id") or ""))
+        sku_key, name_key = mapping.get("sku_cell"), mapping.get("name_cell")
+        if sec is None or not isinstance(sku_key, str) or sku_key == "price":
+            return []
+        out = []
+        for row in sec.rows[:60]:
+            sku = row.cells.get(sku_key)
+            if not sku:
+                continue
+            out.append(
+                {
+                    "sku": sku.strip(),
+                    "section_id": sec.section_id,
+                    "row_id": row.row_id,
+                    "sku_raw": sku,
+                    "price_raw": row.cells.get("price"),
+                    "variant_name": row.cells.get(name_key) if isinstance(name_key, str) else None,
+                }
+            )
+        return out
+
     def _apply_patch(
         self, cand: ProductCandidate, args: dict[str, Any], checker: EvidenceChecker
     ) -> tuple[int, int, dict[str, Any]]:
@@ -351,6 +382,9 @@ class ExtractorAgent:
         applied = rejected = 0
         notes: list[dict[str, str]] = []  # typed validation feedback for the next model turn
         entries = args.get("variants") if isinstance(args, dict) else None
+        mapping = args.get("row_mapping") if isinstance(args, dict) else None
+        if isinstance(mapping, dict) and isinstance(entries, list):
+            entries = [*self._expand_mapping(mapping, checker), *entries]
         if not isinstance(entries, list):
             return (
                 0,

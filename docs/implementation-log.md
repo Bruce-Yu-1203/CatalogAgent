@@ -490,3 +490,29 @@ reproducible run, and a data-quality report.
   report test now checks the summary and the tables.
 - Live `make demo` (`demo_20261127`, hybrid): 37 pages, 20 products all accepted, 87 SKUs, 27 model calls,
   69,246 + 19,730 tokens ≈ $0.017, 151 s; 0 duplicate identities, 0 rejected values. README §5 and §11 show it.
+
+## Stronger redesign recovery: row mapping, single-variant pages, harder redesigns (2026-11-27)
+
+Amy chose items 1, 2 and 6 of the recovery plan (the first redesign run recovered 56 of 82 rendered SKUs).
+
+- **Row mapping (1).** Generic cells are keyed by their tag/class path inside the row (`k012402`), so the same
+  column has the same key in every row. On a `no_variants` gap the first message holds 3 sample rows plus the
+  row count; the model returns `row_mapping` (`sku_cell`, `name_cell`) and code applies it to all rows. Each
+  produced entry goes through the same checks as a hand-written one.
+- **Single-variant pages (2).** If no repeated row exists, the single smallest element that shows both a `$` price
+  and an SKU-like code becomes one generic row (none or several such elements: no row). All 6 single-variant pages
+  in the sample now get their row; the 7 pages with no rendered rows still get none.
+- **Harder synthetic redesigns (6).** `simulate_redesign(html, kind)`: `classes` (as before), `tags` (div → section,
+  span → em, ul → ol), `columns` (children of every repeated element reversed). A row's leaf limit went from 24 to
+  48 because reversed rows put the SKU last.
+- **Found on the way:** with columns reversed and no labels, the model mapped `Mfr #` as the SKU on 6 pages; those
+  values are whole SKU-like cells of the right row, so the evidence gate accepted them (9–10 wrong SKUs). Fix: the
+  header row's labels are aligned to the row's columns by code (a column repeated for mobile/desktop counts once)
+  and become part of the keys (`Item # k012402`). The Validator also requires a generic-row SKU to match the
+  adapter's SKU-like pattern, so a label or quantity can never be an SKU.
+- Tests: row mapping applied to all rows in one call; wrong mappings (label column, price cell, other section)
+  rejected; single-variant redesigned page recovered. 76 tests pass.
+
+Experiment (same 30 pages, final run): rendered SKUs recovered 82/82 (classes), 62/82 (tags; the 20-row Filtek
+page returned no usable mapping in this run, 20/20 when re-run alone), 82/82 (columns); 0 wrong prices and 0 wrong
+SKUs in all three; ≈ $0.035 per redesign pass of 30 pages. README §9 rewritten with these numbers.

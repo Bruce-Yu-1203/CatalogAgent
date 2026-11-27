@@ -65,6 +65,17 @@ SUBMIT_SPEC: dict[str, Any] = {
                     "additionalProperties": False,
                 },
             },
+            "row_mapping": {
+                "type": "object",
+                "description": "Column mapping applied by code to every row of a generic section (no_variants gap).",
+                "properties": {
+                    "section_id": {"type": "string", "maxLength": 64},
+                    "sku_cell": {"type": "string", "maxLength": 48},
+                    "name_cell": {"type": "string", "maxLength": 48},
+                },
+                "required": ["section_id", "sku_cell"],
+                "additionalProperties": False,
+            },
             "notes": {"type": "string", "maxLength": 500},
         },
         "required": ["variants"],
@@ -119,7 +130,18 @@ class SnapshotTools:
             sec = next((s for s in ordered if s.rows), None)
             if sec is None:
                 return self._bound([])
-            return self._bound([{"section_id": sec.section_id, **r.model_dump()} for r in sec.rows])
+            rows = sec.rows
+            n = args.get("sample")
+            if isinstance(n, int) and 0 < n < len(rows):
+                # Internal use (first message on a no_variants gap): a few template rows plus the total count.
+                return self._bound(
+                    {
+                        "rows_total": len(rows),
+                        "column_labels": sec.text,
+                        "sample": [{"section_id": sec.section_id, **r.model_dump()} for r in rows[:n]],
+                    }
+                )
+            return self._bound([{"section_id": sec.section_id, **r.model_dump()} for r in rows])
         return self._bound({"error": f"unknown tool {name!r}"})
 
 

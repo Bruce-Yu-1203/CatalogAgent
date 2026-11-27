@@ -106,6 +106,17 @@ def normalize_availability(raw: str | None) -> Availability:
     return Availability.UNKNOWN
 
 
+def is_stock_status(text: str | None, cell_key: str = "") -> bool:
+    """A known stock status, or a short text in a column labelled as stock/availability (e.g. "Special order").
+    Used for generic rows, where no site-specific cell name says which cell is the stock status."""
+    if not text or not text.strip():
+        return False
+    if normalize_availability(text) != Availability.UNKNOWN:
+        return True
+    label = cell_key.rsplit(" ", 1)[0].lower() if " " in cell_key else ""
+    return ("stock" in label or "availab" in label) and len(text.strip()) <= 40
+
+
 def clean_text(text: str | None) -> str | None:
     if text is None:
         return None

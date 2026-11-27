@@ -14,6 +14,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from decimal import Decimal, InvalidOperation
 from functools import lru_cache
 from urllib.parse import urlsplit
 
@@ -344,6 +345,99 @@ def _price_tiers(row: Tag) -> list[tuple[str, str]]:
     return tiers
 
 
+# Embedded page data: product objects inside inline scripts (not JSON-LD), e.g. the JSON a page's variant table is
+# rendered from. Found by shape only (an object with an "sku" string and a numeric price), never by variable name,
+# so it survives renamed classes and markup. Objects without a price (e.g. the parent product) are ignored; when
+# several containers hold such objects, the one with the most objects is used.
+_JSON = json.JSONDecoder()
+_EMBED_PRICE_KEYS = ("product_price", "final_price", "price", "special_price")
+_EMBED_STOCK_KEYS = ("stock_availability_label", "stock_availability", "availability")
+
+
+def _decode_all(text: str, depth: int = 0) -> list:
+    out: list = []
+    i = tries = 0
+    while tries < 400:
+        j = text.find("{", i)
+        if j < 0:
+            break
+        tries += 1
+        try:
+            obj, end = _JSON.raw_decode(text, j)
+        except ValueError:
+            i = j + 1
+            continue
+        out.append(obj)
+        i = end
+    if depth == 0:  # JSON serialized inside a string literal, e.g. var data = "{\"123\":{...}}"
+        for m in re.finditer(r'"((?:[^"\\]|\\.){60,})"', text):
+            lit = m.group(1)
+            if lit.startswith("{"):
+                try:
+                    out += _decode_all(json.loads(f'"{lit}"'), 1)
+                except ValueError:
+                    continue
+    return out
+
+
+def _embed_price(obj: dict) -> str | None:
+    for k in _EMBED_PRICE_KEYS:
+        v = obj.get(k)
+        if isinstance(v, bool) or not isinstance(v, (int, float, str)):
+            continue
+        try:
+            d = Decimal(str(v).strip())
+        except InvalidOperation:
+            continue
+        q = d.quantize(Decimal("0.01"))
+        if d > 0 and q == d:
+            return str(q)
+    return None
+
+
+def embedded_rows(soup: BeautifulSoup) -> list[Row]:
+    groups: dict[int, list[dict]] = {}
+
+    def walk(o: object, parent: int) -> None:
+        if isinstance(o, dict):
+            sku = o.get("sku")
+            if isinstance(sku, str) and sku.strip() and _embed_price(o):
+                groups.setdefault(parent, []).append(o)
+            for v in o.values():
+                walk(v, id(o))
+        elif isinstance(o, list):
+            for v in o:
+                walk(v, id(o))
+
+    for script in soup.find_all("script"):
+        if (script.get("type") or "").endswith("ld+json"):
+            continue
+        text = script.string or ""
+        if "sku" in text:
+            for obj in _decode_all(text):
+                walk(obj, id(obj))
+    best = max(groups.values(), key=len, default=[])
+    rows: list[Row] = []
+    seen: set[str] = set()
+    for o in best[:200]:
+        sku = o["sku"].strip()
+        if sku in seen:
+            continue
+        seen.add(sku)
+        price = _embed_price(o) or ""
+        stock = next((o[k] for k in _EMBED_STOCK_KEYS if isinstance(o.get(k), str) and o[k].strip()), "")
+        cells = {
+            "sku": sku,
+            "name": clean_text(o.get("name")) if isinstance(o.get("name"), str) else "",
+            "price": price,
+            # Currency only if the object itself shows this amount with a dollar sign (e.g. its price HTML).
+            "currency": "USD" if f"${price}" in json.dumps(o, ensure_ascii=False).replace(",", "") else "",
+            "availability": stock,
+        }
+        rows.append(Row(row_id=f"emb-{len(rows) + 1}", cells={k: v or "" for k, v in cells.items()}))
+    return rows
+
+
 # Generic evidence path for an unrecognised layout (site redesign): used only when neither the variant table
 # nor JSON-LD yields a single row. It relies on no Safco class names: rows are repeated sibling elements of the
 # same tag and class signature that each show a price and an SKU-like code; each leaf text is one cell. The model
@@ -574,6 +668,10 @@ def _build_sections_cached(snapshot_id: str, html: str) -> tuple[Section, ...]:
         text = "" if rows else (_text(grouped) or "")[:500]
         sections.append(Section(section_id="variant-table", kind="variant_table", text=text, rows=rows))
 
+    emb = embedded_rows(soup)
+    if emb:
+        sections.append(Section(section_id="embedded-data", kind="embedded_json", text="", rows=emb))
+
     if not any(sec.rows for sec in sections) and _ld_of_type(soup, "ProductGroup", "Product") is None:
         rows, labels = generic_rows(soup)
         if rows:
@@ -613,9 +711,14 @@ def section_by_id(snapshot: PageSnapshot, section_id: str) -> Section | None:
 
 # Which cell of a row holds the SKU / price, per section kind (used by the Validator).
 # "*" (generic rows): the SKU must equal one whole cell of the cited row; their price is the row's first price.
-SKU_CELL = {"variant-table": "item_no", "structured-data": "sku", "page-rows": "*"}
-PRICE_CELL = {"variant-table": "price", "structured-data": "price", "page-rows": "price"}
-AVAILABILITY_CELL = {"variant-table": "stock", "structured-data": "availability"}
+SKU_CELL = {"variant-table": "item_no", "structured-data": "sku", "embedded-data": "sku", "page-rows": "*"}
+PRICE_CELL = {"variant-table": "price", "structured-data": "price", "embedded-data": "price", "page-rows": "price"}
+AVAILABILITY_CELL = {
+    "variant-table": "stock",
+    "structured-data": "availability",
+    "embedded-data": "availability",
+    "page-rows": "*",
+}
 GROUP_CELL = {"variant-table": "group"}
 
 
@@ -741,8 +844,38 @@ def parse_product(snapshot: PageSnapshot) -> ProductCandidate:
                 )
             )
 
+    emb = secs.get("embedded-data")
+    if emb and emb.rows:
+        # Embedded page data fills what neither the table nor JSON-LD gave (same rule: never overrides).
+        have = {v.sku for v in variants}
+        for r in emb.rows:
+            sku = r.cells["sku"]
+            if sku in have:
+                continue
+            price_raw = r.cells.get("price") or None
+            variants.append(
+                VariantObservation(
+                    sku=sku,
+                    row_id=r.row_id,
+                    section_id="embedded-data",
+                    sku_raw=sku,
+                    variant_name=r.cells.get("name") or None,
+                    pack_label=parse_pack(r.cells.get("name"))[0],
+                    price_raw=price_raw,
+                    price_section_id="embedded-data" if price_raw else None,
+                    price_row_id=r.row_id if price_raw else None,
+                    availability_raw=r.cells.get("availability") or None,
+                )
+            )
+
     expected = list(
-        dict.fromkeys([*(r.cells.get("item_no", "") for r in (table.rows if table else [])), *ld_rows.keys()])
+        dict.fromkeys(
+            [
+                *(r.cells.get("item_no", "") for r in (table.rows if table else [])),
+                *ld_rows.keys(),
+                *(r.cells["sku"] for r in (emb.rows if emb else [])),
+            ]
+        )
     )
     brand = clean_text(data.get("brand")) if data.get("brand") else None
     return ProductCandidate(

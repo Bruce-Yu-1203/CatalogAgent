@@ -30,7 +30,7 @@ from catalog_agent.contracts import (
     VariantObservation,
 )
 from catalog_agent.extraction.llm import ModelClient, ModelReply
-from catalog_agent.extraction.normalize import normalize_price, parse_pack
+from catalog_agent.extraction.normalize import is_stock_status, normalize_price, parse_pack
 from catalog_agent.extraction.tools import SUBMIT_SPEC, TOOL_SPECS, SnapshotTools
 
 SYSTEM_PROMPT = """You repair gaps in a product extraction for a dental supply catalog page.
@@ -48,10 +48,12 @@ Rules:
 - For a no_variants gap the page layout was not recognised. You see sample rows of the page-rows section; cells
   are keyed by their position in the row template, so the same key means the same column in every row. Return
   row_mapping with section_id "page-rows", sku_cell = the key of the item number (the store's own SKU / Item #,
-  not a manufacturer number) and name_cell = the key of the variant label; the code applies it to every row and
-  takes each row's "price" cell. Use the column labels, when given, to tell the SKU from other codes. The sample
-  rows and labels are all you need: call submit_patch in your first reply, without other tools. Leave variants
-  empty unless a row does not follow the template.
+  not a manufacturer number), name_cell = the key of the variant label and stock_cell = the key of the short
+  stock status (e.g. "In stock", "Backorder"), not its explanation. Give a key from any one row even if other rows
+  use a different key in the same labelled column: the code falls back to that column. The code applies the
+  mapping to every row and takes each row's "price" cell. Use the column labels, when given, to tell the SKU
+  from other codes. The sample rows and labels are all you need: call submit_patch in your first reply, without
+  other tools. Leave variants empty unless a row does not follow the template.
 - For an unparsed_attributes gap, return attributes for every listed SKU. Do not repeat values that already
   have their own field (pack size, stock, item or manufacturer number). Use Title Case keys and the same key
   for the same property across rows.
@@ -353,14 +355,29 @@ class ExtractorAgent:
     @staticmethod
     def _expand_mapping(mapping: dict[str, Any], checker: EvidenceChecker) -> list[dict[str, Any]]:
         """Apply a model-proposed column mapping to every row of one section. Each produced entry is checked by
-        `_apply_patch` exactly like an entry the model wrote by hand (whole-cell SKU, row price)."""
+        `_apply_patch` and the Validator exactly like an entry the model wrote by hand (whole-cell SKU, row price,
+        whole-cell stock status)."""
         sec = checker.sections.get(str(mapping.get("section_id") or ""))
-        sku_key, name_key = mapping.get("sku_cell"), mapping.get("name_cell")
+        sku_key, name_key, stock_key = (mapping.get(k) for k in ("sku_cell", "name_cell", "stock_cell"))
         if sec is None or not isinstance(sku_key, str) or sku_key == "price":
             return []
+
+        def pick(cells: dict[str, str], key: Any, stock: bool = False) -> str | None:
+            if not isinstance(key, str):
+                return None
+            if key in cells and (not stock or is_stock_status(cells[key], key)):
+                return cells[key]
+            # Same labelled column, different markup in this row (e.g. "Backorder" styled unlike "In stock").
+            label = key.rsplit(" ", 1)[0] if " " in key else None
+            for k, v in cells.items():
+                if label and k.rsplit(" ", 1)[0] == label and k != "price":
+                    if not stock or is_stock_status(v, k):
+                        return v
+            return None
+
         out = []
         for row in sec.rows[:60]:
-            sku = row.cells.get(sku_key)
+            sku = pick(row.cells, sku_key)
             if not sku:
                 continue
             out.append(
@@ -370,7 +387,8 @@ class ExtractorAgent:
                     "row_id": row.row_id,
                     "sku_raw": sku,
                     "price_raw": row.cells.get("price"),
-                    "variant_name": row.cells.get(name_key) if isinstance(name_key, str) else None,
+                    "variant_name": pick(row.cells, name_key),
+                    "availability_raw": pick(row.cells, stock_key, stock=True),
                 }
             )
         return out
@@ -425,6 +443,11 @@ class ExtractorAgent:
                     new.pack_label = parse_pack(name)[0]
                     if new.pack_label:
                         new.llm_fields.append("pack_label")
+                stock = e.get("availability_raw")
+                if isinstance(stock, str) and stock.strip() and stock.strip().lower() in row_text:
+                    # Verified by the Validator: a whole stock-status cell of this same row.
+                    new.availability_raw = stock.strip()
+                    new.llm_fields.append("availability_raw")
                 cand.variants.append(new)
                 by_sku[sku] = new
                 applied += 1

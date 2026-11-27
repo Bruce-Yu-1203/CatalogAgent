@@ -24,8 +24,8 @@ classifier fallback and repair suggestions switched on, 131 s):
 | What the model added | structured variant attributes on 87/87 variants (deterministic: 0/87 beyond the table group heading); SKU, price, pack and availability identical to deterministic extraction on the same snapshots (0 differences); recovery 20/20 pages |
 | Repair suggestions | none: the 3 pages whose table never renders are recorded as the render note `table_not_rendered` (expected JSON-LD fallback), not as a selector failure |
 | Offline evaluation (FR-13) | 22 frozen pages, 4 hybrid runs: SKU recall 1.0 and price accuracy 1.0 in both modes; held-out attribute recall 0 → 0.54–1.0 with the model (see §9) |
-| Why an LLM (§9) | rules alone: 30/30 accepted and 224/224 SKUs on a 30-product random sample, 0 model calls needed for SKU or price; on three synthetic redesigns of the same pages rules get 0 SKUs, rules + LLM recover 82, 62 and 82 of the 82 rendered SKUs, with 0 wrong prices and 0 wrong SKUs |
-| Tests | 76 passed (P0 + P1 suites, offline), smoke script passed |
+| Why an LLM (§9) | rules alone: 30/30 accepted and 224/224 SKUs on a 30-product random sample, no model needed for SKU, price or stock; after a synthetic redesign that keeps the page's inline data rules still get 203/224; when it drops all structured data rules get 0 and rules + LLM recover up to all 82 rendered SKUs with price and stock, 0 wrong values |
+| Tests | 78 passed (P0 + P1 suites, offline), smoke script passed |
 
 Outputs: [`outputs/products.json`](outputs/products.json), [`outputs/variants.csv`](outputs/variants.csv),
 [`outputs/run_report.json`](outputs/run_report.json), [`outputs/failed_tasks.json`](outputs/failed_tasks.json),
@@ -245,81 +245,92 @@ documented setup and commands end to end offline.
 ### Why an LLM
 
 Rules handle the normal pages; the LLM is insurance for redesigns and layouts the adapter has not seen. The
-experiment below replays the **same 30 saved product pages** (the random sitemap sample of live run
-`run_20261127_sitemap30_merge_hybrid`, 18 top-level categories) on the original pages and on three
+experiment replays the **same 30 saved product pages** (the random sitemap sample of live run
+`run_20261127_sitemap30_merge_hybrid`, 18 top-level categories) on the original pages and on four
 **synthetic** redesigns of them, each with rules only and with rules + LLM:
-`uv run catalog-agent experiment --run-id run_20261127_sitemap30_merge_hybrid --redesigns classes,tags,columns`
-→ [`outputs/redesign_experiment.json`](outputs/redesign_experiment.json). Every redesign removes the JSON-LD
-and renames every class name, so every Safco selector fails; `tags` also changes element types (div → section,
-span → em, ul → ol); `columns` also reverses the children of every repeated element, so SKU, name, stock and
-price columns change places. Reference SKUs and prices come from the original page's JSON-LD: 224 SKUs, of
-which 82 are rendered as rows on the page (the rest exist only in JSON-LD).
+`uv run catalog-agent experiment --run-id run_20261127_sitemap30_merge_hybrid --redesigns data,classes,tags,columns`
+→ [`outputs/redesign_experiment.json`](outputs/redesign_experiment.json).
 
-| 30 pages | A: original, rules | B: original, rules + LLM | C: any redesign, rules | D: classes renamed | D: tags changed | D: columns reordered |
-|---|---|---|---|---|---|---|
-| Records accepted / partial | 30 / 0 | 30 / 0 | 0 / 30 | 23 / 7 | 22 / 8 | 23 / 7 |
-| SKUs of the 82 rendered rows | 82 | 82 | 0 | **82** | 62 | **82** |
-| SKUs of all 224 (incl. JSON-LD only) | 224 | 224 | 0 | 82 | 62 | 82 |
-| Wrong prices / SKUs not on the page | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 |
-| Variant name / pack / availability (of 224) | 224 / 181 / 224 | 224 / 181 / 224 | 0 | 82 / 43 / 0 | 62 / 38 / 0 | 82 / 40 / 0 |
-| SKUs that came from the LLM | 0 | 0 | 0 | 82 | 62 | 82 |
-| Pages with a model call / model calls | 0 / 0 | 30 / 41 | 0 / 0 | 23 / 56 | 23 / 53 | 23 / 58 |
-| List cost | $0 | $0.032 | $0 | $0.035 | $0.032 | $0.035 |
+Every redesign removes the JSON-LD and renames every class name, so every Safco selector fails.
+- `data`: only that; the page's inline script data (the JSON its variant table is rendered from) is kept.
+- `classes`: also removes that inline data, as a new front end would ship its data differently.
+- `tags`: as `classes`, and element types change too (div → section, span → em, ul → ol).
+- `columns`: as `classes`, and the children of every repeated element are reversed, so SKU, name, stock and
+  price columns change places.
 
-("C" is identical for all three redesigns: 0 SKUs, 30 partial. D's model calls include the attribute-splitting
-calls that also run in B.)
+Reference SKUs and prices come from the original page's JSON-LD: 224 SKUs, of which 82 are rendered as rows on
+the page; the rest exist only in JSON-LD and inline data (pages whose table never rendered, or rendered fewer
+rows).
+
+| 30 pages, 224 reference SKUs | A: original, rules | B: original, rules + LLM | `data`, rules | `classes` / `tags` / `columns`, rules | `classes`, rules + LLM | `tags`, rules + LLM | `columns`, rules + LLM |
+|---|---|---|---|---|---|---|---|
+| Records accepted / partial | 30 / 0 | 30 / 0 | 27 / 3 | 0 / 30 | 23 / 7 | 22 / 8 | 23 / 7 |
+| SKUs (of 224) | 224 | 224 | **203** | 0 | 82 | 81 | 82 |
+| SKUs of the 82 rendered rows | 82 | 82 | 82 | 0 | **82** | 81 | **82** |
+| Prices / stock / variant name | 224 / 224 / 224 | 224 / 224 / 224 | 203 / 203 / 203 | 0 | 82 / 82 / 82 | 81 / 81 / 81 | 82 / 82 / 82 |
+| Wrong prices / SKUs not on the page | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 |
+| SKUs that came from the LLM | 0 | 0 | 0 | 0 | 82 | 81 | 82 |
+| Model calls / list cost | 0 | 42 / $0.034 | 0 | 0 | 56 / $0.036 | 56 / $0.035 | 55 / $0.036 |
+
+(B's and D's model calls include attribute splitting, which runs on every page in hybrid mode. With rules + LLM
+the `data` redesign gives the same 203 SKUs as rules alone; its model calls are attribute splitting only.)
 
 What this shows:
-- **Rules alone are enough on normal pages.** The deterministic parser merges the rendered variant table with
-  the page's JSON-LD: a SKU the table did not render is filled from JSON-LD by rules (a table row always wins,
-  so a "Non-purchasable" row keeps a null price). On this sample that moved rules-only from 27/30 accepted and
+- **Rules alone are enough on normal pages.** The parser merges the rendered table, the JSON-LD and the inline
+  page data, in that order of priority; a later source only fills SKUs the earlier ones did not show (so a
+  "Non-purchasable" table row keeps its null price). On this sample rules-only went from 27/30 accepted and
   209/224 SKUs (`run_20261127_sitemap30`, before the merge) to 30/30 and 224/224, where the earlier hybrid run
-  needed the model (29/30, 218/224). Live re-runs on the same 30 products, `run_20261127_sitemap30_merge`
-  (rules) and `run_20261127_sitemap30_merge_hybrid` (rules + LLM), both give 30 accepted and 224/224 SKUs.
-- **On normal pages the LLM never touches SKU or price.** B's calls are all attribute splitting
-  (`attribute_gaps: true`, e.g. `C-6, chromic gut, 4-0, 18"` → Needle / Material / Size / Length); 0 SKUs and 0
-  prices came from the model. With `attribute_gaps: false` normal pages cost 0 model calls.
-- **After a redesign, rules fail completely (C) and the LLM recovers what the page still shows (D).** With
-  classes renamed or columns reordered it recovered all 82 rendered SKUs, with correct prices, on all 23 pages
-  that render rows. With tags changed it recovered 62: on the 20-row Filtek page the model returned no usable
-  mapping in this run (re-running that page alone recovered all 20), so that record stays `partial`.
-- **Nothing wrong got through:** 0 wrong prices and 0 SKUs that are not the page's own item numbers, in all
-  three redesigns.
+  needed the model (29/30, 218/224). Live re-runs on the same 30 products, `run_20261127_sitemap30_merge` (rules)
+  and `run_20261127_sitemap30_merge_hybrid` (rules + LLM), both give 30 accepted and 224/224 SKUs.
+- **On normal pages the LLM never touches SKU, price or stock.** B's calls are attribute splitting
+  (`attribute_gaps: true`, e.g. `C-6, chromic gut, 4-0, 18"` → Needle / Material / Size / Length). With
+  `attribute_gaps: false` normal pages cost 0 model calls.
+- **If a redesign keeps the page's own data, rules still work (`data`: 203/224, no model).** Inline product
+  objects are found by shape (an `sku` string plus a numeric price), not by variable name. On 50 normal pages
+  this found 290 SKUs, all equal to the JSON-LD SKUs with equal prices. The 21 SKUs it cannot give are
+  personalized items whose inline objects carry no price (11) and SKUs missing from the inline data (10).
+- **If the redesign drops all structured data, rules get nothing and the LLM recovers what the page shows.**
+  With classes renamed or columns reordered it recovered all 82 rendered SKUs with price, stock and name. With tags
+  changed it recovered 81: on one single-variant page the model returned no usable answer, so that record stays
+  `partial`.
+- **Nothing wrong got through:** 0 wrong prices and 0 SKUs that are not the page's own item numbers, in every
+  group.
 
-How the recovery works (no new agent, no full-text matching):
-1. **Generic evidence rows.** When the site-specific table and JSON-LD yield nothing, `build_sections` builds
+How redesign recovery works (no new agent, no full-text matching):
+1. **Generic evidence rows.** When the table, JSON-LD and inline data yield nothing, `build_sections` builds
    `page-rows` from repeated sibling elements (same tag and class signature, whatever the names are) that each
    show a `$` price and an SKU-like code; a page with one variant uses the single smallest element showing
-   both. A product page with no parsed variant but such rows raises a `no_variants` gap; without such rows
-   there is no gap and no model call.
+   both. A product page with no parsed variant but such rows raises a `no_variants` gap; without such rows there
+   is no gap and no model call.
 2. **Column labels from the page.** If a header row (same tag, no price, short labels) precedes the rows, the
-   code aligns its labels to the row's columns, so cell keys read `Item # k012402`, `Mfr # k6713ba`.
-3. **Row mapping.** The model sees 3 sample rows and the row count, and answers which cell holds the item
-   number and which the variant label. The code applies that mapping to every row: one call per page instead of
-   copying 20 rows by hand.
+   code aligns its labels to the row's columns, so cell keys read `Item # k012402`, `Mfr # k6713ba`,
+   `Stock Availability k483504`.
+3. **Row mapping.** The model sees 3 sample rows and the row count, and answers which cell holds the item number,
+   the variant label and the stock status. The code applies that mapping to every row (falling back to the same
+   labelled column when one row's markup differs, e.g. "Backorder" styled unlike "In stock"): one call per page.
 4. **Same evidence gate as everywhere.** Each mapped row is verified on its own: the SKU must equal a whole
-   cell of that row and look like an SKU code, the price must equal that row's first displayed price. A
-   generic-row record is `accepted` only if every generic row got a verified variant (`generic_rows_uncovered`
-   otherwise).
+   SKU-like cell of that row, the price must equal that row's first displayed price, the stock must equal a whole
+   cell that reads as a stock status (a known status, or a short text in the stock column such as "Special
+   order"). A generic-row record is `accepted` only if every generic row got a verified variant.
 
 What went wrong on the way, measured on the same pages:
-- Before steps 2–3 the model copied rows by hand: 56/82 SKUs with classes renamed, and the 20-row page failed.
-- With rows reordered and no column labels, the model took the manufacturer number (`Mfr #`) for the SKU on 6
-  pages (9–10 SKUs). Those codes are whole cells of the right row, so the evidence gate alone cannot catch this;
-  the column labels (step 2) fixed it.
+- Before steps 2–3 the model copied rows by hand: 56/82 SKUs with classes renamed; the 20-row page failed.
+- With columns reordered and no column labels, the model took the manufacturer number (`Mfr #`) for the SKU on 6
+  pages (9–10 SKUs). Those codes are whole cells of the right row, so the evidence gate alone could not catch
+  this; the column labels (step 2) fixed it.
+- Stock first reached only 49–55 of 82: rows styled differently per status got different cell keys, so the model
+  left stock out, and "Special order" was not accepted as a status. The labelled-column fallback and the stock
+  column rule fixed both (82/82 with classes renamed).
 
-What D still cannot recover:
-- **SKUs that exist only in JSON-LD (142 of 224).** The page never rendered those rows, so a redesign that drops
-  JSON-LD leaves no evidence on the page and nothing is recovered. Real redesigns usually keep JSON-LD because
-  search engines use it; then rules still read it.
-- **Availability.** The model's patch has no stock field yet.
-- **Model variance.** One large page failed in one of the three redesigns.
+Still not recoverable: SKUs that exist only in JSON-LD or inline data when a redesign drops both (142 of 224 here;
+real redesigns usually keep JSON-LD because search engines use it), and occasional model failures (one call with
+no usable answer), which leave the record `partial`, never wrong.
 
-The fake-model tests (`tests/test_agent_loop.py`) run a redesign of real pages: rules find no variant; a valid
-row mapping is applied by code to all rows in one call; a mapping to the label column, the price cell or a
-non-generic section is rejected row by row; a single-variant page gets one generic row; a SKU on the wrong row,
-the row's second price or an invented SKU is rejected; a redesigned page with no prices builds no generic rows
-and never calls the model.
+The fake-model tests (`tests/test_agent_loop.py`) cover: rules reading inline data after a `data` redesign with
+no model call; a valid row mapping applied by code to all rows in one call, with stock; a stock column that is not
+a status rejected; mappings to the label column, the price cell or another section rejected; a single-variant
+page getting one generic row; a SKU on the wrong row, the row's second price or an invented SKU rejected; a
+redesigned page without prices building no generic rows and never calling the model.
 
 ### Two-category live run
 
@@ -495,16 +506,16 @@ issue on these 20 pages; there were no duplicate SKU identities and no repeated 
 - The per-category budget is shared round-robin across subcategories (least-sampled first), so each
   subcategory gets one or two products; only page 1 of each listing is read.
 - The generic redesign path (§9) needs rows that each show a `$` price and an SKU-like code (or exactly one such
-  block on a single-variant page); data that only exists in JSON-LD is not recoverable after a redesign that
-  drops it, and availability is not recovered from generic rows. It was tested on three synthetic redesigns of
-  saved pages, not on a real redesign or historical page versions.
+  block on a single-variant page); SKUs that exist only in JSON-LD or inline data are not recoverable after a
+  redesign that drops both. It was tested on four synthetic redesigns of saved pages, not on a real redesign or
+  historical page versions.
 - Manufacturer is always null (`not_applicable`): Safco shows one label, used as brand.
 - Windows is not supported (`fcntl`).
 
 ## 13. Tests
 
-`uv run pytest` on 2026-11-27: **76 passed**, all offline (saved fixtures, fake fetchers, fake models):
-`test_discovery.py` 12, `test_extraction.py` 14, `test_agent_loop.py` 16, `test_persistence.py` 6, `test_runtime.py` 10
+`uv run pytest` on 2026-11-27: **78 passed**, all offline (saved fixtures, fake fetchers, fake models):
+`test_discovery.py` 12, `test_extraction.py` 14, `test_agent_loop.py` 18, `test_persistence.py` 6, `test_runtime.py` 10
 (P0) and `test_classifier_fallback.py` 6, `test_repair_suggestions.py` 7, `test_adversarial.py` 5 (P1).
 `./scripts/smoke.sh` passed (lint, format check, tests, replay crawl → export → report → resume). Fixtures:
 `tests/fixtures/live/` and `tests/fixtures/eval/` are real snapshots; synthetic variants are labelled.

@@ -28,7 +28,7 @@ from catalog_agent.contracts import (
     product_id_for,
     variant_id_for,
 )
-from catalog_agent.extraction.normalize import normalize_availability, normalize_price, parse_pack
+from catalog_agent.extraction.normalize import is_stock_status, normalize_availability, normalize_price, parse_pack
 
 
 class EvidenceChecker:
@@ -289,9 +289,21 @@ class ValidatorAgent:
                 pack_label = pack_qty = pack_unit = None
                 missing.append(MissingField(field="pack_label", reason=MissingReason.PARSE_FAILED))
         if obs.availability_raw:
-            cell = ev.cell_named(obs.section_id, obs.row_id, self.adapter.AVAILABILITY_CELL)
+            if self.adapter.AVAILABILITY_CELL.get(obs.section_id) == "*":
+                # Generic rows: a whole cell of the same row that reads as a stock status (never a free-text cell).
+                sec = ev.sections.get(obs.section_id)
+                row = sec.row(obs.row_id) if sec and obs.row_id else None
+                raw = obs.availability_raw.strip()
+                ok = row is not None and any(
+                    c.strip() == raw and is_stock_status(c, k) for k, c in row.cells.items() if k != "price"
+                )
+                cell = obs.availability_raw if ok else None
+            else:
+                cell = ev.cell_named(obs.section_id, obs.row_id, self.adapter.AVAILABILITY_CELL)
             if cell is not None and cell.strip() == obs.availability_raw.strip():
-                evidence.append(ref("availability_raw", obs.availability_raw, avail.value, False))
+                evidence.append(
+                    ref("availability_raw", obs.availability_raw, avail.value, "availability_raw" in llm_fields)
+                )
             else:
                 rejected += 1
                 avail, avail_raw = Availability.UNKNOWN, None

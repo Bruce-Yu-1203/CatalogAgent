@@ -516,3 +516,26 @@ Amy chose items 1, 2 and 6 of the recovery plan (the first redesign run recovere
 Experiment (same 30 pages, final run): rendered SKUs recovered 82/82 (classes), 62/82 (tags; the 20-row Filtek
 page returned no usable mapping in this run, 20/20 when re-run alone), 82/82 (columns); 0 wrong prices and 0 wrong
 SKUs in all three; ≈ $0.035 per redesign pass of 30 pages. README §9 rewritten with these numbers.
+
+## Inline page data and stock on redesigned pages (2026-11-27)
+
+Amy asked for the stock field on redesigned pages (item 3) and the inline-data evidence source (item 4).
+
+- **Inline page data (rules).** `embedded_rows` decodes JSON inside inline scripts (also JSON serialized inside a
+  string literal) and keeps objects with an `sku` string and a numeric price, found by shape, not by variable name;
+  the container with the most such objects wins. Cells: sku, name, price (only if exact to the cent), currency
+  (USD only if the object itself shows the amount with `$`), availability (label or code). `parse_product` uses it
+  after the table and JSON-LD to fill SKUs they did not show. On 50 normal pages it found 290 SKUs, all equal to the
+  JSON-LD SKUs with equal prices; the parent product object (no price) is ignored.
+- **Stock on generic rows.** `row_mapping` gains `stock_cell`; mapped rows fall back to the same labelled column
+  when a row's markup differs (status-dependent styling gave "In stock" and "Backorder" different keys). The
+  Validator accepts a generic-row stock value only if it is a whole cell of the row that is a known status or a
+  short text in a stock/availability column ("Special order").
+- **Redesign kinds.** New `data` kind keeps the inline data; `classes`, `tags` and `columns` now also remove it.
+- Tests: rules read inline data after a `data` redesign with no model call; mapping with stock; a non-status stock
+  column rejected. 78 tests pass.
+
+Final experiment run (`outputs/redesign_experiment.json`): rules alone get 224/224 on the original pages and 203/224
+after the `data` redesign; with all structured data removed rules get 0 and rules + LLM recover 82, 81 and 82 of the
+82 rendered SKUs (classes, tags, columns), each with price, stock and name; 0 wrong prices and 0 wrong SKUs in every
+group. README §9 rewritten with this run.

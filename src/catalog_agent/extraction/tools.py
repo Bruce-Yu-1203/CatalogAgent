@@ -56,6 +56,7 @@ SUBMIT_SPEC: dict[str, Any] = {
                         "sku_raw": {"type": "string", "maxLength": 64},
                         "price_raw": {"type": ["string", "null"], "maxLength": 32},
                         "variant_name": {"type": ["string", "null"], "maxLength": 200},
+                        "availability_raw": {"type": ["string", "null"], "maxLength": 60},
                         "attributes": {
                             "type": "object",
                             "additionalProperties": {"type": "string", "maxLength": 200},
@@ -72,6 +73,7 @@ SUBMIT_SPEC: dict[str, Any] = {
                     "section_id": {"type": "string", "maxLength": 64},
                     "sku_cell": {"type": "string", "maxLength": 48},
                     "name_cell": {"type": "string", "maxLength": 48},
+                    "stock_cell": {"type": "string", "maxLength": 48},
                 },
                 "required": ["section_id", "sku_cell"],
                 "additionalProperties": False,

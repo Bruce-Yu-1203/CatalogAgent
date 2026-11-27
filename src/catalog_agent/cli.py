@@ -168,7 +168,7 @@ def evaluate(
 def experiment(
     run_id: Annotated[str, typer.Option(help="run whose saved product snapshots are replayed")],
     groups: Annotated[str, typer.Option(help="subset of A,B,C,D")] = "A,B,C,D",
-    redesigns: Annotated[str, typer.Option(help="redesign kinds for C and D: classes,tags,columns")] = "classes",
+    redesigns: Annotated[str, typer.Option(help="redesign kinds for C and D: data,classes,tags,columns")] = "classes",
     config: Path = Path("configs/safco.yaml"),
     db: Annotated[str | None, typer.Option(help="override storage.database")] = None,
     out: Path = Path("outputs/redesign_experiment.json"),
@@ -207,8 +207,9 @@ def experiment(
         "model_id": getattr(model, "model_id", None),
         "note": (
             "Offline replay of the run's saved product pages. C and D use SYNTHETIC redesigned copies (JSON-LD "
-            "removed and every class renamed; 'tags' also changes element types, 'columns' also reverses the "
-            "children of repeated elements); reference SKUs and prices come from the original page's JSON-LD."
+            "removed and every class renamed; 'data' keeps inline scripts with product data, the other kinds remove "
+            "them; 'tags' also changes element types, 'columns' also reverses the children of repeated elements); "
+            "reference SKUs and prices come from the original page's JSON-LD."
         ),
         "summary": summary,
         "groups": result,

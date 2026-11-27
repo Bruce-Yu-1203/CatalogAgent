@@ -127,7 +127,8 @@ async def test_a_row_mapping_is_applied_by_code_to_every_row_and_each_row_is_ver
     snap = gap_snapshot()
     sku_key = keys_of(snap, FIRST)[0]
     name_key = keys_of(snap, "Nitrilex Surpass nitrile gloves x-small 300/box")[0]
-    mapping = {"section_id": "page-rows", "sku_cell": sku_key, "name_cell": name_key}
+    stock_key = keys_of(snap, "In stock")[0]
+    mapping = {"section_id": "page-rows", "sku_cell": sku_key, "name_cell": name_key, "stock_cell": stock_key}
     model = FakeModel([ModelReply(tool_calls=[tool("submit_patch", 0, variants=[], row_mapping=mapping)])])
     res, out, _ = await run_loop(model, snap, attribute_gaps=False)
     # One call for all rows; the first message held 3 sample rows and the total, not every row.
@@ -136,6 +137,21 @@ async def test_a_row_mapping_is_applied_by_code_to_every_row_and_each_row_is_ver
     assert {v.price for v in out.product.variants} == {"15.99"}
     v = next(x for x in out.product.variants if x.sku == MISSING)
     assert v.variant_name == "Nitrilex Surpass nitrile gloves medium 300/box" and {"sku", "price"} <= set(v.llm_fields)
+    assert {x.availability.value for x in out.product.variants} == {"in_stock"} and v.availability_raw == "In stock"
+    stock_ev = next(e for e in v.evidence if e.field == "availability_raw")
+    assert stock_ev.method == "llm" and stock_ev.row_id == "generic-3"
+
+
+async def test_a_stock_column_that_is_not_a_stock_status_is_rejected():
+    snap = gap_snapshot()
+    sku_key = keys_of(snap, FIRST)[0]
+    # The variant label is a whole cell of the row, but it is not a stock status.
+    label_key = keys_of(snap, "Nitrilex Surpass nitrile gloves x-small 300/box")[0]
+    mapping = {"section_id": "page-rows", "sku_cell": sku_key, "stock_cell": label_key}
+    model = FakeModel([ModelReply(tool_calls=[tool("submit_patch", 0, variants=[], row_mapping=mapping)])])
+    _, out, _ = await run_loop(model, snap, attribute_gaps=False)
+    assert [v.sku for v in out.product.variants] == ROWS
+    assert all(v.availability.value == "unknown" and v.availability_raw is None for v in out.product.variants)
 
 
 async def test_a_wrong_row_mapping_is_rejected_row_by_row():
@@ -170,6 +186,18 @@ async def test_single_variant_page_after_redesign_gets_one_generic_row():
     model = FakeModel([ModelReply(tool_calls=[tool("submit_patch", 0, variants=[], row_mapping=mapping)])])
     res, out, _ = await run_loop(model, snap, attribute_gaps=False)
     assert out.decision == "accepted" and [(v.sku, v.price) for v in out.product.variants] == [("2580213", "1118.99")]
+
+
+async def test_embedded_page_data_is_read_by_rules_after_a_redesign_without_a_model_call():
+    # SYNTHETIC "data" redesign: JSON-LD removed, classes renamed, the page's inline product data kept.
+    snap = snapshot("product_surpass_gloves", html=simulate_redesign(fixture_html("product_surpass_gloves"), "data"))
+    res, out, _ = await run_loop(ExplodingModel(), snap, attribute_gaps=False)
+    assert not res.output.model_used and res.output.gaps_remaining == []
+    p = out.product
+    assert out.decision == "accepted" and p.extraction_method == "deterministic"
+    assert [v.sku for v in p.variants] == ROWS  # the parent product object (no price) is not a variant
+    assert {(v.price, v.currency, v.availability.value) for v in p.variants} == {("15.99", "USD", "in_stock")}
+    assert {e.section_id for v in p.variants for e in v.evidence if e.field == "sku"} == {"embedded-data"}
 
 
 async def test_generic_rows_need_a_price_and_a_code_or_the_model_is_not_called():

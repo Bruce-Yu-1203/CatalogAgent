@@ -23,14 +23,16 @@ from catalog_agent.contracts import PageSnapshot
 from catalog_agent.extraction.normalize import normalize_price
 from catalog_agent.runtime.fetcher import make_snapshot
 
-REDESIGNS = ("classes", "tags", "columns")
+REDESIGNS = ("data", "classes", "tags", "columns")
 _TAG_SWAP = {"div": "section", "span": "em", "ul": "ol"}
 
 
 def simulate_redesign(html: str, kind: str = "classes") -> str:
     """SYNTHETIC site redesign of a saved page; never written to `outputs/`. Every kind removes the JSON-LD and
     renames every class name (consistently, so repeated elements still look alike).
-    - classes: only that; text, tags, ids and structure are unchanged.
+    - data: only that; inline scripts with embedded product data are kept.
+    - classes: also removes inline scripts that carry product data (a new front end ships its data differently);
+      text, tags, ids and structure are unchanged.
     - tags: also changes the element types (div -> section, span -> em, ul -> ol), as a new front-end would.
     - columns: also reverses the order of the children of every repeated element (an element that has a sibling
       with the same tag, e.g. a variant row and its header row), so SKU, label, stock and price change places."""
@@ -39,6 +41,10 @@ def simulate_redesign(html: str, kind: str = "classes") -> str:
     soup = BeautifulSoup(html, "lxml")
     for tag in soup.select('script[type="application/ld+json"]'):
         tag.decompose()
+    if kind != "data":
+        for tag in soup.find_all("script"):
+            if "sku" in (tag.string or ""):
+                tag.decompose()
     if kind == "columns":
         repeated = []
         for parent in soup.find_all(True):

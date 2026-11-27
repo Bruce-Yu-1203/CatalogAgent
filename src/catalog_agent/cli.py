@@ -117,5 +117,42 @@ def report(
     _print({k: rep[k] for k in ("run_id", "status", "termination_reason", "catalog", "tasks")})
 
 
+@app.command()
+def evaluate(
+    fixtures: Annotated[Path, typer.Option(help="frozen labelled fixtures")] = Path("tests/fixtures/eval"),
+    mode: Annotated[str, typer.Option(help="deterministic | hybrid | compare")] = "compare",
+    config: Path = Path("configs/safco.yaml"),
+    out: Path = Path("outputs/evaluation_report.json"),
+) -> None:
+    """Offline deterministic-vs-hybrid evaluation (FR-13). Hybrid needs model credentials."""
+    from catalog_agent.adapters import safco
+    from catalog_agent.evaluation import evaluate_mode, summarize
+    from catalog_agent.extraction.llm import ModelUnavailable, model_from_env
+
+    cfg = load_config(config)
+    modes = ["deterministic", "hybrid"] if mode == "compare" else [mode]
+    model = None
+    if "hybrid" in modes:
+        try:
+            model = model_from_env(cfg.llm.max_output_tokens_per_call)
+        except ModelUnavailable as e:
+            raise typer.BadParameter(f"hybrid evaluation needs a model: {e}") from e
+
+    async def run() -> list[dict]:
+        return [await evaluate_mode(cfg, safco, fixtures, m, model if m == "hybrid" else None) for m in modes]
+
+    results = asyncio.run(run())
+    report = {
+        "fixtures": str(fixtures),
+        "model_id": getattr(model, "model_id", None),
+        "note": "Replay of frozen snapshots; not full-site accuracy. Labels: see fixtures README.",
+        "summaries": [summarize(r, cfg.llm.input_price_per_mtok, cfg.llm.output_price_per_mtok) for r in results],
+        "pages": results,
+    }
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(report, indent=2, default=str) + "\n")
+    _print([{k: s[k] for k in ("mode", "all", "held_out_live", "synthetic")} for s in report["summaries"]])
+
+
 if __name__ == "__main__":
     app()

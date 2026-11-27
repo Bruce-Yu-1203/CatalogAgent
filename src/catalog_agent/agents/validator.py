@@ -96,7 +96,7 @@ def find_gaps(
             gaps.append(
                 Gap(
                     kind="unparsed_attributes",
-                    detail="variant label text has no structured attributes: " + ",".join(todo[:20]),
+                    detail="variant label text has no structured attributes: " + ",".join(todo[:8]),
                 )
             )
     return gaps

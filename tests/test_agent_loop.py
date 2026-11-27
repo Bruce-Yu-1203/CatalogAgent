@@ -292,3 +292,18 @@ async def test_repeated_identical_rejections_stop_as_no_progress():
     res, out, _ = await run_loop(model, snap, allowance=3, attribute_gaps=False)
     assert res.budget_used.model_calls == 2 and out.decision == "partial"
     assert next(e for e in res.events if e.event == "model_loop").outcome == "no_progress"
+
+
+async def test_offline_evaluation_reports_both_modes_on_the_same_fixtures():
+    from conftest import ROOT, make_config
+
+    from catalog_agent.evaluation import evaluate_mode, summarize
+
+    cfg = make_config(ROOT / "tmp_unused")
+    fixtures = ROOT / "tests" / "fixtures" / "eval"
+    det = summarize(await evaluate_mode(cfg, safco, fixtures, "deterministic"), 0.1, 0.5)
+    assert det["held_out_live"]["pages"] == 17 and det["held_out_live"]["variant_recall"] == 1.0
+    assert det["held_out_live"]["price_accuracy"] == 1.0 and det["all"]["model_calls"] == 0
+    assert det["synthetic"]["variant_recall"] == 0.8  # the removed row is not recovered deterministically
+    hyb = summarize(await evaluate_mode(cfg, safco, fixtures, "hybrid", FakeModel([])), 0.1, 0.5)
+    assert hyb["all"]["model_calls"] > 0 and hyb["all"]["price_accuracy"] == 1.0  # empty patches change nothing

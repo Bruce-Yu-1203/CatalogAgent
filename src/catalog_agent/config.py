@@ -62,6 +62,9 @@ class LLMConfig(BaseModel):
     max_input_tokens_per_call: int = Field(8000, gt=0)
     max_output_tokens_per_call: int = Field(4000, gt=0)
     max_tool_result_chars: int = Field(12000, gt=0)
+    # Published list prices (USD per 1M tokens) for cost reporting only; unset means cost is not reported.
+    input_price_per_mtok: float | None = None
+    output_price_per_mtok: float | None = None
 
 
 class StorageConfig(BaseModel):

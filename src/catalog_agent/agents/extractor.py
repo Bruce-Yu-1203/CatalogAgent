@@ -43,6 +43,8 @@ Rules:
 - For attributes, use short keys (e.g. Size, Needle, Material, Length, Color) and values copied from the row.
 - The variant rows are already in the first message. Call submit_patch directly; use the read tools only if
   a row you need is missing or truncated.
+- For a missing_variant gap, return the SKU with section_id, row_id and sku_raw, and price_raw copied exactly
+  from that row's price cell (it may lack a currency symbol).
 - For an unparsed_attributes gap, return attributes for every listed SKU. Do not repeat values that already
   have their own field (pack size, stock, item or manufacturer number). Use Title Case keys and the same key
   for the same property across rows.

@@ -1,0 +1,1290 @@
+{
+ "_note": "SKU/price from each page's JSON-LD offers; attribute values hand-labelled by Claude from the visible variant label (not a human review). Keys are not scored.",
+ "pages": {
+  "https://www.safcodental.com/product/alasta-sup-reg-sup": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "4680714": {
+     "price": "13.49",
+     "label": "X-small, 100/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4680720": {
+     "price": "13.49",
+     "label": "Small,100/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4680726": {
+     "price": "13.49",
+     "label": "Medium, 100/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4680732": {
+     "price": "13.49",
+     "label": "Large, 100/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4681102": {
+     "price": "25.99",
+     "label": "X-small, 200/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4681105": {
+     "price": "25.99",
+     "label": "Small, 200/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4681108": {
+     "price": "25.99",
+     "label": "Medium, 200/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4681111": {
+     "price": "25.99",
+     "label": "Large, 200/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4681112": {
+     "price": "25.99",
+     "label": "X-large, 200/box",
+     "attribute_values": [
+      "X-large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4681210": {
+     "price": "13.49",
+     "label": "X-Large, 100/box",
+     "attribute_values": [
+      "X-Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/aurelia-reg-amazing-reg": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "4871102": {
+     "price": "20.99",
+     "label": "X-small, 300/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4871105": {
+     "price": "20.99",
+     "label": "Small, 300/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4871108": {
+     "price": "20.99",
+     "label": "Medium, 300/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4871111": {
+     "price": "20.99",
+     "label": "Large, 300/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4871114": {
+     "price": "20.99",
+     "label": "X-large, 270/box",
+     "attribute_values": [
+      "X-large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/beesure-reg-superslim-trade-nitrile": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "4712101": {
+     "price": "24.99",
+     "label": "X-small, 300/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4712103": {
+     "price": "24.99",
+     "label": "Small, 300/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4712105": {
+     "price": "24.99",
+     "label": "Medium, 300/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4712107": {
+     "price": "24.99",
+     "label": "Large, 300/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/beesure-ultraslim-nitrile": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "4712110": {
+     "price": "31.99",
+     "label": "X-small, 350/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4712112": {
+     "price": "31.99",
+     "label": "Small, 350/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4712114": {
+     "price": "31.99",
+     "label": "Medium, 350/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "4712116": {
+     "price": "31.99",
+     "label": "Large, 300/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/lavender-nitrile": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "3020800": {
+     "price": "38.99",
+     "label": "X-small, 250/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "3020810": {
+     "price": "38.99",
+     "label": "Small, 250/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "3020815": {
+     "price": "38.99",
+     "label": "Medium, 250/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "3020822": {
+     "price": "38.99",
+     "label": "Large, 250/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "3020830": {
+     "price": "38.99",
+     "label": "X-large, 230/box",
+     "attribute_values": [
+      "X-large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/safco-nitrilex-black": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "1027972": {
+     "price": "13.29",
+     "label": "X-small, 200/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Black",
+      "Nitrile"
+     ]
+    },
+    "1027974": {
+     "price": "13.29",
+     "label": "Small, 200/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Black",
+      "Nitrile"
+     ]
+    },
+    "1027976": {
+     "price": "13.29",
+     "label": "Medium, 200/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Black",
+      "Nitrile"
+     ]
+    },
+    "1027978": {
+     "price": "13.29",
+     "label": "Large, 200/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Black",
+      "Nitrile"
+     ]
+    },
+    "1027980": {
+     "price": "13.29",
+     "label": "X-large, 200/box",
+     "attribute_values": [
+      "X-large"
+     ],
+     "allowed_extra_values": [
+      "Black",
+      "Nitrile"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/safco-nitrilex-prevail-trade-nitrile-gloves": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "1028085": {
+     "price": "15.99",
+     "label": "X-small, 300/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028087": {
+     "price": "15.99",
+     "label": "Small, 300/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028090": {
+     "price": "15.99",
+     "label": "Medium, 300/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028093": {
+     "price": "15.99",
+     "label": "Large, 300/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028094": {
+     "price": "15.99",
+     "label": "X-large, 300/box",
+     "attribute_values": [
+      "X-large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/safco-nitrilex-reg-ultrasoft-nitrile-gloves": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "1028005": {
+     "price": "13.29",
+     "label": "X-small, 200/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028009": {
+     "price": "11.99",
+     "label": "Small, 200/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028012": {
+     "price": "11.99",
+     "label": "Medium, 200/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028016": {
+     "price": "13.29",
+     "label": "Large, 200/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028018": {
+     "price": "11.99",
+     "label": "X-large, 200/box",
+     "attribute_values": [
+      "X-large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/safco-nitrilex-soothe": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "1028073": {
+     "price": "15.99",
+     "label": "X-small, 250/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028077": {
+     "price": "15.99",
+     "label": "Small, 250/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028078": {
+     "price": "15.99",
+     "label": "Medium, 250/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028086": {
+     "price": "15.99",
+     "label": "Large, 250/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028088": {
+     "price": "15.99",
+     "label": "X-large, 250/box",
+     "attribute_values": [
+      "X-large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/safco-nitrilex-surpass-trade": {
+   "split": "dev",
+   "source": "live",
+   "variants": {
+    "1027990": {
+     "price": "15.99",
+     "label": "X-small, 300/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1027993": {
+     "price": "15.99",
+     "label": "Small, 300/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1027996": {
+     "price": "15.99",
+     "label": "Medium, 300/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1027999": {
+     "price": "15.99",
+     "label": "Large, 300/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028001": {
+     "price": "15.99",
+     "label": "X-large, 250/box",
+     "attribute_values": [
+      "X-large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/collashield-trade-collagen-membrane": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "6130050": {
+     "price": "128.99",
+     "label": "CollaShield Collagen Membrane 15x20mm",
+     "attribute_values": [
+      "15x20mm"
+     ],
+     "allowed_extra_values": [
+      "Collagen Membrane"
+     ]
+    },
+    "6130053": {
+     "price": "152.99",
+     "label": "CollaShield Collagen Membrane 20x30mm",
+     "attribute_values": [
+      "20x30mm"
+     ],
+     "allowed_extra_values": [
+      "Collagen Membrane"
+     ]
+    },
+    "6130056": {
+     "price": "211.49",
+     "label": "CollaShield Collagen Membrane 30x40mm",
+     "attribute_values": [
+      "30x40mm"
+     ],
+     "allowed_extra_values": [
+      "Collagen Membrane"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/foundation-trade": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "3430614": {
+     "price": "420.49",
+     "label": "Foundation pellets small size 10/box",
+     "attribute_values": [
+      "small"
+     ],
+     "allowed_extra_values": [
+      "pellets"
+     ]
+    },
+    "3430626": {
+     "price": "420.49",
+     "label": "Foundation pellets medium size 5/box",
+     "attribute_values": [
+      "medium"
+     ],
+     "allowed_extra_values": [
+      "pellets"
+     ]
+    },
+    "3430635": {
+     "price": "420.49",
+     "label": "Foundation pellets assortment 6/box (3 small, 3 medium)",
+     "attribute_values": [
+      "assortment"
+     ],
+     "allowed_extra_values": [
+      "pellets"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/hemostat-sup-trade-sup": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "3152001": {
+     "price": "125.99",
+     "label": "Box of 20",
+     "attribute_values": [],
+     "allowed_extra_values": []
+    }
+   }
+  },
+  "https://www.safcodental.com/product/orasoothe-reg-sockit-gel": {
+   "split": "dev",
+   "source": "live",
+   "variants": {
+    "5106359": {
+     "price": "9.99",
+     "label": "Oral Coating Rinse - Hygiene, 3.4 oz Bottle",
+     "attribute_values": [
+      "3.4 oz"
+     ],
+     "allowed_extra_values": [
+      "Oral Coating Rinse",
+      "Hygiene",
+      "Bottle",
+      "Rinse"
+     ]
+    },
+    "5690102": {
+     "price": "93.99",
+     "label": "5-pack",
+     "attribute_values": [],
+     "allowed_extra_values": [
+      "Gel",
+      "syringes"
+     ]
+    },
+    "5690106": {
+     "price": "309.49",
+     "label": "25-pack",
+     "attribute_values": [],
+     "allowed_extra_values": [
+      "Gel",
+      "syringes"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/ossif-i-sem-trade": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "6130001": {
+     "price": "71.49",
+     "label": "Mineralized cancellous bone .25-1.0mm .5cc jar",
+     "attribute_values": [
+      "Mineralized cancellous bone",
+      ".25-1.0mm",
+      ".5cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130003": {
+     "price": "93.99",
+     "label": "Mineralized cancellous bone .25-1.0mm 1.0cc jar",
+     "attribute_values": [
+      "Mineralized cancellous bone",
+      ".25-1.0mm",
+      "1.0cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130005": {
+     "price": "137.49",
+     "label": "Mineralized cancellous bone .25-1.0mm 2.0cc jar",
+     "attribute_values": [
+      "Mineralized cancellous bone",
+      ".25-1.0mm",
+      "2.0cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130007": {
+     "price": "71.49",
+     "label": "Mineralized cancellous bone 1.0-2.0mm .5cc jar",
+     "attribute_values": [
+      "Mineralized cancellous bone",
+      "1.0-2.0mm",
+      ".5cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130009": {
+     "price": "93.99",
+     "label": "Mineralized cancellous bone 1.0-2.0mm 1.0cc jar",
+     "attribute_values": [
+      "Mineralized cancellous bone",
+      "1.0-2.0mm",
+      "1.0cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130011": {
+     "price": "137.49",
+     "label": "Mineralized cancellous bone 1.0-2.0mm 2.0cc jar",
+     "attribute_values": [
+      "Mineralized cancellous bone",
+      "1.0-2.0mm",
+      "2.0cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130012": {
+     "price": "41.49",
+     "label": "Mineralized cortical cancellous bone .6-1.25mm 0.25cc jar",
+     "attribute_values": [
+      "Mineralized cortical cancellous bone",
+      ".6-1.25mm",
+      "0.25cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130013": {
+     "price": "65.99",
+     "label": "Mineralized cortical cancellous bone .6-1.25mm 0.5cc jar",
+     "attribute_values": [
+      "Mineralized cortical cancellous bone",
+      ".6-1.25mm",
+      "0.5cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130015": {
+     "price": "91.99",
+     "label": "Mineralized cortical cancellous bone .6-1.25mm 1.0cc jar",
+     "attribute_values": [
+      "Mineralized cortical cancellous bone",
+      ".6-1.25mm",
+      "1.0cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130017": {
+     "price": "130.99",
+     "label": "Mineralized cortical cancellous bone .6-1.25mm 2.0cc jar",
+     "attribute_values": [
+      "Mineralized cortical cancellous bone",
+      ".6-1.25mm",
+      "2.0cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130019": {
+     "price": "65.99",
+     "label": "Mineralized cortical cancellous bone 1.0-2.0mm .5cc jar",
+     "attribute_values": [
+      "Mineralized cortical cancellous bone",
+      "1.0-2.0mm",
+      ".5cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130021": {
+     "price": "93.99",
+     "label": "Mineralized cortical cancellous bone 1.0-2.0mm 1.0cc jar",
+     "attribute_values": [
+      "Mineralized cortical cancellous bone",
+      "1.0-2.0mm",
+      "1.0cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130023": {
+     "price": "130.99",
+     "label": "Mineralized cortical cancellous bone 1.0-2.0mm 2.0cc jar",
+     "attribute_values": [
+      "Mineralized cortical cancellous bone",
+      "1.0-2.0mm",
+      "2.0cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130025": {
+     "price": "65.99",
+     "label": "Mineralized cortical bone .25-1.0mm .5cc jar",
+     "attribute_values": [
+      "Mineralized cortical bone",
+      ".25-1.0mm",
+      ".5cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130027": {
+     "price": "91.99",
+     "label": "Mineralized cortical bone .25-1.0mm 1.0cc jar",
+     "attribute_values": [
+      "Mineralized cortical bone",
+      ".25-1.0mm",
+      "1.0cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130029": {
+     "price": "137.49",
+     "label": "Mineralized cortical bone .25-1.0mm 2.0cc jar",
+     "attribute_values": [
+      "Mineralized cortical bone",
+      ".25-1.0mm",
+      "2.0cc"
+     ],
+     "allowed_extra_values": [
+      "jar"
+     ]
+    },
+    "6130031": {
+     "price": "139.49",
+     "label": "Demineralized bone allograft sponges 10 x 6 x 7mm",
+     "attribute_values": [
+      "Demineralized bone allograft sponges",
+      "10 x 6 x 7mm"
+     ],
+     "allowed_extra_values": []
+    },
+    "6130033": {
+     "price": "279.49",
+     "label": "Demineralized bone allograft sponges 20 x 6 x 7mm",
+     "attribute_values": [
+      "Demineralized bone allograft sponges",
+      "20 x 6 x 7mm"
+     ],
+     "allowed_extra_values": []
+    }
+   }
+  },
+  "https://www.safcodental.com/product/ossify-sup-reg-sup-min-demin-cortical-cancellous-bone-graft": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "5130082": {
+     "price": "102.99",
+     "label": "Ossify Min/Demin Cortical Cancellous bone graft 1cc jar",
+     "attribute_values": [
+      "1cc"
+     ],
+     "allowed_extra_values": [
+      "jar",
+      "Cortical Cancellous",
+      "Min/Demin"
+     ]
+    },
+    "5130084": {
+     "price": "158.99",
+     "label": "Ossify Min/Demin Cortical Cancellous bone graft 2cc jar",
+     "attribute_values": [
+      "2cc"
+     ],
+     "allowed_extra_values": [
+      "jar",
+      "Cortical Cancellous",
+      "Min/Demin"
+     ]
+    },
+    "6130080": {
+     "price": "79.99",
+     "label": "Ossify Min/Demin Cortical Cancellous bone graft 0.5cc jar",
+     "attribute_values": [
+      "0.5cc"
+     ],
+     "allowed_extra_values": [
+      "jar",
+      "Cortical Cancellous",
+      "Min/Demin"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/regenafill-sup-trade-sup-bone-graft-plug": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "6130070": {
+     "price": "259.99",
+     "label": "Regenafill Bone Graft Plug posterior 10mm x 20mm, 5/pack",
+     "attribute_values": [
+      "posterior",
+      "10mm x 20mm"
+     ],
+     "allowed_extra_values": []
+    },
+    "6130072": {
+     "price": "259.99",
+     "label": "Regenafill Bone Graft Plug anterior 6mm x 25mm, 5/pack",
+     "attribute_values": [
+      "anterior",
+      "6mm x 25mm"
+     ],
+     "allowed_extra_values": []
+    }
+   }
+  },
+  "https://www.safcodental.com/product/soft-tissue-trimmer": {
+   "split": "dev",
+   "source": "live",
+   "variants": {
+    "4605716": {
+     "price": "144.99",
+     "label": "Soft Tissue Trimmer regular 1/pk",
+     "attribute_values": [
+      "regular"
+     ],
+     "allowed_extra_values": []
+    },
+    "4605738": {
+     "price": "144.99",
+     "label": "Soft Tissue Trimmer long 1/pk",
+     "attribute_values": [
+      "long"
+     ],
+     "allowed_extra_values": []
+    }
+   }
+  },
+  "https://www.safcodental.com/product/surgicel-reg": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "2580213": {
+     "price": "1118.99",
+     "label": "1/2\" x 2\" sterile packets, 12/box",
+     "attribute_values": [
+      "1/2\" x 2\""
+     ],
+     "allowed_extra_values": [
+      "sterile packets"
+     ]
+    }
+   }
+  },
+  "https://www.safcodental.com/product/surgifoam-reg": {
+   "split": "held_out",
+   "source": "live",
+   "variants": {
+    "2580512": {
+     "price": "214.49",
+     "label": "2cm x 6cm x 0.7cm, 12/box",
+     "attribute_values": [
+      "2cm x 6cm x 0.7cm"
+     ],
+     "allowed_extra_values": []
+    },
+    "2580524": {
+     "price": "251.99",
+     "label": "1cm x 1cm x 1cm, 24/box",
+     "attribute_values": [
+      "1cm x 1cm x 1cm"
+     ],
+     "allowed_extra_values": []
+    }
+   }
+  },
+  "https://www.safcodental.com/product/safco-surestitch-trade-sutures": {
+   "split": "dev",
+   "source": "live",
+   "variants": {
+    "1025801": {
+     "price": "37.49",
+     "label": "C-6, chromic gut, 4-0, 18\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "chromic gut",
+      "4-0",
+      "18\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025807": {
+     "price": "37.49",
+     "label": "C-6, chromic gut, 4-0, 27\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "chromic gut",
+      "4-0",
+      "27\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025811": {
+     "price": "37.49",
+     "label": "C-6, chromic gut, 3-0, 18\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "chromic gut",
+      "3-0",
+      "18\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025815": {
+     "price": "37.99",
+     "label": "C-6, chromic gut, 3-0, 27\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "chromic gut",
+      "3-0",
+      "27\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025822": {
+     "price": "37.99",
+     "label": "C-6, plain gut, 4-0, 18\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "plain gut",
+      "4-0",
+      "18\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025829": {
+     "price": "37.99",
+     "label": "C-6, plain gut, 3-0, 27\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "plain gut",
+      "3-0",
+      "27\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025833": {
+     "price": "30.99",
+     "label": "C-6, silk black, 4-0, 18\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "silk black",
+      "4-0",
+      "18\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025847": {
+     "price": "30.99",
+     "label": "C-6, silk black, 3-0, 18\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "silk black",
+      "3-0",
+      "18\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025859": {
+     "price": "30.49",
+     "label": "C-31, silk black, 3-0, 18\", 12/box",
+     "attribute_values": [
+      "C-31",
+      "silk black",
+      "3-0",
+      "18\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025861": {
+     "price": "37.99",
+     "label": "C-31, plain gut, 3-0, 18\", 12/box",
+     "attribute_values": [
+      "C-31",
+      "plain gut",
+      "3-0",
+      "18\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025865": {
+     "price": "37.49",
+     "label": "C-3, chromic gut, 5-0, 18\", 12/box",
+     "attribute_values": [
+      "C-3",
+      "chromic gut",
+      "5-0",
+      "18\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025870": {
+     "price": "37.49",
+     "label": "C-6, plain gut, 3-0, 18\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "plain gut",
+      "3-0",
+      "18\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025875": {
+     "price": "37.49",
+     "label": "C-7, plain gut, 3-0, 27\", 12/box",
+     "attribute_values": [
+      "C-7",
+      "plain gut",
+      "3-0",
+      "27\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025879": {
+     "price": "37.49",
+     "label": "C-6, plain gut, 4-0, 27\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "plain gut",
+      "4-0",
+      "27\""
+     ],
+     "allowed_extra_values": []
+    },
+    "1025885": {
+     "price": "53.99",
+     "label": "C-6, nylon, 4-0, 18\", 12/box",
+     "attribute_values": [
+      "C-6",
+      "nylon",
+      "4-0",
+      "18\""
+     ],
+     "allowed_extra_values": []
+    }
+   }
+  },
+  "https://www.safcodental.com/product/synthetic-gap-safco-nitrilex-surpass": {
+   "split": "dev",
+   "source": "synthetic: real Surpass page with the 1027996 table row removed",
+   "variants": {
+    "1027990": {
+     "price": "15.99",
+     "label": "X-small, 300/box",
+     "attribute_values": [
+      "X-small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1027993": {
+     "price": "15.99",
+     "label": "Small, 300/box",
+     "attribute_values": [
+      "Small"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1027996": {
+     "price": "15.99",
+     "label": "Medium, 300/box",
+     "attribute_values": [
+      "Medium"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1027999": {
+     "price": "15.99",
+     "label": "Large, 300/box",
+     "attribute_values": [
+      "Large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    },
+    "1028001": {
+     "price": "15.99",
+     "label": "X-large, 250/box",
+     "attribute_values": [
+      "X-large"
+     ],
+     "allowed_extra_values": [
+      "Nitrile"
+     ]
+    }
+   }
+  }
+ }
+}

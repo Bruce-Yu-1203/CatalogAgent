@@ -37,6 +37,8 @@ llm:
   max_input_tokens_per_call: 8000
   max_output_tokens_per_call: 4000  # includes adaptive thinking
   max_tool_result_chars: 12000
+  input_price_per_mtok: 0.10    # claude-haiku-5-5 list price (2026-11); cost reporting only
+  output_price_per_mtok: 0.50
 storage:
   database: data/catalog.db
   snapshot_dir: data/snapshots

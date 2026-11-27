@@ -85,6 +85,9 @@ async def build_report(repo: Repository, run_id: str) -> dict[str, Any]:
                 for m in json.loads(v["missing_json"]):
                     missing_dist["variants." + m["field"]][m["reason"]] += 1
         patches = sum(o.get("patches_applied", 0) + o.get("patches_rejected", 0) for o in outs)
+        issue_codes = Counter(
+            f"{i.get('severity', 'warning')}:{i['code']}" for o in outs for i in o.get("issues") or []
+        )
         per_cat[root_name.get(root, root)] = {
             "root": root,
             "product_pages": n_pages,
@@ -133,6 +136,9 @@ async def build_report(repo: Repository, run_id: str) -> dict[str, Any]:
                 "exported_skus": sum(o.get("variants", 0) for o in outs),
             },
             "missing_reason_distribution": {k: dict(v) for k, v in sorted(missing_dist.items())},
+            # Validator/extractor issues by severity:code (e.g. critical:sku_ambiguous) and rejected values.
+            "issue_distribution": dict(sorted(issue_codes.items())),
+            "rejected_values": sum(o.get("rejected_values", 0) for o in outs),
         }
 
     listing_stops = Counter()
@@ -167,8 +173,38 @@ async def build_report(repo: Repository, run_id: str) -> dict[str, Any]:
         for t in tasks
         if t["status"] in ("FAILED", "QUARANTINED", "RETRY_WAIT")
     ]
+    cfg = json.loads(run["config_json"] or "{}")
+    llm = cfg.get("llm", {}) if isinstance(cfg, dict) else {}
+    pin, pout = llm.get("input_price_per_mtok"), llm.get("output_price_per_mtok")
+    cost = (
+        round(run["input_tokens_used"] / 1e6 * pin + run["output_tokens_used"] / 1e6 * pout, 4)
+        if pin is not None and pout is not None
+        else None
+    )
+    n_skus = sum(len(p["variants"]) for p in products)
+    dup_ids = sum(1 for owners in sku_owners.values() if len(owners) > 1)
+    all_outs = list(outcomes.values())
+    summary = {
+        "pages_fetched": run["pages_used"],
+        "product_pages": len(all_outs),
+        "accepted": sum(o["decision"] == "accepted" for o in all_outs),
+        "partial": sum(o["decision"] == "partial" for o in all_outs),
+        "quarantined": sum(o["decision"] == "quarantined" for o in all_outs),
+        "products_exported": len(products),
+        "variants_exported": n_skus,
+        "model_calls": run["model_calls_used"],
+        "input_tokens": run["input_tokens_used"],
+        "output_tokens": run["output_tokens_used"],
+        "cost_usd": cost,
+        "seconds": round(sum(i.get("seconds") or 0 for i in json.loads(run["invocations_json"])), 1),
+        "duplicate_sku_identity_rate": _rate(dup_ids, len(sku_owners)),
+        "duplicate_rows_merged": sum(
+            1 for o in all_outs for i in o.get("issues") or [] if i["code"] == "duplicate_row_merged"
+        ),
+    }
     return {
         "run_id": run_id,
+        "summary": summary,
         "mode": run["mode"],
         "status": run["status"],
         "termination_reason": run["termination_reason"],
@@ -231,3 +267,62 @@ async def build_report(repo: Repository, run_id: str) -> dict[str, Any]:
         if run["metrics_json"]
         else [],
     }
+
+
+def markdown_summary(rep: dict[str, Any]) -> str:
+    """Run summary and data-quality tables (Markdown) from a run report, for the console and the README."""
+    s = rep["summary"]
+    cost = "n/a" if s["cost_usd"] is None else f"${s['cost_usd']:.3f}"
+    lines = [
+        f"Run `{rep['run_id']}` ({rep['mode']}, {rep['status']}, {rep['termination_reason']})",
+        "",
+        "| Pages fetched | Product pages | Accepted / partial / quarantined | Products / SKUs exported "
+        "| Model calls | Tokens in / out | List cost | Time |",
+        "|---|---|---|---|---|---|---|---|",
+        f"| {s['pages_fetched']} | {s['product_pages']} | {s['accepted']} / {s['partial']} / {s['quarantined']} "
+        f"| {s['products_exported']} / {s['variants_exported']} | {s['model_calls']} "
+        f"| {s['input_tokens']:,} / {s['output_tokens']:,} | {cost} | {s['seconds']} s |",
+        "",
+    ]
+    cats = rep["per_category"]
+    names = list(cats)
+
+    def pct(v: float | None) -> str:
+        return "n/a" if v is None else f"{v * 100:.0f}%"
+
+    lines += ["| Field completeness | " + " | ".join(names) + " |", "|---|" + "---|" * len(names)]
+    for level, fields in (("product", PRODUCT_FIELDS), ("variant", VARIANT_FIELDS)):
+        for f in fields:
+            vals = [pct(cats[n]["field_fill_rate"][level][f]) for n in names]
+            lines.append(f"| {level}.{f} | " + " | ".join(vals) + " |")
+    lines.append("")
+    lines += ["| Missing-value and rejection reasons | " + " | ".join(names) + " |", "|---|" + "---|" * len(names)]
+    keys = sorted(
+        {f"missing {k}: {r}" for n in names for k, d in cats[n]["missing_reason_distribution"].items() for r in d}
+        | {f"issue {k}" for n in names for k in cats[n]["issue_distribution"]}
+    )
+    for k in keys:
+        row = []
+        for n in names:
+            c = cats[n]
+            if k.startswith("missing "):
+                field, reason = k[len("missing ") :].split(": ")
+                row.append(str(c["missing_reason_distribution"].get(field, {}).get(reason, 0)))
+            else:
+                row.append(str(c["issue_distribution"].get(k[len("issue ") :], 0)))
+        lines.append(f"| {k} | " + " | ".join(row) + " |")
+    lines.append(
+        "| rejected values (evidence checks) | " + " | ".join(str(cats[n]["rejected_values"]) for n in names) + " |"
+    )
+    lines.append(
+        "| evidence rejection rate (model patches) | "
+        + " | ".join(pct(cats[n]["evidence_rejection_rate"]) for n in names)
+        + " |"
+    )
+    lines += [
+        "",
+        f"Duplicates: SKU identity duplicate rate {pct(s['duplicate_sku_identity_rate'])} "
+        f"({rep['catalog']['duplicate_identity_count']} SKUs under more than one product); "
+        f"{s['duplicate_rows_merged']} repeated rows merged with identical values.",
+    ]
+    return "\n".join(lines) + "\n"

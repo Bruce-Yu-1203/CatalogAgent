@@ -84,7 +84,23 @@ All return `AgentResult` (`contracts.py`); none writes to storage.
 
 ## 5. Setup and execution
 
-Requires macOS or Linux, [uv](https://docs.astral.sh/uv/). Commands as tested on 2026-11-26:
+Requires macOS or Linux, [uv](https://docs.astral.sh/uv/) and `make`. **One command** (tested 2026-11-27):
+
+```bash
+git clone https://github.com/Bruce-Yu-1203/CatalogAgent.git && cd CatalogAgent
+make demo           # setup, live bounded crawl of both categories, export, run report, summary tables
+make demo-offline   # the same pipeline on saved fixtures: no network, no credentials
+```
+
+`make demo` writes `outputs/demo/` (`products.json`, `variants.csv`, `run_report.json`,
+`failed_tasks.json`, `summary.md`) and prints the summary: pages fetched, accepted/partial/quarantined,
+model calls, tokens and list cost, run time, then the data-quality tables of §11. It uses `--mode hybrid` with
+the model from `.env`; without credentials it still completes deterministically and reports
+`MODEL_UNAVAILABLE`, or run `make demo MODE=deterministic`. `make demo-offline` writes to `data/demo_offline/`.
+Measured `make demo` on 2026-11-27 (`demo_20261127`): 37 pages, 20 products all accepted, 87 SKUs, 27 model
+calls ≈ $0.017, 151 s.
+
+The individual commands, as tested on 2026-11-26:
 
 ```bash
 git clone https://github.com/Bruce-Yu-1203/CatalogAgent.git && cd CatalogAgent
@@ -386,7 +402,47 @@ The POC writes the [§10.1 metrics](docs/03-overall-architecture.md#101-poc-run-
 per category into `run_report.json`: field fill rates, validation failure, quarantine, LLM fallback and
 evidence rejection rates, duplicate identity count and the missing-reason distribution. Production
 monitoring with drift alerts ([§10.2](docs/03-overall-architecture.md#102-production-monitoring-design-only))
-is design only.
+is design only. `uv run catalog-agent summary --run-id RUN_ID` renders these metrics as the tables below,
+adding the issue-code distribution (validator/extractor issues by severity and code), the count of values
+rejected by evidence checks, and the duplicate rate. Measured on the `make demo` run of 2026-11-27
+([`outputs/demo/summary.md`](outputs/demo/summary.md)):
+
+| Pages fetched | Product pages | Accepted / partial / quarantined | Products / SKUs exported | Model calls | Tokens in / out | List cost | Time |
+|---|---|---|---|---|---|---|---|
+| 37 | 20 | 20 / 0 / 0 | 20 / 87 | 27 | 69,246 / 19,730 | $0.017 | 151.2 s |
+
+| Field completeness | gloves | sutures-surgical-products |
+|---|---|---|
+| product.name | 100% | 100% |
+| product.brand | 100% | 100% |
+| product.manufacturer | 0% | 0% |
+| product.description | 100% | 100% |
+| product.category_paths | 100% | 100% |
+| product.image_urls | 100% | 100% |
+| product.attributes | 70% | 10% |
+| product.alternatives | 100% | 100% |
+| variant.sku | 100% | 100% |
+| variant.variant_name | 100% | 100% |
+| variant.attributes | 100% | 100% |
+| variant.pack_label | 94% | 75% |
+| variant.pack_quantity | 94% | 75% |
+| variant.pack_unit | 94% | 75% |
+| variant.price | 100% | 100% |
+| variant.currency | 100% | 100% |
+| variant.availability_raw | 100% | 100% |
+
+| Missing-value and rejection reasons | gloves | sutures-surgical-products |
+|---|---|---|
+| missing manufacturer: not_applicable | 10 | 10 |
+| missing variants.pack_label: not_visible | 3 | 9 |
+| rejected values (evidence checks) | 0 | 0 |
+| evidence rejection rate (model patches) | 0% | 0% |
+
+Duplicates: SKU identity duplicate rate 0% (0 SKUs under more than one product); 0 repeated rows merged with identical values.
+
+Reading the table: manufacturer is `not_applicable` because Safco shows one label, used as brand; missing pack
+sizes are labels that state no pack (`not_visible`); no row in the issues part means the Validator raised no
+issue on these 20 pages; there were no duplicate SKU identities and no repeated rows.
 
 ## 12. Limitations
 

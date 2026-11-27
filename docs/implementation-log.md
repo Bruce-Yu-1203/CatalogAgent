@@ -472,3 +472,21 @@ one row are now joined to a matching signature elsewhere on the page.
 **Docs.** README §9 "Why an LLM" with the 2×2, §10 sitemap table before/after the merge and selector
 self-repair as design only, §12 limitation of the generic path; Architecture §4 extraction paragraph.
 Offline evaluation re-run (hybrid run 4): held-out SKU recall and price accuracy 1.0, attribute recall 0.75.
+
+## One-command demo and data-quality summary (2026-11-27)
+
+Amy asked for three things in order: merge the redesign work into `main` (done, fast-forward), a one-command
+reproducible run, and a data-quality report.
+
+- `Makefile`: `make demo` (setup, live bounded crawl of both categories with the default config, export, run
+  report, summary into `outputs/demo/`), `make demo-offline` (same pipeline on `tests/fixtures/live`, no network,
+  no credentials, into `data/demo_offline/`), `make test` (smoke script). Docker was not added: the roadmap
+  lists Docker packaging under P2.
+- `run_report.json` gains a `summary` block (pages fetched, accepted/partial/quarantined, products and SKUs,
+  model calls, tokens, list cost from the run's stored config, run time, duplicate SKU identity rate, repeated
+  rows merged) and, per category, `issue_distribution` (severity:code) and `rejected_values`.
+- New command `catalog-agent summary` renders the summary and data-quality tables (field completeness per
+  category, missing-value reasons, issue codes, evidence rejections, duplicates) as Markdown. The run-level
+  report test now checks the summary and the tables.
+- Live `make demo` (`demo_20261127`, hybrid): 37 pages, 20 products all accepted, 87 SKUs, 27 model calls,
+  69,246 + 19,730 tokens ≈ $0.017, 151 s; 0 duplicate identities, 0 rejected values. README §5 and §11 show it.

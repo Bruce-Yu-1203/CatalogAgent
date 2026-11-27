@@ -135,6 +135,15 @@ async def test_run_level_trigger_and_report(tmp_path):
     [s] = rep["repair_suggestions"]
     assert s["field"] == "variant_rows" and s["applied"] is False and s["candidates"][0]["regressions"] == 0
     assert run["model_calls_used"] == 1 == len(model.calls)
+    # Run summary and data-quality tables (used by `make demo` and README §11).
+    from catalog_agent.quality import markdown_summary
+
+    s = rep["summary"]
+    assert s["model_calls"] == 1 and s["product_pages"] == s["accepted"] + s["partial"] + s["quarantined"]
+    assert s["variants_exported"] == rep["catalog"]["observed_skus"] and s["duplicate_sku_identity_rate"] == 0.0
+    assert all("issue_distribution" in c and "rejected_values" in c for c in rep["per_category"].values())
+    md = markdown_summary(rep)
+    assert "| variant.sku | 100% | 100% |" in md and "Missing-value and rejection reasons" in md
 
 
 def test_unrendered_table_is_a_render_note_not_a_selector_failure():

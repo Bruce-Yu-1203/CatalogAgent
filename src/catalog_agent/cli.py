@@ -215,5 +215,23 @@ def experiment(
     _print(summary)
 
 
+@app.command()
+def summary(
+    run_id: Annotated[str | None, typer.Option(help="run to summarize (default: latest)")] = None,
+    db: str = DB,
+    out: Annotated[Path | None, typer.Option(help="also write the Markdown to this file")] = None,
+) -> None:
+    """Print the run summary and data-quality tables (Markdown): pages, outcomes, model use, field completeness,
+    missing/rejection reasons and duplicates."""
+    from catalog_agent.quality import markdown_summary
+
+    _, _, rep = asyncio.run(_load(db, run_id))
+    text = markdown_summary(rep)
+    if out is not None:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text)
+    typer.echo(text)
+
+
 if __name__ == "__main__":
     app()

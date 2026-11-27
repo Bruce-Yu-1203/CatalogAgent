@@ -212,6 +212,10 @@ uv run catalog-agent export --run-id RUN_ID --format json
 uv run catalog-agent export --run-id RUN_ID --format csv
 uv run catalog-agent report --run-id RUN_ID
 uv run catalog-agent evaluate --fixtures tests/fixtures/eval --mode compare   # P1 (FR-13)
+uv run catalog-agent summary --run-id RUN_ID        # run summary + data-quality tables (Markdown)
+uv run catalog-agent experiment --run-id RUN_ID     # original vs synthetic-redesign 2x2 on a run's saved pages
+make demo                                           # one command: setup, live bounded crawl, export, report, summary
+make demo-offline                                   # the same on saved fixtures
 uv run catalog-agent crawl --replay tests/fixtures/live --db /tmp/replay.db   # added at M2: offline replay
 uv run pytest
 ```

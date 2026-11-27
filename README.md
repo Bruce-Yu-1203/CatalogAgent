@@ -444,11 +444,32 @@ and the typed-feedback retry.
 3. **Evidence so far.** All 89 products discovered from the listings are in the sitemap (0 missing). A random
    30-product sitemap run across 18 top-level categories extracted every product (30/30 accepted, 224/224 SKUs,
    below), so extraction does not depend on arriving from a category page.
-4. **How full coverage is checked.** The sitemap has no categories, so every product page is fetched and its
-   breadcrumb (`category_paths`) decides the category: run `crawl --sitemap-sample 3980` with `crawler.max_pages`
-   raised to at least 3,980 (or continue with `resume --add-pages`), then count products whose
-   `category_paths` contain each category with SQL (§6) and compare with the listing totals (92 and 56): found vs
-   missing.
+4. **How full coverage is checked.** The sitemap has no categories, and sitemap-seeded tasks all share the root
+   `sitemap-sample`, so the category comes from each page's own breadcrumb (`category_paths`), not from the root.
+   Run it with a config whose budgets fit a full pass: `crawler.max_pages` ≥ 3,980 (otherwise the run stops at
+   `BUDGET_EXHAUSTED` and continues with `resume --add-pages`), a larger `crawler.max_invocation_seconds` (otherwise
+   it pauses every hour and continues with a plain `resume`), and `--mode deterministic` (no model budget needed):
+
+   ```bash
+   uv run catalog-agent crawl --config CONFIG --mode deterministic --sitemap-sample 3980 --run-id RUN_ID
+   uv run catalog-agent resume --run-id RUN_ID        # after an interruption or the hourly pause
+   ```
+
+   Then count products per category by breadcrumb and compare with the listing totals (92 and 56):
+
+   ```sql
+   SELECT c.name AS category, count(DISTINCT p.product_id) AS products, sum(p.variant_count) AS skus
+   FROM products p,
+        (SELECT 'Dental Exam Gloves' AS name UNION ALL SELECT 'Sutures & Surgical Products') c
+   WHERE p.run_id = 'RUN_ID'
+     AND EXISTS (SELECT 1 FROM json_each(p.category_paths_json) path, json_each(path.value) crumb
+                 WHERE lower(crumb.value) = lower(c.name))
+   GROUP BY c.name;
+   ```
+
+   Checked on the sample run `run_20261127_full` (category-seeded), where it gives the same split as its roots:
+   Dental Exam Gloves 39 products / 193 SKUs, Sutures & Surgical Products 50 / 363. A resume of a sitemap run uses
+   the run's stored tasks and does not re-read the sitemap; there is no test specific to resuming a sitemap run.
 5. **Not run before submission.** At the polite rate this is about 4.5 h (sizing below). Full coverage of the 148
    listed products is therefore designed and partly evidenced, not measured.
 

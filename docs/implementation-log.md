@@ -559,3 +559,6 @@ Checked against the requirements document again; three gaps were closed before s
 - README §10 restated as a five-step full-coverage argument: why listings stop at 89 (robots disallows `?page=`,
   `?p=`), the sitemap as the permitted path (already built as `--sitemap-sample`), the evidence so far, how coverage
   would be counted against the listing totals, and that the 4.5 h full run was not done before submission.
+- Amy spotted that the per-root SQL cannot split a sitemap run (every sitemap task has root `sitemap-sample`).
+  README §10 step 4 now gives a breadcrumb-based SQL (checked on `run_20261127_full`: 39 / 193 and 50 / 363, the same
+  as its roots) and the budgets a full sitemap pass needs (`max_pages`, `max_invocation_seconds`, deterministic mode).

@@ -85,7 +85,7 @@ All return `AgentResult` (`contracts.py`); none writes to storage.
 Requires macOS or Linux, [uv](https://docs.astral.sh/uv/). Commands as tested on 2026-11-26:
 
 ```bash
-git clone https://github.com/Bruce-Yu-1203/catalog-agent.git && cd catalog-agent
+git clone https://github.com/Bruce-Yu-1203/CatalogAgent.git && cd CatalogAgent
 uv sync
 uv run playwright install chromium
 uv run catalog-agent crawl --config configs/safco.yaml --mode deterministic

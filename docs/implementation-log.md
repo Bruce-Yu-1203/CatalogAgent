@@ -268,9 +268,8 @@ real model. Remaining non-P0 items: commits are not pushed; P1 not started.
 
 ## Doc cleanup and rename (2026-11-27)
 
-At Amy's request every 24-hour, timebox, take-home, assessment, "Frontier Dental" and assignment
-reference was removed from the docs (constitution amended to 1.1.0, then retitled "CatalogAgent
-Constitution" in 1.1.1). The Tech Stack repository layout now matches the files that exist. The project
+At Amy's request the docs were cleaned of references to the original project brief and its deadline
+(constitution amended to 1.1.0, then retitled "CatalogAgent Constitution" in 1.1.1). The Tech Stack repository layout now matches the files that exist. The project
 name is CatalogAgent; Amy renamed the GitHub repo to `CatalogAgent`
 (https://github.com/Bruce-Yu-1203/CatalogAgent) and the local remote was updated to match. `main` was first pushed to GitHub at `d3ae07c`.
 
@@ -318,7 +317,7 @@ worker thread), which looked like a hang. The P1 tests close the repository in `
 
 ## Alternatives from the Trending Products carousel (2026-11-27)
 
-Checked against the assignment PDF Amy shared: every listed field was covered except "alternative
+Checked against the requirements document Amy shared: every listed field was covered except "alternative
 products" (`alternatives` was always empty because the crawler blocked the Adobe recommendations service
 that renders Safco's carousels). Amy chose to collect the "Trending Products" carousel only.
 

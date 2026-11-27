@@ -96,7 +96,9 @@ make demo-offline   # the same pipeline on saved fixtures: no network, no creden
 `failed_tasks.json`, `summary.md`) and prints the summary: pages fetched, accepted/partial/quarantined,
 model calls, tokens and list cost, run time, then the data-quality tables of §11. It uses `--mode hybrid` with
 the model from `.env`; without credentials it still completes deterministically and reports
-`MODEL_UNAVAILABLE`, or run `make demo MODE=deterministic`. `make demo-offline` writes to `data/demo_offline/`.
+`MODEL_UNAVAILABLE`, or run `make demo MODE=deterministic`. `make demo-offline` writes to `data/demo_offline/`; it
+replays the saved fixtures in `tests/fixtures/live/` (4 product pages, 25 SKUs), and the product links it finds
+without a saved page are recorded as `NOT_FOUND` failures, so its status is `COMPLETED_WITH_ERRORS` by design.
 Measured `make demo` on 2026-11-27 (`demo_20261127`): 37 pages, 20 products all accepted, 87 SKUs, 27 model
 calls ≈ $0.017, 151 s.
 

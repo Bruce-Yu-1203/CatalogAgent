@@ -115,6 +115,10 @@ class NavigatorAgent:
                     )
                 )
             elif link.kind == "next_page":
+                if url == task.url:
+                    out.pagination_stop = "cycle_detected"  # next page points back at this page
+                    out.rejected.append((url, "cycle"))
+                    continue
                 out.children.append(
                     ChildTask(task_type=TaskType.LISTING, url=url, root=root, lineage=[], depth=task.depth)
                 )

@@ -108,6 +108,8 @@ class Orchestrator:
             for w in workers:
                 w.cancel()
             raise
+        if ctl.stop_reason != "access_restricted":
+            await self.repair_suggestions(run_id)
         return await self.finalize(run_id, ctl)
 
     async def _worker(self, run_id: str, ctl: RunControl, worker_id: int) -> None:
@@ -257,6 +259,8 @@ class Orchestrator:
             "pagination_stop": nav.pagination_stop,
             "rejected": nav.rejected[:50],
             "degraded_discovery": nav.degraded_discovery,
+            "template": page_type.value,
+            "field_failures": self.adapter.field_failures(snapshot, page_type.value),
             "events": [e.model_dump() for e in res.events],
         }
         n = await self.repo.complete_navigation(task, nav.children, outcome, snap_meta, TaskStatus.COMPLETED)
@@ -295,6 +299,8 @@ class Orchestrator:
         b = eres.budget_used
         outcome = {
             "agent": "validator",
+            "template": "product",
+            "field_failures": self.adapter.field_failures(snapshot, "product"),
             "decision": val.decision,
             "expected_skus": val.expected_skus,
             "variants": val.observed_skus,
@@ -392,6 +398,61 @@ class Orchestrator:
         )
 
     # ---------------------------------------------------------------- finish
+
+    async def repair_suggestions(self, run_id: str) -> list[dict]:
+        """P1 (FR-12): after repeated failures of one field on one template, ask the model for replacement
+        selectors and test them on the frozen failing and passing snapshots. Report only (ADR-10)."""
+        rc = self.cfg.agents.recovery
+        if not (rc.repair_suggestions_enabled and self.model is not None and self.mode == "hybrid"):
+            return []
+        from catalog_agent.agents.recovery import suggest_repair
+
+        groups: dict[tuple[str, str], list[dict]] = {}
+        passing: dict[str, list[dict]] = {}
+        for t in await self.repo.tasks(run_id, ["COMPLETED", "PARTIAL", "QUARANTINED"]):
+            o = json.loads(t["outcome_json"] or "{}")
+            tmpl = o.get("template")
+            if not tmpl or not t["snapshot_path"]:
+                continue
+            fails = o.get("field_failures") or []
+            for f in fails:
+                groups.setdefault((tmpl, f), []).append(t)
+            if not fails:
+                passing.setdefault(tmpl, []).append(t)
+        out: list[dict] = []
+        for (tmpl, fname), tasks in sorted(groups.items()):
+            if len(out) >= rc.max_suggestions_per_run or len(tasks) < rc.trigger_after_failures:
+                continue
+            old = self.adapter.FIELD_SELECTORS.get(tmpl, {}).get(fname)
+            if not old or not await self.repo.reserve_model_calls(run_id, 3):
+                continue
+            failing = [self.store.load(t["snapshot_path"]) for t in tasks[:3]]
+            control = [self.store.load(t["snapshot_path"]) for t in passing.get(tmpl, [])[:3]]
+            sugg, b = await suggest_repair(
+                self.model, fname, tmpl, old, failing, control, self.adapter.dom_outline(failing[0])
+            )
+            await self.repo.release_model_calls(run_id, 3 - b.model_calls)
+            await self.repo.add_model_usage(run_id, b.input_tokens, b.output_tokens)
+            entry = {
+                "failures_observed": len(tasks),
+                **sugg.model_dump(),
+                "model_calls": b.model_calls,
+                "tool_calls": b.tool_calls,
+            }
+            out.append(entry)
+            log_event(
+                "repair_suggestion",
+                run_id=run_id,
+                agent="recovery",
+                outcome=sugg.status,
+                field=fname,
+                template=tmpl,
+                candidates=len(sugg.candidates),
+                model_calls=b.model_calls,
+            )
+        if out:
+            await self.repo.update_run(run_id, metrics_json=json.dumps({"repair_suggestions": out}))
+        return out
 
     async def finalize(self, run_id: str, ctl: RunControl) -> str:
         counts = await self.repo.task_counts(run_id)

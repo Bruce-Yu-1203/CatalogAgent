@@ -125,7 +125,12 @@ async def execute(
         adapter = ADAPTERS[cfg.site.adapter]
         model = None
         unavailable = None
-        if mode == "hybrid" and (cfg.agents.extractor.llm_enabled or cfg.agents.classifier.llm_fallback_enabled):
+        uses_model = (
+            cfg.agents.extractor.llm_enabled
+            or cfg.agents.classifier.llm_fallback_enabled
+            or cfg.agents.recovery.repair_suggestions_enabled
+        )
+        if mode == "hybrid" and uses_model:
             try:
                 model = model_factory(cfg)
             except ModelUnavailable as e:

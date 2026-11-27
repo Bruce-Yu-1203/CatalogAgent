@@ -44,6 +44,7 @@ def make_config(tmp_path: Path, **crawler: Any) -> AppConfig:
     cfg.storage.database = str(tmp_path / "catalog.db")
     cfg.storage.snapshot_dir = str(tmp_path / "snapshots")
     cfg.storage.log_dir = str(tmp_path / "logs")
+    cfg.storage.output_dir = str(tmp_path / "outputs")
     cfg.crawler.request_interval_seconds = 1.0
     cfg.crawler.backoff_base_seconds = 0.0
     for k, v in crawler.items():

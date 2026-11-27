@@ -318,6 +318,14 @@ class Repository:
             )
             return cur.rowcount == 1
 
+    async def release_model_calls(self, run_id: str, n: int) -> None:
+        if n <= 0:
+            return
+        async with self.tx("release_model") as c:
+            await c.execute(
+                "UPDATE crawl_runs SET model_calls_used = MAX(0, model_calls_used - ?) WHERE run_id = ?", (n, run_id)
+            )
+
     async def add_model_usage(self, run_id: str, in_tok: int, out_tok: int) -> None:
         async with self.tx("model_usage") as c:
             await c.execute(

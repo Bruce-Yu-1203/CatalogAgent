@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Literal
 
 import yaml
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -46,16 +46,9 @@ class ClassifierAgentConfig(BaseModel):
 
 
 class RecoveryAgentConfig(BaseModel):
-    repair_suggestions_enabled: bool = False  # P1, not implemented
-    trigger_after_failures: int = 3
-    max_suggestions_per_run: int = 5
-
-    @field_validator("repair_suggestions_enabled")
-    @classmethod
-    def _p1_disabled(cls, v: bool) -> bool:
-        if v:
-            raise ValueError("repair suggestions are P1 and not implemented in this build")
-        return v
+    repair_suggestions_enabled: bool = False  # P1 (FR-12): off by default; report only
+    trigger_after_failures: int = Field(3, ge=1)
+    max_suggestions_per_run: int = Field(5, ge=0)
 
 
 class AgentsConfig(BaseModel):

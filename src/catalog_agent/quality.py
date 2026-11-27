@@ -196,4 +196,16 @@ async def build_report(repo: Repository, run_id: str) -> dict[str, Any]:
         "extraction_seconds_total": round(sum(o.get("extract_seconds", 0) for o in outcomes.values()), 2),
         "per_category": per_cat,
         "failed_tasks": failed,
+        "field_failures": dict(
+            Counter(
+                f"{o.get('template')}.{f}"
+                for t in tasks
+                if t["outcome_json"]
+                for o in [json.loads(t["outcome_json"])]
+                for f in o.get("field_failures") or []
+            )
+        ),
+        "repair_suggestions": json.loads(run["metrics_json"]).get("repair_suggestions", [])
+        if run["metrics_json"]
+        else [],
     }

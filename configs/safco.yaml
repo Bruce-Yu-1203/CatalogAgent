@@ -29,7 +29,7 @@ agents:
     llm_fallback_enabled: false    # P1 (FR-11): implemented and tested; off by default
     max_model_calls_per_task: 1
   recovery:
-    repair_suggestions_enabled: false   # P1: not implemented
+    repair_suggestions_enabled: false   # P1 (FR-12): implemented and tested; off by default, report only
     trigger_after_failures: 3
     max_suggestions_per_run: 5
 llm:

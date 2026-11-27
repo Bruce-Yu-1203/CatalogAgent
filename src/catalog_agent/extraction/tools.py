@@ -121,3 +121,55 @@ class SnapshotTools:
                 return self._bound([])
             return self._bound([{"section_id": sec.section_id, **r.model_dump()} for r in sec.rows])
         return self._bound({"error": f"unknown tool {name!r}"})
+
+
+TEST_SELECTOR_SPEC: dict[str, Any] = {
+    "name": "test_selector",
+    "description": (
+        "Count matches of a CSS selector on each frozen failing snapshot and each passing control snapshot, "
+        "with a short sample of matched text. Read-only."
+    ),
+    "input_schema": {
+        "type": "object",
+        "properties": {"selector": {"type": "string", "maxLength": 200}},
+        "required": ["selector"],
+        "additionalProperties": False,
+    },
+}
+
+
+class SelectorTester:
+    """`test_selector` over frozen snapshots (Recovery repair suggestions, FR-12). No side effects."""
+
+    def __init__(self, failing: list[PageSnapshot], control: list[PageSnapshot], max_chars: int = 2000):
+        from bs4 import BeautifulSoup
+
+        self.failing = [(s.snapshot_id, BeautifulSoup(s.html, "lxml")) for s in failing]
+        self.control = [(s.snapshot_id, BeautifulSoup(s.html, "lxml")) for s in control]
+        self.max_chars = max_chars
+
+    def run(self, selector: str) -> dict[str, Any]:
+        import soupsieve
+
+        if not isinstance(selector, str) or not selector.strip() or len(selector) > 200:
+            return {"selector": selector, "error": "selector must be a non-empty string up to 200 chars"}
+        try:
+            soupsieve.compile(selector)
+        except Exception as e:  # invalid CSS
+            return {"selector": selector, "error": f"invalid selector: {type(e).__name__}"}
+
+        def probe(soups: list) -> list[dict[str, Any]]:
+            out = []
+            for sid, soup in soups:
+                found = soup.select(selector)
+                sample = " ".join(found[0].get_text(" ", strip=True).split())[:80] if found else ""
+                out.append({"snapshot_id": sid, "matches": len(found), "sample": sample})
+            return out
+
+        return {"selector": selector, "failing": probe(self.failing), "control": probe(self.control)}
+
+    def call(self, name: str, args: dict[str, Any]) -> str:
+        if name != "test_selector" or not isinstance(args, dict):
+            return json.dumps({"error": f"unknown tool {name!r}"})
+        text = json.dumps(self.run(args.get("selector", "")), ensure_ascii=False)
+        return text[: self.max_chars]

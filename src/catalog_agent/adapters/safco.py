@@ -43,6 +43,54 @@ READY_FALLBACK_SELECTORS = {
     "product": 'script[type="application/ld+json"]',
 }
 
+# Selectors the parsers depend on, per page template. Repair suggestions (P1, FR-12) propose
+# replacements for these; nothing here is ever changed automatically.
+FIELD_SELECTORS: dict[str, dict[str, str]] = {
+    "product": {"variant_rows": "#pdp-grouped .table-grid-pdp .product-item-sku"},
+    "listing": {"listing_products": ".ais-Hits-item a.result"},
+}
+
+
+def field_failures(snapshot: PageSnapshot, template: str) -> list[str]:
+    """Fields whose selector matched nothing although the page shows the data exists."""
+    soup = soup_for(snapshot)
+    failed: list[str] = []
+    if template == "product":
+        ld = _ld_of_type(soup, "ProductGroup", "Product")
+        has_variants = bool(ld and (ld.get("hasVariant") or ld.get("sku")))
+        if has_variants and not soup.select(FIELD_SELECTORS["product"]["variant_rows"]):
+            failed.append("variant_rows")
+    elif template == "listing":
+        stats = _text(soup.select_one(".ais-Stats")) or ""
+        m = re.search(r"of\s+(\d+)", stats)
+        if m and int(m.group(1)) > 0 and not soup.select(FIELD_SELECTORS["listing"]["listing_products"]):
+            failed.append("listing_products")
+    return failed
+
+
+def dom_outline(snapshot: PageSnapshot, max_chars: int = 3000) -> str:
+    """Bounded tag/id/class outline of the main content (no text), for selector repair."""
+    soup = soup_for(snapshot)
+    root = soup.select_one("#maincontent") or soup.select_one("main") or soup.body
+    lines: list[str] = []
+
+    def walk(el: Tag, depth: int) -> None:
+        if len("\n".join(lines)) > max_chars or depth > 14:
+            return
+        for child in el.find_all(recursive=False):
+            if child.name in ("script", "style", "svg", "template", "img", "path"):
+                continue
+            ident = child.name + (f"#{child['id']}" if child.get("id") else "")
+            cls = [c for c in child.get("class", []) if re.fullmatch(r"[A-Za-z][\w-]{1,40}", c)][:4]
+            attrs = [f"[{k}]" for k in ("data-attr", "x-text", "itemprop") if child.get(k)]
+            lines.append("  " * depth + ident + "".join(f".{c}" for c in cls) + "".join(attrs))
+            walk(child, depth + 1)
+
+    if root is not None:
+        walk(root, 0)
+    return "\n".join(lines)[:max_chars]
+
+
 # Resources not needed for extraction; blocking them reduces load on third parties and the host.
 BLOCKED_RESOURCE_TYPES = ("image", "font", "media")
 BLOCKED_URL_PARTS = (

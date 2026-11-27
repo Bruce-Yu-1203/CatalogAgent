@@ -41,6 +41,11 @@ Rules:
 - Resolve only the listed gaps. Every SKU and price you return must cite the section_id and row_id where the
   raw text appears exactly; copy raw text verbatim. Never invent, guess or compute SKUs or prices.
 - For attributes, use short keys (e.g. Size, Needle, Material, Length, Color) and values copied from the row.
+- The variant rows are already in the first message. Call submit_patch directly; use the read tools only if
+  a row you need is missing or truncated.
+- For an unparsed_attributes gap, return attributes for every listed SKU. Do not repeat values that already
+  have their own field (pack size, stock, item or manufacturer number). Use Title Case keys and the same key
+  for the same property across rows.
 - Finish by calling submit_patch exactly once per turn. If nothing can be grounded, submit an empty patch."""
 
 
@@ -305,7 +310,16 @@ class ExtractorAgent:
             "tool_names": [],
             "messages": [
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": "Gaps to resolve: " + gap_message(candidate, gaps)},
+                {
+                    "role": "user",
+                    # The variant rows are included up front (bounded, read-only) so the model can
+                    # usually submit in one call instead of spending calls on tool exploration.
+                    "content": "Gaps to resolve: "
+                    + gap_message(candidate, gaps)
+                    + "\nVariant rows (from get_variant_rows): <untrusted_page_data>"
+                    + tools.call("get_variant_rows", {})
+                    + "</untrusted_page_data>",
+                },
             ],
         }
         # Recursion limit bounds graph steps independently of the counters above.

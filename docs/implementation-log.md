@@ -228,3 +228,40 @@ runtime 7). `./scripts/smoke.sh` passed (replay: 4 products, 25 variant rows).
 the LLM path has been verified only with fake models (needs `LLM_API_KEY` for a live hybrid run), and the
 commits are local (not pushed). P1 is not started: AGENTS.md and the constitution allow P1 only after all
 P0 gates pass, and the live-model gate is still open.
+
+## Live model verification (2026-11-27)
+
+Credentials were added by Amy in `.env` (`LLM_PROVIDER=anthropic`, `LLM_MODEL=claude-haiku-5-5`; the key was
+not read or logged).
+
+**Changes before the run**
+
+- `max_output_tokens_per_call` 1200 → 4000 and `output_config.effort = "low"`: current Claude models think
+  adaptively and thinking counts toward `max_tokens`.
+- The variant rows are sent in the first user message (wrapped as untrusted page data), and the system
+  prompt says to submit directly. On the first try the model spent all 3 allowed calls on read tools for
+  the 15-row SureStitch page without submitting (rows were truncated at 4000 chars);
+  `max_tool_result_chars` was raised to 12000 and `max_input_tokens_per_call` to 8000.
+- Prompt rule: don't repeat values that have their own field (pack, stock, item/manufacturer number); use
+  consistent Title Case keys. Added after the first hybrid run produced keys like `Pack`, `Stock`, `MFR No`.
+
+**Runs**
+
+| Run | Mode | Result |
+|---|---|---|
+| Saved-snapshot smoke test | hybrid, 2 pages | Synthetic gap page: missing SKU recovered with verified JSON-LD evidence, accepted (3 calls). SureStitch: 15/15 variants got Needle/Material/Size/Length in 1 call after the prompt change. A rerun of the synthetic gap page returned the SKU without its price, so the Validator marked the record `partial`. |
+| `run_20261127_hybrid` | hybrid, live | 20 products, 20 calls, 91 patch entries applied, 1 rejected; attribute keys inconsistent (`Pack`, `Count`, `MFR No`). Not exported. |
+| `run_20261127_hybrid2` | hybrid, live, final | 20 accepted products, 91 variants, 37 fetches, 0 retries, 139 s; 20 model calls, 0 tool calls, 41,684 input + 17,012 output tokens (≈ $0.013 at $0.10/$0.50 per M); 90 patch entries applied, 0 rejected; 19 products `hybrid`, 1 `deterministic` (HemoStat, nothing to split). **Now the source of `outputs/`.** |
+
+**Comparison on the same snapshots** (deterministic parser re-run on `run_20261127_hybrid2`'s pages): SKU sets
+identical on 20/20 products; 0 differences in price, pack or availability across 91 variants; variants with
+attributes beyond the group heading 0/91 → 90/91. Table price vs JSON-LD: 60 agree, 0 disagree, 31 JSON-LD only.
+
+**Manual check of 20 random hybrid variants**: 17 correct; 1 wrong (`Scent: Hygiene` for "Oral Coating Rinse -
+Hygiene, 3.4 oz Bottle"); 2 debatable keys (`Length: long` for a trimmer model, `Form: Gel` taken from the
+product name). All 20 values appear in their own row's text.
+
+**Tests**: 41 passed; `./scripts/smoke.sh` passed.
+
+**P0 status**: every P0 checklist item is now done and exercised, including LLM-assisted extraction against a
+real model. Remaining non-P0 items: commits are not pushed; P1 not started.

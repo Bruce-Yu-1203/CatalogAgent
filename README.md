@@ -6,7 +6,7 @@ Products). Design: [docs/](docs/README.md). What was built and measured, milesto
 
 ## 1. Overview and results at a glance
 
-Measured on the live site, run `run_20261126_live2` (2026-11-26, deterministic mode, 122 s):
+Measured on the live site, run `run_20261127_hybrid2` (2026-11-27, hybrid mode with `claude-haiku-5-5`, 139 s):
 
 | | Result |
 |---|---|
@@ -17,7 +17,8 @@ Measured on the live site, run `run_20261126_live2` (2026-11-26, deterministic m
 | Stop | `BUDGET_EXHAUSTED` / `MAX_PRODUCTS_PER_CATEGORY` (10 per category configured); 69 tasks left resumable |
 | Duplicate SKU identities | 0 |
 | Tests | 41 passed (P0 suite, offline), smoke script passed |
-| LLM usage in the live run | **none**: no model credentials were available, so the run used deterministic mode. The LLM path is implemented and tested only with scripted fake models. |
+| LLM usage | 20 model calls (1 per product page), 0 tool calls, 41,684 input / 17,012 output tokens ≈ $0.013 at list price; 90 attribute patches accepted, 0 rejected |
+| What the model added | structured variant attributes on 90/91 variants (deterministic: 0/91 beyond the table group heading); SKU, price, pack and availability identical to deterministic extraction on the same snapshots (0 differences in 91 variants) |
 
 Outputs: [`outputs/products.json`](outputs/products.json), [`outputs/variants.csv`](outputs/variants.csv),
 [`outputs/run_report.json`](outputs/run_report.json), [`outputs/failed_tasks.json`](outputs/failed_tasks.json).
@@ -97,7 +98,7 @@ degraded recovery. Offline replay of saved fixtures: add `--replay tests/fixture
 The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with nested variants in
 `products.json`, one row per variant in `variants.csv` (33 columns, in PRD order), with evidence refs,
 `llm_fields` and `missing` reasons. All 20 records in `outputs/` come from the single run
-`run_20261126_live2`. Example (abridged, real):
+`run_20261127_hybrid2`. Example (abridged, real):
 
 ```json
 {"name": "Safco Nitrilex Surpass Gloves", "product_key": "DRCCS", "brand": "Safco",
@@ -143,15 +144,29 @@ The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with n
 
 ## 9. Where AI adds value (measured)
 
-Honest result: **not measured on live data.** No model credentials were available, so the live run is
-deterministic. In that run the deterministic parsers resolved every critical field (91/91 SKUs and
-prices verified). The only gap they leave on Safco pages is unstructured variant attribute text (e.g.
-`C-3, chromic gut, 5-0, 18", 12/box`): variant attribute fill rate is 19% for gloves and 0% for sutures,
-which is where the hybrid loop is meant to help. The loop is exercised in `tests/test_agent_loop.py`
-with scripted fake models on a labeled synthetic gap (a real page with one table row removed): valid
-patches are accepted with `llm` evidence and `llm_fields`; SKUs or prices not in their cited row,
-overwrites of known values, invented SKUs and instruction-following output are rejected. The
-baseline-vs-hybrid evaluation (P1, FR-13) was not built.
+Measured on the 20 live product pages of `run_20261127_hybrid2`, comparing the hybrid output with the
+deterministic parser re-run on **the same saved snapshots**:
+
+| | Deterministic | Hybrid (Claude Haiku 5.5, effort `low`) |
+|---|---|---|
+| SKUs / prices exported | 91 / 91 | 91 / 91, identical values |
+| Variants with structured attributes (beyond the table group heading) | 0 / 91 | 90 / 91 |
+| Attribute keys produced | — | Size 70, Material 23, Particle Size 16, Volume 16, Color 5, Container 4, … |
+| Model calls / tokens / list cost | 0 | 20 calls, 58.7k tokens, ≈ $0.013 |
+| Wall time (37 fetches) | 122 s (`run_20261126_live2`) | 139 s |
+
+The deterministic parsers already resolve every critical field on Safco (SKU, price, pack, stock), so the
+model's value here is limited to splitting variant labels like `C-3, chromic gut, 5-0, 18", 12/box` into
+`Needle / Material / Size / Length`. A manual check of 20 random hybrid variants found 17 correct, 1 wrong
+(`Scent: Hygiene` for an oral rinse variant) and 2 with a debatable key (`Length: long`, `Form: Gel`);
+every value was grounded in its own row's text (the Validator rejects any attribute that is not). These
+attributes are schema-checked and listed in `llm_fields`, not evidence-verified (PRD §5.3).
+
+The SKU/price recovery path was also run with the real model on a labeled synthetic gap (the real
+Surpass page with one table row removed): the model recovered the missing SKU with a verified
+`structured-data` evidence row in 3 calls. The scripted-fake tests in `tests/test_agent_loop.py` cover the
+rejection paths (SKU or price outside its cited row, overwrites, invented SKUs, instruction-following
+output). The full baseline-vs-hybrid evaluation on manually labeled fixtures (P1, FR-13) was not built.
 
 ## 10. Scaling to full-site crawling
 
@@ -177,9 +192,10 @@ is design only.
 
 - Only page 1 of each listing is read (robots.txt disallows `?page=`); 10 products per category were
   sampled; full coverage is not measured.
-- LLM extraction was not demonstrated live (no credentials; A-07 unverified). P1 features (classifier
-  fallback, repair suggestions, evaluation) are not built and are rejected by config validation if enabled.
-- Variant attributes are mostly empty in deterministic mode (only the table group heading).
+- The model's attributes are not evidence-verified (only grounded in row text); key names can vary and
+  ~1 in 20 sampled values was semantically wrong. P1 features (classifier fallback, repair suggestions,
+  evaluation) are not built and are rejected by config validation if enabled.
+- In deterministic mode variant attributes are empty except for the table group heading.
 - Pack size is parsed from `N/unit`, `Box of N` and `N-pack`; volume labels like `1cc jar` stay null with
   `not_visible` (sutures & surgical pack fill rate 34%).
 - Six product pages (bone grafts and one trimmer) never render their variant table; their SKUs and

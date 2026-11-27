@@ -73,9 +73,9 @@ class AgentsConfig(BaseModel):
 
 class LLMConfig(BaseModel):
     max_model_calls_per_run: int = Field(60, ge=0)
-    max_input_tokens_per_call: int = Field(6000, gt=0)
-    max_output_tokens_per_call: int = Field(1200, gt=0)
-    max_tool_result_chars: int = Field(4000, gt=0)
+    max_input_tokens_per_call: int = Field(8000, gt=0)
+    max_output_tokens_per_call: int = Field(4000, gt=0)
+    max_tool_result_chars: int = Field(12000, gt=0)
 
 
 class StorageConfig(BaseModel):

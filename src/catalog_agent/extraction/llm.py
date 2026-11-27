@@ -37,14 +37,29 @@ class ModelClient(Protocol):
 
 
 class LangChainModelClient:
-    def __init__(self, provider: str, model: str, api_key: str, max_output_tokens: int, timeout_s: float = 60):
+    def __init__(
+        self,
+        provider: str,
+        model: str,
+        api_key: str,
+        max_output_tokens: int,
+        timeout_s: float = 60,
+        effort: str = "low",
+    ):
         if provider.lower() != "anthropic":
             raise ModelUnavailable(f"provider {provider!r} is not installed in this build (anthropic only)")
         from langchain_anthropic import ChatAnthropic
 
         self.model_id = f"{provider}:{model}"
+        # Current Claude models think adaptively and thinking counts toward max_tokens, so the
+        # output cap must leave room for it; low effort keeps this copy-and-cite task cheap.
         self._llm = ChatAnthropic(
-            model=model, api_key=api_key, max_tokens=max_output_tokens, timeout=timeout_s, max_retries=1
+            model=model,
+            api_key=api_key,
+            max_tokens=max_output_tokens,
+            timeout=timeout_s,
+            max_retries=1,
+            output_config={"effort": effort},
         )
 
     async def invoke(self, messages: list[dict[str, Any]], tools: list[dict[str, Any]]) -> ModelReply:

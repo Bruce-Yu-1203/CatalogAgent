@@ -1,18 +1,18 @@
 {
-  "run_id": "run_20261126_live2",
-  "mode": "deterministic",
+  "run_id": "run_20261127_hybrid2",
+  "mode": "hybrid",
   "status": "BUDGET_EXHAUSTED",
   "termination_reason": "MAX_PRODUCTS_PER_CATEGORY",
   "coverage_status": "partial",
-  "started_at": "2026-11-26T23:31:05Z",
+  "started_at": "2026-11-27T01:25:35Z",
   "finished_at": null,
   "invocations": [
     {
       "kind": "crawl",
-      "model_id": null,
+      "model_id": "anthropic:claude-haiku-5-5",
       "model_unavailable": null,
       "requeued": 0,
-      "seconds": 121.6,
+      "seconds": 139.1,
       "status": "BUDGET_EXHAUSTED"
     }
   ],
@@ -21,9 +21,9 @@
     "pages_used": 37,
     "max_products_per_category": 10,
     "max_model_calls": 60,
-    "model_calls_used": 0,
-    "input_tokens_used": 0,
-    "output_tokens_used": 0,
+    "model_calls_used": 20,
+    "input_tokens_used": 41684,
+    "output_tokens_used": 17012,
     "extensions": []
   },
   "tasks": {
@@ -156,14 +156,16 @@
     "duplicate_identity_count": 0
   },
   "model_usage": {
-    "product_pages_with_model": 0,
+    "product_pages_with_model": 20,
     "degraded": {},
-    "fallback_reasons": {},
-    "patch_entries_applied": 0,
+    "fallback_reasons": {
+      "unparsed_attributes": 20
+    },
+    "patch_entries_applied": 90,
     "patch_entries_rejected": 0,
     "tool_calls": 0
   },
-  "extraction_seconds_total": 0.23,
+  "extraction_seconds_total": 71.92,
   "per_category": {
     "gloves": {
       "root": "https://www.safcodental.com/catalog/gloves",
@@ -186,7 +188,7 @@
         "variant": {
           "sku": 1.0,
           "variant_name": 1.0,
-          "attributes": 0.1887,
+          "attributes": 1.0,
           "pack_label": 1.0,
           "pack_quantity": 1.0,
           "pack_unit": 1.0,
@@ -197,8 +199,8 @@
       },
       "validation_failure_rate": 0.0,
       "quarantine_rate": 0.0,
-      "llm_fallback_rate": 0.0,
-      "evidence_rejection_rate": null,
+      "llm_fallback_rate": 1.0,
+      "evidence_rejection_rate": 0.0,
       "variant_coverage": {
         "expected_skus": 53,
         "exported_skus": 53
@@ -230,7 +232,7 @@
         "variant": {
           "sku": 1.0,
           "variant_name": 1.0,
-          "attributes": 0.0,
+          "attributes": 0.9737,
           "pack_label": 0.3421,
           "pack_quantity": 0.3421,
           "pack_unit": 0.3421,
@@ -241,8 +243,8 @@
       },
       "validation_failure_rate": 0.0,
       "quarantine_rate": 0.0,
-      "llm_fallback_rate": 0.0,
-      "evidence_rejection_rate": null,
+      "llm_fallback_rate": 1.0,
+      "evidence_rejection_rate": 0.0,
       "variant_coverage": {
         "expected_skus": 38,
         "exported_skus": 38

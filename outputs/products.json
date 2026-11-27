@@ -1,7 +1,7 @@
 [
   {
     "product_id": "p_e7c10d09bc0f",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "DRCAN",
     "url": "https://www.safcodental.com/product/alasta-sup-reg-sup",
@@ -29,7 +29,7 @@
     "alternatives": [],
     "variant_count": 10,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -37,14 +37,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:07Z",
+    "observed_at": "2026-11-27T01:26:39Z",
     "variants": [
       {
         "variant_id": "v_c3915567572f",
         "sku": "4680714",
         "variant_name": "X-small, 100/box",
         "attributes": {
-          "Group": "100/box"
+          "Group": "100/box",
+          "Size": "X-small"
         },
         "pack_label": "100/box",
         "pack_quantity": 100,
@@ -54,11 +55,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "4680714",
@@ -67,7 +70,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$13.49",
@@ -82,7 +85,8 @@
         "sku": "4680720",
         "variant_name": "Small,100/box",
         "attributes": {
-          "Group": "100/box"
+          "Group": "100/box",
+          "Size": "Small"
         },
         "pack_label": "100/box",
         "pack_quantity": 100,
@@ -92,11 +96,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "4680720",
@@ -105,7 +111,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$13.49",
@@ -120,7 +126,8 @@
         "sku": "4680726",
         "variant_name": "Medium, 100/box",
         "attributes": {
-          "Group": "100/box"
+          "Group": "100/box",
+          "Size": "Medium"
         },
         "pack_label": "100/box",
         "pack_quantity": 100,
@@ -130,11 +137,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "4680726",
@@ -143,7 +152,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$13.49",
@@ -158,7 +167,8 @@
         "sku": "4680732",
         "variant_name": "Large, 100/box",
         "attributes": {
-          "Group": "100/box"
+          "Group": "100/box",
+          "Size": "Large"
         },
         "pack_label": "100/box",
         "pack_quantity": 100,
@@ -168,11 +178,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "4680732",
@@ -181,7 +193,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "$13.49",
@@ -196,7 +208,8 @@
         "sku": "4681102",
         "variant_name": "X-small, 200/box",
         "attributes": {
-          "Group": "200/box"
+          "Group": "200/box",
+          "Size": "X-small"
         },
         "pack_label": "200/box",
         "pack_quantity": 200,
@@ -206,11 +219,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-6",
             "raw_value": "4681102",
@@ -219,7 +234,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-6",
             "raw_value": "$25.99",
@@ -234,7 +249,8 @@
         "sku": "4681105",
         "variant_name": "Small, 200/box",
         "attributes": {
-          "Group": "200/box"
+          "Group": "200/box",
+          "Size": "Small"
         },
         "pack_label": "200/box",
         "pack_quantity": 200,
@@ -244,11 +260,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-7",
             "raw_value": "4681105",
@@ -257,7 +275,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-7",
             "raw_value": "$25.99",
@@ -272,7 +290,8 @@
         "sku": "4681108",
         "variant_name": "Medium, 200/box",
         "attributes": {
-          "Group": "200/box"
+          "Group": "200/box",
+          "Size": "Medium"
         },
         "pack_label": "200/box",
         "pack_quantity": 200,
@@ -282,11 +301,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-8",
             "raw_value": "4681108",
@@ -295,7 +316,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-8",
             "raw_value": "$25.99",
@@ -310,7 +331,8 @@
         "sku": "4681111",
         "variant_name": "Large, 200/box",
         "attributes": {
-          "Group": "200/box"
+          "Group": "200/box",
+          "Size": "Large"
         },
         "pack_label": "200/box",
         "pack_quantity": 200,
@@ -320,11 +342,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-9",
             "raw_value": "4681111",
@@ -333,7 +357,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-9",
             "raw_value": "$25.99",
@@ -348,7 +372,8 @@
         "sku": "4681112",
         "variant_name": "X-large, 200/box",
         "attributes": {
-          "Group": "200/box"
+          "Group": "200/box",
+          "Size": "X-large"
         },
         "pack_label": "200/box",
         "pack_quantity": 200,
@@ -358,11 +383,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-10",
             "raw_value": "4681112",
@@ -371,7 +398,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-10",
             "raw_value": "$25.99",
@@ -386,7 +413,8 @@
         "sku": "4681210",
         "variant_name": "X-Large, 100/box",
         "attributes": {
-          "Group": "100/box"
+          "Group": "100/box",
+          "Size": "X-Large"
         },
         "pack_label": "100/box",
         "pack_quantity": 100,
@@ -396,11 +424,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "4681210",
@@ -409,7 +439,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_ddd716bdc769707e",
+            "snapshot_id": "s_557908e2f01d9cf4",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "$13.49",
@@ -423,7 +453,7 @@
   },
   {
     "product_id": "p_b417674a303f",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "DRCBM",
     "url": "https://www.safcodental.com/product/aurelia-reg-amazing-reg",
@@ -451,7 +481,7 @@
     "alternatives": [],
     "variant_count": 5,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -459,13 +489,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:31:56Z",
+    "observed_at": "2026-11-27T01:26:28Z",
     "variants": [
       {
         "variant_id": "v_2e2b091ad56e",
         "sku": "4871102",
         "variant_name": "X-small, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-small"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -474,11 +506,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_30002559feaebd71",
+            "snapshot_id": "s_6af63e6e73bf3ed4",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "4871102",
@@ -487,7 +521,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_30002559feaebd71",
+            "snapshot_id": "s_6af63e6e73bf3ed4",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$20.99",
@@ -501,7 +535,9 @@
         "variant_id": "v_b4caaa825cc3",
         "sku": "4871105",
         "variant_name": "Small, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Small"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -510,11 +546,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_30002559feaebd71",
+            "snapshot_id": "s_6af63e6e73bf3ed4",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "4871105",
@@ -523,7 +561,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_30002559feaebd71",
+            "snapshot_id": "s_6af63e6e73bf3ed4",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$20.99",
@@ -537,7 +575,9 @@
         "variant_id": "v_9eebd98f955e",
         "sku": "4871108",
         "variant_name": "Medium, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Medium"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -546,11 +586,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_30002559feaebd71",
+            "snapshot_id": "s_6af63e6e73bf3ed4",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "4871108",
@@ -559,7 +601,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_30002559feaebd71",
+            "snapshot_id": "s_6af63e6e73bf3ed4",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$20.99",
@@ -573,7 +615,9 @@
         "variant_id": "v_ffb34b4fcf18",
         "sku": "4871111",
         "variant_name": "Large, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Large"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -582,11 +626,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_30002559feaebd71",
+            "snapshot_id": "s_6af63e6e73bf3ed4",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "4871111",
@@ -595,7 +641,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_30002559feaebd71",
+            "snapshot_id": "s_6af63e6e73bf3ed4",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "$20.99",
@@ -609,7 +655,9 @@
         "variant_id": "v_d5a25cf00075",
         "sku": "4871114",
         "variant_name": "X-large, 270/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-large"
+        },
         "pack_label": "270/box",
         "pack_quantity": 270,
         "pack_unit": "box",
@@ -618,11 +666,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_30002559feaebd71",
+            "snapshot_id": "s_6af63e6e73bf3ed4",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "4871114",
@@ -631,7 +681,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_30002559feaebd71",
+            "snapshot_id": "s_6af63e6e73bf3ed4",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "$20.99",
@@ -645,7 +695,7 @@
   },
   {
     "product_id": "p_1861aa6e61c0",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "DRCBO",
     "url": "https://www.safcodental.com/product/beesure-reg-superslim-trade-nitrile",
@@ -673,7 +723,7 @@
     "alternatives": [],
     "variant_count": 4,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -681,13 +731,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:05Z",
+    "observed_at": "2026-11-27T01:26:37Z",
     "variants": [
       {
         "variant_id": "v_d8f6bf8f2312",
         "sku": "4712101",
         "variant_name": "X-small, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-small"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -696,11 +748,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_689a796999a2f0d6",
+            "snapshot_id": "s_d1b5fdc208a51cef",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "4712101",
@@ -709,7 +763,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_689a796999a2f0d6",
+            "snapshot_id": "s_d1b5fdc208a51cef",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$24.99",
@@ -723,7 +777,9 @@
         "variant_id": "v_33695359648e",
         "sku": "4712103",
         "variant_name": "Small, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Small"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -732,11 +788,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_689a796999a2f0d6",
+            "snapshot_id": "s_d1b5fdc208a51cef",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "4712103",
@@ -745,7 +803,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_689a796999a2f0d6",
+            "snapshot_id": "s_d1b5fdc208a51cef",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$24.99",
@@ -759,7 +817,9 @@
         "variant_id": "v_01fe798f5dba",
         "sku": "4712105",
         "variant_name": "Medium, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Medium"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -768,11 +828,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_689a796999a2f0d6",
+            "snapshot_id": "s_d1b5fdc208a51cef",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "4712105",
@@ -781,7 +843,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_689a796999a2f0d6",
+            "snapshot_id": "s_d1b5fdc208a51cef",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$24.99",
@@ -795,7 +857,9 @@
         "variant_id": "v_aa7acb687049",
         "sku": "4712107",
         "variant_name": "Large, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Large"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -804,11 +868,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_689a796999a2f0d6",
+            "snapshot_id": "s_d1b5fdc208a51cef",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "4712107",
@@ -817,7 +883,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_689a796999a2f0d6",
+            "snapshot_id": "s_d1b5fdc208a51cef",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "$24.99",
@@ -831,7 +897,7 @@
   },
   {
     "product_id": "p_8f417b791036",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "DRCCW",
     "url": "https://www.safcodental.com/product/beesure-ultraslim-nitrile",
@@ -859,7 +925,7 @@
     "alternatives": [],
     "variant_count": 4,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -867,13 +933,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:31:54Z",
+    "observed_at": "2026-11-27T01:26:26Z",
     "variants": [
       {
         "variant_id": "v_089b717711e0",
         "sku": "4712110",
         "variant_name": "X-small, 350/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-small"
+        },
         "pack_label": "350/box",
         "pack_quantity": 350,
         "pack_unit": "box",
@@ -882,11 +950,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_65500ca8bceea14d",
+            "snapshot_id": "s_79cffe024c7d1b47",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "4712110",
@@ -895,7 +965,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_65500ca8bceea14d",
+            "snapshot_id": "s_79cffe024c7d1b47",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$31.99",
@@ -909,7 +979,9 @@
         "variant_id": "v_d6e2f2be5639",
         "sku": "4712112",
         "variant_name": "Small, 350/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Small"
+        },
         "pack_label": "350/box",
         "pack_quantity": 350,
         "pack_unit": "box",
@@ -918,11 +990,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_65500ca8bceea14d",
+            "snapshot_id": "s_79cffe024c7d1b47",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "4712112",
@@ -931,7 +1005,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_65500ca8bceea14d",
+            "snapshot_id": "s_79cffe024c7d1b47",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$31.99",
@@ -945,7 +1019,9 @@
         "variant_id": "v_b7f447eb6546",
         "sku": "4712114",
         "variant_name": "Medium, 350/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Medium"
+        },
         "pack_label": "350/box",
         "pack_quantity": 350,
         "pack_unit": "box",
@@ -954,11 +1030,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_65500ca8bceea14d",
+            "snapshot_id": "s_79cffe024c7d1b47",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "4712114",
@@ -967,7 +1045,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_65500ca8bceea14d",
+            "snapshot_id": "s_79cffe024c7d1b47",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$31.99",
@@ -981,7 +1059,9 @@
         "variant_id": "v_087238cf20e5",
         "sku": "4712116",
         "variant_name": "Large, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Large"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -990,11 +1070,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_65500ca8bceea14d",
+            "snapshot_id": "s_79cffe024c7d1b47",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "4712116",
@@ -1003,7 +1085,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_65500ca8bceea14d",
+            "snapshot_id": "s_79cffe024c7d1b47",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "$31.99",
@@ -1017,7 +1099,7 @@
   },
   {
     "product_id": "p_d1f9f5e18bb9",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "DRCAS",
     "url": "https://www.safcodental.com/product/lavender-nitrile",
@@ -1045,7 +1127,7 @@
     "alternatives": [],
     "variant_count": 5,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -1053,13 +1135,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:31:50Z",
+    "observed_at": "2026-11-27T01:26:21Z",
     "variants": [
       {
         "variant_id": "v_0ea6c2d19574",
         "sku": "3020800",
         "variant_name": "X-small, 250/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-small"
+        },
         "pack_label": "250/box",
         "pack_quantity": 250,
         "pack_unit": "box",
@@ -1068,11 +1152,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_d0df4966c694cf84",
+            "snapshot_id": "s_3882fc7d5e257054",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "3020800",
@@ -1081,7 +1167,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_d0df4966c694cf84",
+            "snapshot_id": "s_3882fc7d5e257054",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$38.99",
@@ -1095,7 +1181,9 @@
         "variant_id": "v_0e30ab18356b",
         "sku": "3020810",
         "variant_name": "Small, 250/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Small"
+        },
         "pack_label": "250/box",
         "pack_quantity": 250,
         "pack_unit": "box",
@@ -1104,11 +1192,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_d0df4966c694cf84",
+            "snapshot_id": "s_3882fc7d5e257054",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "3020810",
@@ -1117,7 +1207,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_d0df4966c694cf84",
+            "snapshot_id": "s_3882fc7d5e257054",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$38.99",
@@ -1131,7 +1221,9 @@
         "variant_id": "v_c2661ff828b3",
         "sku": "3020815",
         "variant_name": "Medium, 250/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Medium"
+        },
         "pack_label": "250/box",
         "pack_quantity": 250,
         "pack_unit": "box",
@@ -1140,11 +1232,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_d0df4966c694cf84",
+            "snapshot_id": "s_3882fc7d5e257054",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "3020815",
@@ -1153,7 +1247,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_d0df4966c694cf84",
+            "snapshot_id": "s_3882fc7d5e257054",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$38.99",
@@ -1167,7 +1261,9 @@
         "variant_id": "v_308a7865dd78",
         "sku": "3020822",
         "variant_name": "Large, 250/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Large"
+        },
         "pack_label": "250/box",
         "pack_quantity": 250,
         "pack_unit": "box",
@@ -1176,11 +1272,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_d0df4966c694cf84",
+            "snapshot_id": "s_3882fc7d5e257054",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "3020822",
@@ -1189,7 +1287,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_d0df4966c694cf84",
+            "snapshot_id": "s_3882fc7d5e257054",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "$38.99",
@@ -1203,7 +1301,9 @@
         "variant_id": "v_bcd014265006",
         "sku": "3020830",
         "variant_name": "X-large, 230/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-large"
+        },
         "pack_label": "230/box",
         "pack_quantity": 230,
         "pack_unit": "box",
@@ -1212,11 +1312,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_d0df4966c694cf84",
+            "snapshot_id": "s_3882fc7d5e257054",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "3020830",
@@ -1225,7 +1327,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_d0df4966c694cf84",
+            "snapshot_id": "s_3882fc7d5e257054",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "$38.99",
@@ -1239,7 +1341,7 @@
   },
   {
     "product_id": "p_8a27826bf7a4",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "DRCCX",
     "url": "https://www.safcodental.com/product/safco-nitrilex-black",
@@ -1267,7 +1369,7 @@
     "alternatives": [],
     "variant_count": 5,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -1275,13 +1377,17 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:31:59Z",
+    "observed_at": "2026-11-27T01:26:30Z",
     "variants": [
       {
         "variant_id": "v_4c44a3eb3242",
         "sku": "1027972",
         "variant_name": "X-small, 200/box",
-        "attributes": {},
+        "attributes": {
+          "Color": "Black",
+          "Material": "Nitrile",
+          "Size": "X-small"
+        },
         "pack_label": "200/box",
         "pack_quantity": 200,
         "pack_unit": "box",
@@ -1290,11 +1396,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Color",
+          "attributes.Material",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_80e1f40bfdd44996",
+            "snapshot_id": "s_5c6239c1bb3b41a2",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "1027972",
@@ -1303,7 +1413,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_80e1f40bfdd44996",
+            "snapshot_id": "s_5c6239c1bb3b41a2",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$13.29",
@@ -1317,7 +1427,11 @@
         "variant_id": "v_ec3c105b88bf",
         "sku": "1027974",
         "variant_name": "Small, 200/box",
-        "attributes": {},
+        "attributes": {
+          "Color": "Black",
+          "Material": "Nitrile",
+          "Size": "Small"
+        },
         "pack_label": "200/box",
         "pack_quantity": 200,
         "pack_unit": "box",
@@ -1326,11 +1440,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Color",
+          "attributes.Material",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_80e1f40bfdd44996",
+            "snapshot_id": "s_5c6239c1bb3b41a2",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "1027974",
@@ -1339,7 +1457,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_80e1f40bfdd44996",
+            "snapshot_id": "s_5c6239c1bb3b41a2",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$13.29",
@@ -1353,7 +1471,11 @@
         "variant_id": "v_96518e5d802b",
         "sku": "1027976",
         "variant_name": "Medium, 200/box",
-        "attributes": {},
+        "attributes": {
+          "Color": "Black",
+          "Material": "Nitrile",
+          "Size": "Medium"
+        },
         "pack_label": "200/box",
         "pack_quantity": 200,
         "pack_unit": "box",
@@ -1362,11 +1484,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Color",
+          "attributes.Material",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_80e1f40bfdd44996",
+            "snapshot_id": "s_5c6239c1bb3b41a2",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "1027976",
@@ -1375,7 +1501,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_80e1f40bfdd44996",
+            "snapshot_id": "s_5c6239c1bb3b41a2",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$13.29",
@@ -1389,7 +1515,11 @@
         "variant_id": "v_6f239a1f2c87",
         "sku": "1027978",
         "variant_name": "Large, 200/box",
-        "attributes": {},
+        "attributes": {
+          "Color": "Black",
+          "Material": "Nitrile",
+          "Size": "Large"
+        },
         "pack_label": "200/box",
         "pack_quantity": 200,
         "pack_unit": "box",
@@ -1398,11 +1528,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Color",
+          "attributes.Material",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_80e1f40bfdd44996",
+            "snapshot_id": "s_5c6239c1bb3b41a2",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "1027978",
@@ -1411,7 +1545,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_80e1f40bfdd44996",
+            "snapshot_id": "s_5c6239c1bb3b41a2",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "$13.29",
@@ -1425,7 +1559,11 @@
         "variant_id": "v_c1d215020118",
         "sku": "1027980",
         "variant_name": "X-large, 200/box",
-        "attributes": {},
+        "attributes": {
+          "Color": "Black",
+          "Material": "Nitrile",
+          "Size": "X-large"
+        },
         "pack_label": "200/box",
         "pack_quantity": 200,
         "pack_unit": "box",
@@ -1434,11 +1572,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Color",
+          "attributes.Material",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_80e1f40bfdd44996",
+            "snapshot_id": "s_5c6239c1bb3b41a2",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "1027980",
@@ -1447,7 +1589,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_80e1f40bfdd44996",
+            "snapshot_id": "s_5c6239c1bb3b41a2",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "$13.29",
@@ -1461,7 +1603,7 @@
   },
   {
     "product_id": "p_c059040f4342",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "DRCCJ",
     "url": "https://www.safcodental.com/product/safco-nitrilex-prevail-trade-nitrile-gloves",
@@ -1487,7 +1629,7 @@
     "alternatives": [],
     "variant_count": 5,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -1495,13 +1637,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:03Z",
+    "observed_at": "2026-11-27T01:26:35Z",
     "variants": [
       {
         "variant_id": "v_bd2251ec1928",
         "sku": "1028085",
         "variant_name": "X-small, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-small"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -1510,11 +1654,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_46525b12ff270f16",
+            "snapshot_id": "s_7c1295727cd85a44",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "1028085",
@@ -1523,7 +1669,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_46525b12ff270f16",
+            "snapshot_id": "s_7c1295727cd85a44",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$15.99",
@@ -1537,7 +1683,9 @@
         "variant_id": "v_64eb0d3c5d19",
         "sku": "1028087",
         "variant_name": "Small, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Small"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -1546,11 +1694,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_46525b12ff270f16",
+            "snapshot_id": "s_7c1295727cd85a44",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "1028087",
@@ -1559,7 +1709,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_46525b12ff270f16",
+            "snapshot_id": "s_7c1295727cd85a44",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$15.99",
@@ -1573,7 +1723,9 @@
         "variant_id": "v_8d959b10203a",
         "sku": "1028090",
         "variant_name": "Medium, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Medium"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -1582,11 +1734,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_46525b12ff270f16",
+            "snapshot_id": "s_7c1295727cd85a44",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "1028090",
@@ -1595,7 +1749,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_46525b12ff270f16",
+            "snapshot_id": "s_7c1295727cd85a44",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$15.99",
@@ -1609,7 +1763,9 @@
         "variant_id": "v_d4c101be4105",
         "sku": "1028093",
         "variant_name": "Large, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Large"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -1618,11 +1774,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_46525b12ff270f16",
+            "snapshot_id": "s_7c1295727cd85a44",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "1028093",
@@ -1631,7 +1789,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_46525b12ff270f16",
+            "snapshot_id": "s_7c1295727cd85a44",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "$15.99",
@@ -1645,7 +1803,9 @@
         "variant_id": "v_d116339ac9ad",
         "sku": "1028094",
         "variant_name": "X-large, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-large"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -1654,11 +1814,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_46525b12ff270f16",
+            "snapshot_id": "s_7c1295727cd85a44",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "1028094",
@@ -1667,7 +1829,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_46525b12ff270f16",
+            "snapshot_id": "s_7c1295727cd85a44",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "$15.99",
@@ -1681,7 +1843,7 @@
   },
   {
     "product_id": "p_1583754a2496",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "DRCDJ",
     "url": "https://www.safcodental.com/product/safco-nitrilex-soothe",
@@ -1707,7 +1869,7 @@
     "alternatives": [],
     "variant_count": 5,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -1715,13 +1877,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:01Z",
+    "observed_at": "2026-11-27T01:26:32Z",
     "variants": [
       {
         "variant_id": "v_74856c5ae6ad",
         "sku": "1028073",
         "variant_name": "X-small, 250/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-small"
+        },
         "pack_label": "250/box",
         "pack_quantity": 250,
         "pack_unit": "box",
@@ -1730,11 +1894,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_1451c182135d3a2e",
+            "snapshot_id": "s_3f81a589280da245",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "1028073",
@@ -1743,7 +1909,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_1451c182135d3a2e",
+            "snapshot_id": "s_3f81a589280da245",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$15.99",
@@ -1757,7 +1923,9 @@
         "variant_id": "v_3932491ec22e",
         "sku": "1028077",
         "variant_name": "Small, 250/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Small"
+        },
         "pack_label": "250/box",
         "pack_quantity": 250,
         "pack_unit": "box",
@@ -1766,11 +1934,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_1451c182135d3a2e",
+            "snapshot_id": "s_3f81a589280da245",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "1028077",
@@ -1779,7 +1949,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_1451c182135d3a2e",
+            "snapshot_id": "s_3f81a589280da245",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$15.99",
@@ -1793,7 +1963,9 @@
         "variant_id": "v_f4bc92804e2e",
         "sku": "1028078",
         "variant_name": "Medium, 250/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Medium"
+        },
         "pack_label": "250/box",
         "pack_quantity": 250,
         "pack_unit": "box",
@@ -1802,11 +1974,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_1451c182135d3a2e",
+            "snapshot_id": "s_3f81a589280da245",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "1028078",
@@ -1815,7 +1989,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_1451c182135d3a2e",
+            "snapshot_id": "s_3f81a589280da245",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$15.99",
@@ -1829,7 +2003,9 @@
         "variant_id": "v_eacc2978a571",
         "sku": "1028086",
         "variant_name": "Large, 250/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Large"
+        },
         "pack_label": "250/box",
         "pack_quantity": 250,
         "pack_unit": "box",
@@ -1838,11 +2014,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_1451c182135d3a2e",
+            "snapshot_id": "s_3f81a589280da245",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "1028086",
@@ -1851,7 +2029,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_1451c182135d3a2e",
+            "snapshot_id": "s_3f81a589280da245",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "$15.99",
@@ -1865,7 +2043,9 @@
         "variant_id": "v_5556d05f20cd",
         "sku": "1028088",
         "variant_name": "X-large, 250/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-large"
+        },
         "pack_label": "250/box",
         "pack_quantity": 250,
         "pack_unit": "box",
@@ -1874,11 +2054,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_1451c182135d3a2e",
+            "snapshot_id": "s_3f81a589280da245",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "1028088",
@@ -1887,7 +2069,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_1451c182135d3a2e",
+            "snapshot_id": "s_3f81a589280da245",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "$15.99",
@@ -1901,7 +2083,7 @@
   },
   {
     "product_id": "p_798dadcb43b4",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "DRCCS",
     "url": "https://www.safcodental.com/product/safco-nitrilex-surpass-trade",
@@ -1929,7 +2111,7 @@
     "alternatives": [],
     "variant_count": 5,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -1937,13 +2119,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:31:47Z",
+    "observed_at": "2026-11-27T01:26:19Z",
     "variants": [
       {
         "variant_id": "v_8779bebc2e5b",
         "sku": "1027990",
         "variant_name": "X-small, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-small"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -1952,11 +2136,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_e80cdae07d0c7e42",
+            "snapshot_id": "s_510e13579992af13",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "1027990",
@@ -1965,7 +2151,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_e80cdae07d0c7e42",
+            "snapshot_id": "s_510e13579992af13",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$15.99",
@@ -1979,7 +2165,9 @@
         "variant_id": "v_ac7db0327bc3",
         "sku": "1027993",
         "variant_name": "Small, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Small"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -1988,11 +2176,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_e80cdae07d0c7e42",
+            "snapshot_id": "s_510e13579992af13",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "1027993",
@@ -2001,7 +2191,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_e80cdae07d0c7e42",
+            "snapshot_id": "s_510e13579992af13",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$15.99",
@@ -2015,7 +2205,9 @@
         "variant_id": "v_233d4ff7f3a1",
         "sku": "1027996",
         "variant_name": "Medium, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Medium"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -2024,11 +2216,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_e80cdae07d0c7e42",
+            "snapshot_id": "s_510e13579992af13",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "1027996",
@@ -2037,7 +2231,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_e80cdae07d0c7e42",
+            "snapshot_id": "s_510e13579992af13",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$15.99",
@@ -2051,7 +2245,9 @@
         "variant_id": "v_f95387cc7706",
         "sku": "1027999",
         "variant_name": "Large, 300/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Large"
+        },
         "pack_label": "300/box",
         "pack_quantity": 300,
         "pack_unit": "box",
@@ -2060,11 +2256,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_e80cdae07d0c7e42",
+            "snapshot_id": "s_510e13579992af13",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "1027999",
@@ -2073,7 +2271,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_e80cdae07d0c7e42",
+            "snapshot_id": "s_510e13579992af13",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "$15.99",
@@ -2087,7 +2285,9 @@
         "variant_id": "v_407f4e2e5a89",
         "sku": "1028001",
         "variant_name": "X-large, 250/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-large"
+        },
         "pack_label": "250/box",
         "pack_quantity": 250,
         "pack_unit": "box",
@@ -2096,11 +2296,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_e80cdae07d0c7e42",
+            "snapshot_id": "s_510e13579992af13",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "1028001",
@@ -2109,7 +2311,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_e80cdae07d0c7e42",
+            "snapshot_id": "s_510e13579992af13",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "$15.99",
@@ -2123,7 +2325,7 @@
   },
   {
     "product_id": "p_480b05f951fb",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "DRCBN",
     "url": "https://www.safcodental.com/product/safco-nitrilex-reg-ultrasoft-nitrile-gloves",
@@ -2151,7 +2353,7 @@
     "alternatives": [],
     "variant_count": 5,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -2159,13 +2361,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:31:52Z",
+    "observed_at": "2026-11-27T01:26:24Z",
     "variants": [
       {
         "variant_id": "v_8c2f692542f1",
         "sku": "1028005",
         "variant_name": "X-small, 200/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-small"
+        },
         "pack_label": "200/box",
         "pack_quantity": 200,
         "pack_unit": "box",
@@ -2174,11 +2378,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_dfd5b1629d08a13c",
+            "snapshot_id": "s_c253aef956182e06",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "1028005",
@@ -2187,7 +2393,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_dfd5b1629d08a13c",
+            "snapshot_id": "s_c253aef956182e06",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$13.29",
@@ -2201,7 +2407,9 @@
         "variant_id": "v_41b8b7a506de",
         "sku": "1028009",
         "variant_name": "Small, 200/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Small"
+        },
         "pack_label": "200/box",
         "pack_quantity": 200,
         "pack_unit": "box",
@@ -2210,11 +2418,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_dfd5b1629d08a13c",
+            "snapshot_id": "s_c253aef956182e06",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "1028009",
@@ -2223,7 +2433,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_dfd5b1629d08a13c",
+            "snapshot_id": "s_c253aef956182e06",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$11.99",
@@ -2237,7 +2447,9 @@
         "variant_id": "v_6d5a850ef0ee",
         "sku": "1028012",
         "variant_name": "Medium, 200/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Medium"
+        },
         "pack_label": "200/box",
         "pack_quantity": 200,
         "pack_unit": "box",
@@ -2246,11 +2458,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_dfd5b1629d08a13c",
+            "snapshot_id": "s_c253aef956182e06",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "1028012",
@@ -2259,7 +2473,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_dfd5b1629d08a13c",
+            "snapshot_id": "s_c253aef956182e06",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$11.99",
@@ -2273,7 +2487,9 @@
         "variant_id": "v_c142d257b2a1",
         "sku": "1028016",
         "variant_name": "Large, 200/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Large"
+        },
         "pack_label": "200/box",
         "pack_quantity": 200,
         "pack_unit": "box",
@@ -2282,11 +2498,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_dfd5b1629d08a13c",
+            "snapshot_id": "s_c253aef956182e06",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "1028016",
@@ -2295,7 +2513,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_dfd5b1629d08a13c",
+            "snapshot_id": "s_c253aef956182e06",
             "section_id": "variant-table",
             "row_id": "row-4",
             "raw_value": "$13.29",
@@ -2309,7 +2527,9 @@
         "variant_id": "v_eed589d112f5",
         "sku": "1028018",
         "variant_name": "X-large, 200/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "X-large"
+        },
         "pack_label": "200/box",
         "pack_quantity": 200,
         "pack_unit": "box",
@@ -2318,11 +2538,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_dfd5b1629d08a13c",
+            "snapshot_id": "s_c253aef956182e06",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "1028018",
@@ -2331,7 +2553,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_dfd5b1629d08a13c",
+            "snapshot_id": "s_c253aef956182e06",
             "section_id": "variant-table",
             "row_id": "row-5",
             "raw_value": "$11.99",
@@ -2345,7 +2567,7 @@
   },
   {
     "product_id": "p_b07b2385305a",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "PFWCC",
     "url": "https://www.safcodental.com/product/collashield-trade-collagen-membrane",
@@ -2371,7 +2593,7 @@
     "alternatives": [],
     "variant_count": 3,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -2379,13 +2601,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:29Z",
+    "observed_at": "2026-11-27T01:27:02Z",
     "variants": [
       {
         "variant_id": "v_ac2c221bcf92",
         "sku": "6130050",
         "variant_name": "CollaShield Collagen Membrane 15x20mm",
-        "attributes": {},
+        "attributes": {
+          "Size": "15x20mm"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -2394,11 +2618,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_39a93e37156c3253",
+            "snapshot_id": "s_d7bd50b8c650db2d",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "6130050",
@@ -2407,7 +2633,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_39a93e37156c3253",
+            "snapshot_id": "s_d7bd50b8c650db2d",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "128.99",
@@ -2426,7 +2652,9 @@
         "variant_id": "v_0563254849a5",
         "sku": "6130053",
         "variant_name": "CollaShield Collagen Membrane 20x30mm",
-        "attributes": {},
+        "attributes": {
+          "Size": "20x30mm"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -2435,11 +2663,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_39a93e37156c3253",
+            "snapshot_id": "s_d7bd50b8c650db2d",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "6130053",
@@ -2448,7 +2678,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_39a93e37156c3253",
+            "snapshot_id": "s_d7bd50b8c650db2d",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "152.99",
@@ -2467,7 +2697,9 @@
         "variant_id": "v_e890a31c75e0",
         "sku": "6130056",
         "variant_name": "CollaShield Collagen Membrane 30x40mm",
-        "attributes": {},
+        "attributes": {
+          "Size": "30x40mm"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -2476,11 +2708,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_39a93e37156c3253",
+            "snapshot_id": "s_d7bd50b8c650db2d",
             "section_id": "structured-data",
             "row_id": "ld-3",
             "raw_value": "6130056",
@@ -2489,7 +2723,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_39a93e37156c3253",
+            "snapshot_id": "s_d7bd50b8c650db2d",
             "section_id": "structured-data",
             "row_id": "ld-3",
             "raw_value": "211.49",
@@ -2508,7 +2742,7 @@
   },
   {
     "product_id": "p_04d2e55e0a10",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "PFWEG",
     "url": "https://www.safcodental.com/product/foundation-trade",
@@ -2534,7 +2768,7 @@
     "alternatives": [],
     "variant_count": 3,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -2542,13 +2776,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:33:00Z",
+    "observed_at": "2026-11-27T01:27:42Z",
     "variants": [
       {
         "variant_id": "v_db7a8eff73ec",
         "sku": "3430614",
         "variant_name": "Foundation pellets small size 10/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Small"
+        },
         "pack_label": "10/box",
         "pack_quantity": 10,
         "pack_unit": "box",
@@ -2557,11 +2793,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_93dd66ea97e3a94e",
+            "snapshot_id": "s_370a2d56dc5c6c94",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "3430614",
@@ -2570,7 +2808,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_93dd66ea97e3a94e",
+            "snapshot_id": "s_370a2d56dc5c6c94",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "420.49",
@@ -2584,7 +2822,9 @@
         "variant_id": "v_0a60becd3794",
         "sku": "3430626",
         "variant_name": "Foundation pellets medium size 5/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "Medium"
+        },
         "pack_label": "5/box",
         "pack_quantity": 5,
         "pack_unit": "box",
@@ -2593,11 +2833,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_93dd66ea97e3a94e",
+            "snapshot_id": "s_370a2d56dc5c6c94",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "3430626",
@@ -2606,7 +2848,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_93dd66ea97e3a94e",
+            "snapshot_id": "s_370a2d56dc5c6c94",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "420.49",
@@ -2620,7 +2862,9 @@
         "variant_id": "v_20fdc4276fa7",
         "sku": "3430635",
         "variant_name": "Foundation pellets assortment 6/box (3 small, 3 medium)",
-        "attributes": {},
+        "attributes": {
+          "Size": "Assortment"
+        },
         "pack_label": "6/box",
         "pack_quantity": 6,
         "pack_unit": "box",
@@ -2629,11 +2873,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_93dd66ea97e3a94e",
+            "snapshot_id": "s_370a2d56dc5c6c94",
             "section_id": "structured-data",
             "row_id": "ld-3",
             "raw_value": "3430635",
@@ -2642,7 +2888,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_93dd66ea97e3a94e",
+            "snapshot_id": "s_370a2d56dc5c6c94",
             "section_id": "structured-data",
             "row_id": "ld-3",
             "raw_value": "420.49",
@@ -2656,7 +2902,7 @@
   },
   {
     "product_id": "p_3df1acaac475",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "PFPFT",
     "url": "https://www.safcodental.com/product/hemostat-sup-trade-sup",
@@ -2690,7 +2936,7 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:50Z",
+    "observed_at": "2026-11-27T01:27:33Z",
     "variants": [
       {
         "variant_id": "v_894d9db9445c",
@@ -2709,7 +2955,7 @@
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_4e83461cf9810d79",
+            "snapshot_id": "s_491138ed8668d8a2",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "3152001",
@@ -2718,7 +2964,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_4e83461cf9810d79",
+            "snapshot_id": "s_491138ed8668d8a2",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$125.99",
@@ -2732,7 +2978,7 @@
   },
   {
     "product_id": "p_64df3e1f9172",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "PFWRD",
     "url": "https://www.safcodental.com/product/ossif-i-sem-trade",
@@ -2758,7 +3004,7 @@
     "alternatives": [],
     "variant_count": 18,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -2766,13 +3012,17 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:44Z",
+    "observed_at": "2026-11-27T01:27:20Z",
     "variants": [
       {
         "variant_id": "v_faa7e0cbf9e4",
         "sku": "6130001",
         "variant_name": "Mineralized cancellous bone .25-1.0mm .5cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cancellous bone",
+          "Particle Size": ".25-1.0mm",
+          "Volume": ".5cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -2781,11 +3031,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "6130001",
@@ -2794,7 +3048,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "71.49",
@@ -2813,7 +3067,11 @@
         "variant_id": "v_0747d6f555d1",
         "sku": "6130003",
         "variant_name": "Mineralized cancellous bone .25-1.0mm 1.0cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cancellous bone",
+          "Particle Size": ".25-1.0mm",
+          "Volume": "1.0cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -2822,11 +3080,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "6130003",
@@ -2835,7 +3097,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "93.99",
@@ -2854,7 +3116,11 @@
         "variant_id": "v_9152e252797b",
         "sku": "6130005",
         "variant_name": "Mineralized cancellous bone .25-1.0mm 2.0cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cancellous bone",
+          "Particle Size": ".25-1.0mm",
+          "Volume": "2.0cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -2863,11 +3129,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-3",
             "raw_value": "6130005",
@@ -2876,7 +3146,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-3",
             "raw_value": "137.49",
@@ -2895,7 +3165,11 @@
         "variant_id": "v_e7d6aaab2194",
         "sku": "6130007",
         "variant_name": "Mineralized cancellous bone 1.0-2.0mm .5cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cancellous bone",
+          "Particle Size": "1.0-2.0mm",
+          "Volume": ".5cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -2904,11 +3178,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-4",
             "raw_value": "6130007",
@@ -2917,7 +3195,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-4",
             "raw_value": "71.49",
@@ -2936,7 +3214,11 @@
         "variant_id": "v_6a078d27f18f",
         "sku": "6130009",
         "variant_name": "Mineralized cancellous bone 1.0-2.0mm 1.0cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cancellous bone",
+          "Particle Size": "1.0-2.0mm",
+          "Volume": "1.0cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -2945,11 +3227,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-5",
             "raw_value": "6130009",
@@ -2958,7 +3244,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-5",
             "raw_value": "93.99",
@@ -2977,7 +3263,11 @@
         "variant_id": "v_91eff1abc1db",
         "sku": "6130011",
         "variant_name": "Mineralized cancellous bone 1.0-2.0mm 2.0cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cancellous bone",
+          "Particle Size": "1.0-2.0mm",
+          "Volume": "2.0cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -2986,11 +3276,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-6",
             "raw_value": "6130011",
@@ -2999,7 +3293,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-6",
             "raw_value": "137.49",
@@ -3018,7 +3312,11 @@
         "variant_id": "v_8bac85ea22af",
         "sku": "6130012",
         "variant_name": "Mineralized cortical cancellous bone .6-1.25mm 0.25cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cortical cancellous bone",
+          "Particle Size": ".6-1.25mm",
+          "Volume": "0.25cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3027,11 +3325,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-7",
             "raw_value": "6130012",
@@ -3040,7 +3342,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-7",
             "raw_value": "41.49",
@@ -3059,7 +3361,11 @@
         "variant_id": "v_bb220bb320a3",
         "sku": "6130013",
         "variant_name": "Mineralized cortical cancellous bone .6-1.25mm 0.5cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cortical cancellous bone",
+          "Particle Size": ".6-1.25mm",
+          "Volume": "0.5cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3068,11 +3374,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-8",
             "raw_value": "6130013",
@@ -3081,7 +3391,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-8",
             "raw_value": "65.99",
@@ -3100,7 +3410,11 @@
         "variant_id": "v_5079ff959b23",
         "sku": "6130015",
         "variant_name": "Mineralized cortical cancellous bone .6-1.25mm 1.0cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cortical cancellous bone",
+          "Particle Size": ".6-1.25mm",
+          "Volume": "1.0cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3109,11 +3423,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-9",
             "raw_value": "6130015",
@@ -3122,7 +3440,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-9",
             "raw_value": "91.99",
@@ -3141,7 +3459,11 @@
         "variant_id": "v_2b29c8c97046",
         "sku": "6130017",
         "variant_name": "Mineralized cortical cancellous bone .6-1.25mm 2.0cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cortical cancellous bone",
+          "Particle Size": ".6-1.25mm",
+          "Volume": "2.0cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3150,11 +3472,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-10",
             "raw_value": "6130017",
@@ -3163,7 +3489,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-10",
             "raw_value": "130.99",
@@ -3182,7 +3508,11 @@
         "variant_id": "v_5369b6d2d404",
         "sku": "6130019",
         "variant_name": "Mineralized cortical cancellous bone 1.0-2.0mm .5cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cortical cancellous bone",
+          "Particle Size": "1.0-2.0mm",
+          "Volume": ".5cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3191,11 +3521,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-11",
             "raw_value": "6130019",
@@ -3204,7 +3538,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-11",
             "raw_value": "65.99",
@@ -3223,7 +3557,11 @@
         "variant_id": "v_d47639ce374a",
         "sku": "6130021",
         "variant_name": "Mineralized cortical cancellous bone 1.0-2.0mm 1.0cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cortical cancellous bone",
+          "Particle Size": "1.0-2.0mm",
+          "Volume": "1.0cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3232,11 +3570,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-12",
             "raw_value": "6130021",
@@ -3245,7 +3587,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-12",
             "raw_value": "93.99",
@@ -3264,7 +3606,11 @@
         "variant_id": "v_d176d29c16a3",
         "sku": "6130023",
         "variant_name": "Mineralized cortical cancellous bone 1.0-2.0mm 2.0cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cortical cancellous bone",
+          "Particle Size": "1.0-2.0mm",
+          "Volume": "2.0cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3273,11 +3619,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-13",
             "raw_value": "6130023",
@@ -3286,7 +3636,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-13",
             "raw_value": "130.99",
@@ -3305,7 +3655,11 @@
         "variant_id": "v_6c05ae60476d",
         "sku": "6130025",
         "variant_name": "Mineralized cortical bone .25-1.0mm .5cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cortical bone",
+          "Particle Size": ".25-1.0mm",
+          "Volume": ".5cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3314,11 +3668,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-14",
             "raw_value": "6130025",
@@ -3327,7 +3685,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-14",
             "raw_value": "65.99",
@@ -3346,7 +3704,11 @@
         "variant_id": "v_9462472b19a3",
         "sku": "6130027",
         "variant_name": "Mineralized cortical bone .25-1.0mm 1.0cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cortical bone",
+          "Particle Size": ".25-1.0mm",
+          "Volume": "1.0cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3355,11 +3717,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-15",
             "raw_value": "6130027",
@@ -3368,7 +3734,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-15",
             "raw_value": "91.99",
@@ -3387,7 +3753,11 @@
         "variant_id": "v_96cde85750be",
         "sku": "6130029",
         "variant_name": "Mineralized cortical bone .25-1.0mm 2.0cc jar",
-        "attributes": {},
+        "attributes": {
+          "Material": "Mineralized cortical bone",
+          "Particle Size": ".25-1.0mm",
+          "Volume": "2.0cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3396,11 +3766,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Particle Size",
+          "attributes.Volume"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-16",
             "raw_value": "6130029",
@@ -3409,7 +3783,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-16",
             "raw_value": "137.49",
@@ -3428,7 +3802,10 @@
         "variant_id": "v_fba386dd414a",
         "sku": "6130031",
         "variant_name": "Demineralized bone allograft sponges 10 x 6 x 7mm",
-        "attributes": {},
+        "attributes": {
+          "Material": "Demineralized bone allograft sponges",
+          "Size": "10 x 6 x 7mm"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3437,11 +3814,14 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-17",
             "raw_value": "6130031",
@@ -3450,7 +3830,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-17",
             "raw_value": "139.49",
@@ -3469,7 +3849,10 @@
         "variant_id": "v_9260a3b7abcb",
         "sku": "6130033",
         "variant_name": "Demineralized bone allograft sponges 20 x 6 x 7mm",
-        "attributes": {},
+        "attributes": {
+          "Material": "Demineralized bone allograft sponges",
+          "Size": "20 x 6 x 7mm"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3478,11 +3861,14 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Material",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-18",
             "raw_value": "6130033",
@@ -3491,7 +3877,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_cd0c1c5cc6ec7935",
+            "snapshot_id": "s_88bf3d48edef14e4",
             "section_id": "structured-data",
             "row_id": "ld-18",
             "raw_value": "279.49",
@@ -3510,7 +3896,7 @@
   },
   {
     "product_id": "p_2f78da622e2a",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "PFPGH",
     "url": "https://www.safcodental.com/product/orasoothe-reg-sockit-gel",
@@ -3537,7 +3923,7 @@
     "alternatives": [],
     "variant_count": 3,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -3545,13 +3931,17 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:12Z",
+    "observed_at": "2026-11-27T01:26:45Z",
     "variants": [
       {
         "variant_id": "v_f638e4804a1f",
         "sku": "5106359",
         "variant_name": "Oral Coating Rinse - Hygiene, 3.4 oz Bottle",
-        "attributes": {},
+        "attributes": {
+          "Container": "Bottle",
+          "Scent": "Hygiene",
+          "Size": "3.4 oz"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3560,11 +3950,15 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Container",
+          "attributes.Scent",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_b8b563d8c4920881",
+            "snapshot_id": "s_683ee1d7ff91289c",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "5106359",
@@ -3573,7 +3967,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_b8b563d8c4920881",
+            "snapshot_id": "s_683ee1d7ff91289c",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$9.99",
@@ -3592,7 +3986,9 @@
         "variant_id": "v_d603871e1c63",
         "sku": "5690102",
         "variant_name": "5-pack",
-        "attributes": {},
+        "attributes": {
+          "Form": "Gel"
+        },
         "pack_label": "5-pack",
         "pack_quantity": 5,
         "pack_unit": "pack",
@@ -3601,11 +3997,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Form"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_b8b563d8c4920881",
+            "snapshot_id": "s_683ee1d7ff91289c",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "5690102",
@@ -3614,7 +4012,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_b8b563d8c4920881",
+            "snapshot_id": "s_683ee1d7ff91289c",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$93.99",
@@ -3628,7 +4026,9 @@
         "variant_id": "v_f17918d052e2",
         "sku": "5690106",
         "variant_name": "25-pack",
-        "attributes": {},
+        "attributes": {
+          "Form": "Gel"
+        },
         "pack_label": "25-pack",
         "pack_quantity": 25,
         "pack_unit": "pack",
@@ -3637,11 +4037,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Form"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_b8b563d8c4920881",
+            "snapshot_id": "s_683ee1d7ff91289c",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "5690106",
@@ -3650,7 +4052,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_b8b563d8c4920881",
+            "snapshot_id": "s_683ee1d7ff91289c",
             "section_id": "variant-table",
             "row_id": "row-3",
             "raw_value": "$309.49",
@@ -3664,7 +4066,7 @@
   },
   {
     "product_id": "p_5233198f72f9",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "PFWRE",
     "url": "https://www.safcodental.com/product/ossify-sup-reg-sup-min-demin-cortical-cancellous-bone-graft",
@@ -3690,7 +4092,7 @@
     "alternatives": [],
     "variant_count": 3,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -3698,13 +4100,16 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:31Z",
+    "observed_at": "2026-11-27T01:27:04Z",
     "variants": [
       {
         "variant_id": "v_717e89dd1e05",
         "sku": "5130082",
         "variant_name": "Ossify Min/Demin Cortical Cancellous bone graft 1cc jar",
-        "attributes": {},
+        "attributes": {
+          "Container": "jar",
+          "Size": "1cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3713,11 +4118,14 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Container",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_bcd65d1a9eaad41b",
+            "snapshot_id": "s_15406f81dc1abc8a",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "5130082",
@@ -3726,7 +4134,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_bcd65d1a9eaad41b",
+            "snapshot_id": "s_15406f81dc1abc8a",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "102.99",
@@ -3745,7 +4153,10 @@
         "variant_id": "v_18c1eabd2e8b",
         "sku": "5130084",
         "variant_name": "Ossify Min/Demin Cortical Cancellous bone graft 2cc jar",
-        "attributes": {},
+        "attributes": {
+          "Container": "jar",
+          "Size": "2cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3754,11 +4165,14 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Container",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_bcd65d1a9eaad41b",
+            "snapshot_id": "s_15406f81dc1abc8a",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "5130084",
@@ -3767,7 +4181,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_bcd65d1a9eaad41b",
+            "snapshot_id": "s_15406f81dc1abc8a",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "158.99",
@@ -3786,7 +4200,10 @@
         "variant_id": "v_f77a4c33ef09",
         "sku": "6130080",
         "variant_name": "Ossify Min/Demin Cortical Cancellous bone graft 0.5cc jar",
-        "attributes": {},
+        "attributes": {
+          "Container": "jar",
+          "Size": "0.5cc"
+        },
         "pack_label": null,
         "pack_quantity": null,
         "pack_unit": null,
@@ -3795,11 +4212,14 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Container",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_bcd65d1a9eaad41b",
+            "snapshot_id": "s_15406f81dc1abc8a",
             "section_id": "structured-data",
             "row_id": "ld-3",
             "raw_value": "6130080",
@@ -3808,7 +4228,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_bcd65d1a9eaad41b",
+            "snapshot_id": "s_15406f81dc1abc8a",
             "section_id": "structured-data",
             "row_id": "ld-3",
             "raw_value": "79.99",
@@ -3827,7 +4247,7 @@
   },
   {
     "product_id": "p_68cdfd916bc0",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "PFWRL",
     "url": "https://www.safcodental.com/product/regenafill-sup-trade-sup-bone-graft-plug",
@@ -3853,7 +4273,7 @@
     "alternatives": [],
     "variant_count": 2,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -3861,13 +4281,16 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:47Z",
+    "observed_at": "2026-11-27T01:27:23Z",
     "variants": [
       {
         "variant_id": "v_ad8c88b08418",
         "sku": "6130070",
         "variant_name": "Regenafill Bone Graft Plug posterior 10mm x 20mm, 5/pack",
-        "attributes": {},
+        "attributes": {
+          "Position": "posterior",
+          "Size": "10mm x 20mm"
+        },
         "pack_label": "5/pack",
         "pack_quantity": 5,
         "pack_unit": "pack",
@@ -3876,11 +4299,14 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Position",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_e3cc06c68f6fa72a",
+            "snapshot_id": "s_3abfa11049efbd81",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "6130070",
@@ -3889,7 +4315,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_e3cc06c68f6fa72a",
+            "snapshot_id": "s_3abfa11049efbd81",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "259.99",
@@ -3903,7 +4329,10 @@
         "variant_id": "v_8eaa50338d1d",
         "sku": "6130072",
         "variant_name": "Regenafill Bone Graft Plug anterior 6mm x 25mm, 5/pack",
-        "attributes": {},
+        "attributes": {
+          "Position": "anterior",
+          "Size": "6mm x 25mm"
+        },
         "pack_label": "5/pack",
         "pack_quantity": 5,
         "pack_unit": "pack",
@@ -3912,11 +4341,14 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Position",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_e3cc06c68f6fa72a",
+            "snapshot_id": "s_3abfa11049efbd81",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "6130072",
@@ -3925,7 +4357,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_e3cc06c68f6fa72a",
+            "snapshot_id": "s_3abfa11049efbd81",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "259.99",
@@ -3939,7 +4371,7 @@
   },
   {
     "product_id": "p_c6ff782c2709",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "PFPHJ",
     "url": "https://www.safcodental.com/product/surgicel-reg",
@@ -3965,7 +4397,7 @@
     "alternatives": [],
     "variant_count": 1,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -3973,13 +4405,16 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:47Z",
+    "observed_at": "2026-11-27T01:27:30Z",
     "variants": [
       {
         "variant_id": "v_d4d97eccc8f6",
         "sku": "2580213",
         "variant_name": "1/2\" x 2\" sterile packets, 12/box",
-        "attributes": {},
+        "attributes": {
+          "Packaging": "Sterile packets",
+          "Size": "1/2\" x 2\""
+        },
         "pack_label": "12/box",
         "pack_quantity": 12,
         "pack_unit": "box",
@@ -3988,11 +4423,14 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Packaging",
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_eb1e08919764b89b",
+            "snapshot_id": "s_b0ae2da3cc402e48",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "2580213",
@@ -4001,7 +4439,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_eb1e08919764b89b",
+            "snapshot_id": "s_b0ae2da3cc402e48",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$1,118.99",
@@ -4015,7 +4453,7 @@
   },
   {
     "product_id": "p_0b4385610a4e",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "PFLWH",
     "url": "https://www.safcodental.com/product/soft-tissue-trimmer",
@@ -4041,7 +4479,7 @@
     "alternatives": [],
     "variant_count": 2,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -4049,13 +4487,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:33:07Z",
+    "observed_at": "2026-11-27T01:27:51Z",
     "variants": [
       {
         "variant_id": "v_b236ca6b1658",
         "sku": "4605716",
         "variant_name": "Soft Tissue Trimmer regular 1/pk",
-        "attributes": {},
+        "attributes": {
+          "Length": "regular"
+        },
         "pack_label": "1/pk",
         "pack_quantity": 1,
         "pack_unit": "pack",
@@ -4064,11 +4504,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Length"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_bda61ae51baaa6eb",
+            "snapshot_id": "s_434bc4b845d2702a",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "4605716",
@@ -4077,7 +4519,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_bda61ae51baaa6eb",
+            "snapshot_id": "s_434bc4b845d2702a",
             "section_id": "structured-data",
             "row_id": "ld-1",
             "raw_value": "144.99",
@@ -4091,7 +4533,9 @@
         "variant_id": "v_e506ecb30092",
         "sku": "4605738",
         "variant_name": "Soft Tissue Trimmer long 1/pk",
-        "attributes": {},
+        "attributes": {
+          "Length": "long"
+        },
         "pack_label": "1/pk",
         "pack_quantity": 1,
         "pack_unit": "pack",
@@ -4100,11 +4544,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "InStock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Length"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_bda61ae51baaa6eb",
+            "snapshot_id": "s_434bc4b845d2702a",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "4605738",
@@ -4113,7 +4559,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_bda61ae51baaa6eb",
+            "snapshot_id": "s_434bc4b845d2702a",
             "section_id": "structured-data",
             "row_id": "ld-2",
             "raw_value": "144.99",
@@ -4127,7 +4573,7 @@
   },
   {
     "product_id": "p_64dfe8b48c51",
-    "run_id": "run_20261126_live2",
+    "run_id": "run_20261127_hybrid2",
     "source": "safco",
     "product_key": "PFPJK",
     "url": "https://www.safcodental.com/product/surgifoam-reg",
@@ -4155,7 +4601,7 @@
     "alternatives": [],
     "variant_count": 2,
     "record_status": "accepted",
-    "extraction_method": "deterministic",
+    "extraction_method": "hybrid",
     "llm_fields": [],
     "missing": [
       {
@@ -4163,13 +4609,15 @@
         "reason": "not_applicable"
       }
     ],
-    "observed_at": "2026-11-26T23:32:09Z",
+    "observed_at": "2026-11-27T01:26:42Z",
     "variants": [
       {
         "variant_id": "v_3bb6489fdc46",
         "sku": "2580512",
         "variant_name": "2cm x 6cm x 0.7cm, 12/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "2cm x 6cm x 0.7cm"
+        },
         "pack_label": "12/box",
         "pack_quantity": 12,
         "pack_unit": "box",
@@ -4178,11 +4626,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_469b6ab583aa932b",
+            "snapshot_id": "s_a76184b0a6b32a98",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "2580512",
@@ -4191,7 +4641,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_469b6ab583aa932b",
+            "snapshot_id": "s_a76184b0a6b32a98",
             "section_id": "variant-table",
             "row_id": "row-1",
             "raw_value": "$214.49",
@@ -4205,7 +4655,9 @@
         "variant_id": "v_aa77a7af7cc8",
         "sku": "2580524",
         "variant_name": "1cm x 1cm x 1cm, 24/box",
-        "attributes": {},
+        "attributes": {
+          "Size": "1cm x 1cm x 1cm"
+        },
         "pack_label": "24/box",
         "pack_quantity": 24,
         "pack_unit": "box",
@@ -4214,11 +4666,13 @@
         "price_visibility": "public",
         "availability": "in_stock",
         "availability_raw": "In stock",
-        "llm_fields": [],
+        "llm_fields": [
+          "attributes.Size"
+        ],
         "evidence": [
           {
             "field": "sku",
-            "snapshot_id": "s_469b6ab583aa932b",
+            "snapshot_id": "s_a76184b0a6b32a98",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "2580524",
@@ -4227,7 +4681,7 @@
           },
           {
             "field": "price",
-            "snapshot_id": "s_469b6ab583aa932b",
+            "snapshot_id": "s_a76184b0a6b32a98",
             "section_id": "variant-table",
             "row_id": "row-2",
             "raw_value": "$251.99",

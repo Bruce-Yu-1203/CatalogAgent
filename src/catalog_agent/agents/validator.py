@@ -373,6 +373,11 @@ class ValidatorAgent:
                     reason=MissingReason.NOT_APPLICABLE if cand.brand else MissingReason.NOT_VISIBLE,
                 )
             )
+        if not cand.alternatives:
+            reason = (
+                MissingReason.NOT_OBSERVED if cand.alternatives_status == "not_rendered" else MissingReason.NOT_VISIBLE
+            )
+            missing.append(MissingField(field="alternatives", reason=reason))
         if not cand.description:
             missing.append(MissingField(field="description", reason=MissingReason.NOT_VISIBLE))
 

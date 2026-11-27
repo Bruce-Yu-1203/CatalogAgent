@@ -98,8 +98,12 @@ class PlaywrightFetcher:
         blocked_url_parts: tuple[str, ...] = (),
         robots_url: str | None = None,
         fallback_selectors: dict[str, str] | None = None,
+        settle_selectors: dict[str, str] | None = None,
+        settle_timeout_s: float = 6.0,
     ):
         self.fallback_selectors = fallback_selectors or {}
+        self.settle_selectors = settle_selectors or {}
+        self.settle_ms = int(settle_timeout_s * 1000)
         self.allowed_hosts = {h.lower() for h in allowed_hosts}
         self.user_agent = user_agent
         self.pacer = HostPacer(interval)
@@ -184,6 +188,12 @@ class PlaywrightFetcher:
                     usable = fallback is not None and await page.query_selector(fallback) is not None
                     if require_ready and not usable:
                         raise FetchError(ErrorCode.INCOMPLETE_RENDER, f"readiness signal missing: {selector}") from e
+            settle = self.settle_selectors.get(kind)
+            if settle:
+                try:  # best effort: optional content such as a recommendations carousel
+                    await page.wait_for_selector(settle, state="attached", timeout=self.settle_ms)
+                except Exception:
+                    pass
             html = await page.content()
             return make_snapshot(url, final_url, status, html)
         finally:

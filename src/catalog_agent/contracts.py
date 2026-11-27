@@ -224,6 +224,8 @@ class Alternative(BaseModel):
     name: str
     url: str
     sku: str | None = None
+    # Where the page lists it, e.g. "trending_carousel". Listed products are not verified substitutes.
+    source: str | None = None
 
 
 class Variant(BaseModel):
@@ -355,6 +357,7 @@ class ProductCandidate(BaseModel):
     image_urls: list[str] = Field(default_factory=list)
     attributes: dict[str, str] = Field(default_factory=dict)
     alternatives: list[Alternative] = Field(default_factory=list)
+    alternatives_status: Literal["found", "none_listed", "not_rendered"] = "none_listed"
     variants: list[VariantObservation] = Field(default_factory=list)
     expected_skus: list[str] = Field(default_factory=list)  # independently observed SKU set
     login_required_price: bool = False

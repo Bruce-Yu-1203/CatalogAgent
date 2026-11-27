@@ -56,6 +56,8 @@ async def default_fetcher(cfg: AppConfig) -> Fetcher:
         blocked_resource_types=adapter.BLOCKED_RESOURCE_TYPES,
         blocked_url_parts=adapter.BLOCKED_URL_PARTS,
         robots_url=f"{base[0]}//{base[2]}/robots.txt",
+        settle_selectors=adapter.SETTLE_SELECTORS,
+        settle_timeout_s=adapter.SETTLE_TIMEOUT_SECONDS,
     )
     await f.start()
     return f

@@ -93,6 +93,7 @@ def test_one_product_round_trips_through_json_and_csv(tmp_path):
         assert row["category_paths"] == " | ".join(" > ".join(x) for x in j["category_paths"])
         assert json.loads(row["product_attributes"]) == j["attributes"]
         assert json.loads(row["product_missing"]) == j["missing"]
+        assert json.loads(row["alternatives"]) == j["alternatives"]
         assert row["sku"] == jv["sku"] and row["price"] == jv["price"] and row["currency"] == jv["currency"]
         assert row["pack_quantity"] == str(jv["pack_quantity"]) and row["pack_unit"] == jv["pack_unit"]
         assert row["availability"] == jv["availability"] and row["variant_name"] == jv["variant_name"]
@@ -155,3 +156,39 @@ def test_unsupported_evidence_field_is_rejected_by_the_schema():
         EvidenceRef(
             field="description", snapshot_id="s", section_id="x", raw_value="a", normalized_value="a", method="llm"
         )
+
+
+def test_alternatives_come_from_the_rendered_trending_carousel_only():
+    from catalog_agent.extraction.normalize import canonicalize_url
+
+    snap = snapshot("product_surpass_gloves")
+    out, _ = validate(snap)
+    alts = out.product.alternatives
+    assert len(alts) == 8 and {a.source for a in alts} == {"trending_carousel"}
+    assert alts[0].name == "Safco Nitrilex Prevail Gloves" and all(a.sku is None for a in alts)
+    urls = {a.url for a in alts}
+    assert canonicalize_url(snap.final_url) not in urls  # the product itself is never its own alternative
+    # "Best Value Options" items (cross-sell of other product types) are not collected.
+    assert not any("prophy-angles" in u or "curettes" in u or "saliva-ejectors" in u for u in urls)
+    assert all(m.field != "alternatives" for m in out.product.missing)
+
+
+def test_self_link_is_excluded_and_unrendered_carousel_is_not_observed():
+    from bs4 import BeautifulSoup
+
+    html = fixture_html("product_surpass_gloves").replace(
+        "//www.safcodental.com/product/safco-nitrilex-black",
+        "//www.safcodental.com/product/safco-nitrilex-surpass-trade",
+    )  # SYNTHETIC: the carousel lists the current product
+    alts, status = safco.parse_alternatives(snapshot("product_surpass_gloves", html=html))
+    assert status == "found" and len(alts) == 7
+
+    soup = BeautifulSoup(fixture_html("product_surpass_gloves"), "lxml")
+    for slider in soup.select("#recommendation-info .product-slider"):
+        if slider.find_parent("template") is None:
+            slider.decompose()  # SYNTHETIC: recommendations never rendered
+    out, _ = validate(snapshot("product_surpass_gloves", html=str(soup)))
+    assert out.product.alternatives == []
+    assert {"field": "alternatives", "reason": "not_observed"} in [
+        m.model_dump(mode="json") for m in out.product.missing
+    ]

@@ -89,7 +89,7 @@ A **product** is a logical catalog entry; a **variant** is a sellable item (SKU)
 | `category_paths` | array of array of string | no | Every category path the product was discovered under, root first. | category hierarchy |
 | `image_urls` | array of string | no (may be empty) | Absolute image URLs, primary first. | image URL(s) |
 | `attributes` | object (string → string) | no (may be empty) | Product-level specifications. | specifications / attributes |
-| `alternatives` | array of `{name, url, sku}` | no (may be empty) | Alternative/related products the page lists; `sku` nullable. Not crawled automatically. | alternative products |
+| `alternatives` | array of `{name, url, sku, source}` | no (may be empty) | Related products the page lists, with `source` naming where (Safco: `trending_carousel`, the rendered items of the "Trending Products" carousel, excluding the product itself; "Best Value Options" is not collected because it cross-sells other product types). `sku` nullable (the carousel shows none). Not crawled automatically and not verified substitutes. When empty, `missing` gives `not_observed` (carousel did not render) or `not_visible` (none listed). | alternative products |
 | `variant_count` | integer | no | Number of exported variants. | — |
 | `record_status` | enum | no | `accepted` or `partial`. Quarantined records are not exported. | — |
 | `extraction_method` | enum | no | `deterministic`, or `hybrid` when the model supplied at least one accepted value in the product or its variants. | — |
@@ -164,7 +164,7 @@ A JSON array of products with nested `variants`. Values below are invented to sh
   "category_paths": [["Dental Supplies", "Dental Exam Gloves"]],
   "image_urls": ["https://www.safcodental.com/media/example.jpg"],
   "attributes": {"Material": "Nitrile", "Powder": "Powder-free"},
-  "alternatives": [{"name": "Example Latex Gloves", "url": "https://www.safcodental.com/product/example-latex-gloves", "sku": null}],
+  "alternatives": [{"name": "Example Latex Gloves", "url": "https://www.safcodental.com/product/example-latex-gloves", "sku": null, "source": "trending_carousel"}],
   "variant_count": 1,
   "record_status": "accepted",
   "extraction_method": "hybrid",

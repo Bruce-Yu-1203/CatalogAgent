@@ -19,6 +19,7 @@ from urllib.parse import urlsplit
 from bs4 import BeautifulSoup, Tag
 
 from catalog_agent.contracts import (
+    Alternative,
     LinkCandidate,
     PageSnapshot,
     PageType,
@@ -111,8 +112,13 @@ BLOCKED_URL_PARTS = (
     "yotpo",
     "facebook",
     "rum.hlx.page",
-    "commerce.adobe.io",
+    # commerce.adobe.io is allowed: it serves the "Trending Products" carousel used for `alternatives`.
 )
+
+# Optional, best-effort waits after readiness (no error if absent): the recommendations carousel.
+SETTLE_SELECTORS = {"product": "#recommendation-info .product-slider .card-prod"}
+SETTLE_TIMEOUT_SECONDS = 6.0
+TRENDING_LABEL = "Trending Products"
 
 _BLOCK_TEXT = re.compile(r"(captcha|access denied|are you a robot|unusual traffic|request blocked)", re.IGNORECASE)
 _LOGIN_PRICE = re.compile(r"((sign|log)\s*in|login)\s*(to|for)\s*(see|view|get)?\s*(the\s*)?pric", re.IGNORECASE)
@@ -440,8 +446,43 @@ def _kv_attributes(items: list[str]) -> dict[str, str]:
     return attrs
 
 
+def parse_alternatives(snapshot: PageSnapshot) -> tuple[list[Alternative], str]:
+    """Rendered items of the "Trending Products" carousel only (not "Best Value Options", which lists
+    cross-sell items of other product types). Only items already in the DOM are taken; the carousel's
+    arrows are never clicked. Returns (alternatives, status) with status found | none_listed | not_rendered."""
+    soup = soup_for(snapshot)
+    block = soup.select_one("#recommendation-info")
+    sliders = [s for s in soup.select("#recommendation-info .product-slider") if s.find_parent("template") is None]
+    if not sliders:
+        return [], ("not_rendered" if block is not None else "none_listed")
+    self_url = canonicalize_url(snapshot.final_url)
+    out: list[Alternative] = []
+    seen: set[str] = set()
+    found_banner = False
+    for slider in sliders:
+        title = _text(slider.select_one("h3"))
+        if title != TRENDING_LABEL:
+            continue
+        found_banner = True
+        for card in slider.select(".card-prod"):
+            if card.find_parent("template") is not None:
+                continue
+            link = card.select_one("a.product-item-photo[href], a.product-item-link[href]")
+            name = _text(card.select_one("a.product-item-link"))
+            url = canonicalize_url(link["href"], snapshot.final_url) if link is not None else None
+            if not name or not url or not is_product_url(url) or url == self_url or url in seen:
+                continue
+            seen.add(url)
+            # The rendered card exposes no SKU (it lives only in the carousel's script data), so sku stays null.
+            out.append(Alternative(name=name, url=url, sku=None, source="trending_carousel"))
+    if not found_banner:
+        return [], "none_listed"
+    return out, "found" if out else "none_listed"
+
+
 def parse_product(snapshot: PageSnapshot) -> ProductCandidate:
     secs = {s.section_id: s for s in build_sections(snapshot)}
+    alts, alts_status = parse_alternatives(snapshot)
     sd = secs.get("structured-data")
     table = secs.get("variant-table")
     desc = secs.get("description")
@@ -519,7 +560,8 @@ def parse_product(snapshot: PageSnapshot) -> ProductCandidate:
         breadcrumb=breadcrumb(snapshot),
         image_urls=[u for u in data.get("image", []) if isinstance(u, str) and u.startswith("http")],
         attributes=attributes,
-        alternatives=[],
+        alternatives=alts,
+        alternatives_status=alts_status,
         variants=variants,
         expected_skus=[s for s in expected if s],
         login_required_price="price-notice" in secs,

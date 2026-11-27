@@ -24,7 +24,7 @@ classifier fallback and repair suggestions switched on, 131 s):
 | What the model added | structured variant attributes on 87/87 variants (deterministic: 0/87 beyond the table group heading); SKU, price, pack and availability identical to deterministic extraction on the same snapshots (0 differences); recovery 20/20 pages |
 | Repair suggestions | none: the 3 pages whose table never renders are recorded as the render note `table_not_rendered` (expected JSON-LD fallback), not as a selector failure |
 | Offline evaluation (FR-13) | 22 frozen pages, 4 hybrid runs: SKU recall 1.0 and price accuracy 1.0 in both modes; held-out attribute recall 0 → 0.54–1.0 with the model (see §9) |
-| Why an LLM (§9) | rules alone: 30/30 accepted and 224/224 SKUs on a 30-product random sample, no model needed for SKU, price or stock; after a synthetic redesign that keeps the page's inline data rules still get 203/224; when it drops all structured data rules get 0 and rules + LLM recover up to all 82 rendered SKUs with price and stock, 0 wrong values |
+| Why an LLM (§9) | normal pages and redesigns that keep the page's data: rules get every visible row, no model needed; a synthetic redesign that removes all structured data: rules 0 / 82 visible rows, rules + LLM 82 / 82 with price and stock, 0 wrong values |
 | Tests | 78 passed (P0 + P1 suites, offline), smoke script passed |
 
 Outputs: [`outputs/products.json`](outputs/products.json), [`outputs/variants.csv`](outputs/variants.csv),
@@ -244,57 +244,55 @@ documented setup and commands end to end offline.
 
 ### Why an LLM
 
-Rules handle the normal pages; the LLM is insurance for redesigns and layouts the adapter has not seen. The
-experiment replays the **same 30 saved product pages** (the random sitemap sample of live run
-`run_20261127_sitemap30_merge_hybrid`, 18 top-level categories) on the original pages and on four
-**synthetic** redesigns of them, each with rules only and with rules + LLM:
-`uv run catalog-agent experiment --run-id run_20261127_sitemap30_merge_hybrid --redesigns data,classes,tags,columns`
-→ [`outputs/redesign_experiment.json`](outputs/redesign_experiment.json).
+Rules handle the normal pages; the LLM is insurance for the worst case, a redesign that breaks every rule. The
+measure is **the variant rows a visitor can see on the page**: on the 30 product pages below that is 82 rows
+(the other 142 SKUs of these products exist only in JSON-LD and inline script data, because the table never
+rendered or rendered fewer rows; no method can read a row the page does not show).
 
-Every redesign removes the JSON-LD and renames every class name, so every Safco selector fails.
-- `data`: only that; the page's inline script data (the JSON its variant table is rendered from) is kept.
-- `classes`: also removes that inline data, as a new front end would ship its data differently.
-- `tags`: as `classes`, and element types change too (div → section, span → em, ul → ol).
-- `columns`: as `classes`, and the children of every repeated element are reversed, so SKU, name, stock and
-  price columns change places.
+| Situation (same 30 pages) | Rules only | Rules + LLM | Recovered by the LLM |
+|---|---|---|---|
+| ① Normal page | 82 / 82 visible rows (224 / 224 SKUs incl. JSON-LD) | same | 0: not needed |
+| ② Redesign that keeps the page's data (JSON-LD or inline script data) | 82 / 82 visible rows (203 / 224 SKUs) | same | 0: not needed |
+| ③ Redesign that removes all structured data | **0 / 82** | **82 / 82** (81 / 82 in one variant, see below) | **all visible rows**, with price, stock and name; 0 wrong values |
 
-Reference SKUs and prices come from the original page's JSON-LD: 224 SKUs, of which 82 are rendered as rows on
-the page; the rest exist only in JSON-LD and inline data (pages whose table never rendered, or rendered fewer
-rows).
+- **① and ②: rules carry normal operation.** The LLM never supplies a SKU, price or stock value there. In hybrid
+  mode it only splits variant labels into attributes (`C-6, chromic gut, 4-0, 18"` → Needle / Material / Size /
+  Length), which `attribute_gaps: false` turns off.
+- **③: the LLM keeps the data flowing on the day of a redesign.** A rules-only crawler drops to zero until someone
+  rewrites the selectors; with the LLM every visible row is recovered, each value checked against the text of its
+  own row, at about $0.0012 per page (≈ $5 for all 3,980 product pages in that worst case).
+- **Limit:** data the page does not display cannot be recovered after a redesign that also drops JSON-LD and
+  inline data. Redesigns usually keep JSON-LD, because search engines use it; then situation ② applies.
 
-| 30 pages, 224 reference SKUs | A: original, rules | B: original, rules + LLM | `data`, rules | `classes` / `tags` / `columns`, rules | `classes`, rules + LLM | `tags`, rules + LLM | `columns`, rules + LLM |
-|---|---|---|---|---|---|---|---|
-| Records accepted / partial | 30 / 0 | 30 / 0 | 27 / 3 | 0 / 30 | 23 / 7 | 22 / 8 | 23 / 7 |
-| SKUs (of 224) | 224 | 224 | **203** | 0 | 82 | 81 | 82 |
-| SKUs of the 82 rendered rows | 82 | 82 | 82 | 0 | **82** | 81 | **82** |
-| Prices / stock / variant name | 224 / 224 / 224 | 224 / 224 / 224 | 203 / 203 / 203 | 0 | 82 / 82 / 82 | 81 / 81 / 81 | 82 / 82 / 82 |
-| Wrong prices / SKUs not on the page | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 0 |
-| SKUs that came from the LLM | 0 | 0 | 0 | 0 | 82 | 81 | 82 |
-| Model calls / list cost | 0 | 42 / $0.034 | 0 | 0 | 56 / $0.036 | 56 / $0.035 | 55 / $0.036 |
+How it was measured: `uv run catalog-agent experiment --run-id run_20261127_sitemap30_merge_hybrid --redesigns
+data,classes,tags,columns` replays the 30 saved product pages of live run `run_20261127_sitemap30_merge_hybrid`
+(a random sitemap sample, 18 top-level categories) on the original pages and on **synthetic** redesigns of them
+→ [`outputs/redesign_experiment.json`](outputs/redesign_experiment.json). Every redesign removes the JSON-LD and
+renames every class name, so every Safco selector fails. Situation ② keeps the inline script data (`data`);
+situation ③ also removes it and was run in three variants:
 
-(B's and D's model calls include attribute splitting, which runs on every page in hybrid mode. With rules + LLM
-the `data` redesign gives the same 203 SKUs as rules alone; its model calls are attribute splitting only.)
+| Situation ③ variant | Rules only | Rules + LLM | Accepted / partial | Wrong prices / wrong SKUs | Model calls / cost |
+|---|---|---|---|---|---|
+| Class names renamed | 0 / 82 | 82 / 82 | 23 / 7 | 0 / 0 | 56 / $0.036 |
+| Element types changed too (div → section, span → em, ul → ol) | 0 / 82 | 81 / 82 | 22 / 8 | 0 / 0 | 56 / $0.035 |
+| Columns reordered too (children of repeated elements reversed) | 0 / 82 | 82 / 82 | 23 / 7 | 0 / 0 | 55 / $0.036 |
 
-What this shows:
-- **Rules alone are enough on normal pages.** The parser merges the rendered table, the JSON-LD and the inline
+The 7 partial records in each row are the pages that render no rows (nothing to recover); the extra one with
+changed element types is a single-variant page where the model returned no usable answer. Model calls include the
+attribute splitting that also runs on normal pages (42 calls, $0.034 on the original pages). Reference SKUs and
+prices come from the original page's JSON-LD.
+
+Details:
+- **Situation ①: three rule sources.** The parser merges the rendered table, the JSON-LD and the inline
   page data, in that order of priority; a later source only fills SKUs the earlier ones did not show (so a
   "Non-purchasable" table row keeps its null price). On this sample rules-only went from 27/30 accepted and
   209/224 SKUs (`run_20261127_sitemap30`, before the merge) to 30/30 and 224/224, where the earlier hybrid run
   needed the model (29/30, 218/224). Live re-runs on the same 30 products, `run_20261127_sitemap30_merge` (rules)
   and `run_20261127_sitemap30_merge_hybrid` (rules + LLM), both give 30 accepted and 224/224 SKUs.
-- **On normal pages the LLM never touches SKU, price or stock.** B's calls are attribute splitting
-  (`attribute_gaps: true`, e.g. `C-6, chromic gut, 4-0, 18"` → Needle / Material / Size / Length). With
-  `attribute_gaps: false` normal pages cost 0 model calls.
-- **If a redesign keeps the page's own data, rules still work (`data`: 203/224, no model).** Inline product
+- **Situation ②: inline page data, read by rules (203/224 SKUs, no model).** Inline product
   objects are found by shape (an `sku` string plus a numeric price), not by variable name. On 50 normal pages
   this found 290 SKUs, all equal to the JSON-LD SKUs with equal prices. The 21 SKUs it cannot give are
   personalized items whose inline objects carry no price (11) and SKUs missing from the inline data (10).
-- **If the redesign drops all structured data, rules get nothing and the LLM recovers what the page shows.**
-  With classes renamed or columns reordered it recovered all 82 rendered SKUs with price, stock and name. With tags
-  changed it recovered 81: on one single-variant page the model returned no usable answer, so that record stays
-  `partial`.
-- **Nothing wrong got through:** 0 wrong prices and 0 SKUs that are not the page's own item numbers, in every
-  group.
 
 How redesign recovery works (no new agent, no full-text matching):
 1. **Generic evidence rows.** When the table, JSON-LD and inline data yield nothing, `build_sections` builds

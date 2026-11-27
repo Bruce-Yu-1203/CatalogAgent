@@ -179,6 +179,7 @@ catalog-agent/               # repository root (GitHub: Bruce-Yu-1203/catalog-ag
 │   │   ├── repository.py     # frontier tasks, run state and catalog
 │   │   └── export.py
 │   ├── quality.py            # run-level data-quality metrics
+│   ├── evaluation.py         # P1 FR-13 offline comparison
 │   └── telemetry.py
 ├── tests/
 │   ├── fixtures/live/        # real snapshots + manifest for replay
@@ -186,14 +187,17 @@ catalog-agent/               # repository root (GitHub: Bruce-Yu-1203/catalog-ag
 │   ├── test_extraction.py
 │   ├── test_agent_loop.py
 │   ├── test_persistence.py
-│   └── test_runtime.py
+│   ├── test_runtime.py
+│   ├── test_classifier_fallback.py   # P1 suite: Roadmap §3.2
+│   ├── test_repair_suggestions.py
+│   └── test_adversarial.py
 ├── scripts/smoke.sh
 └── outputs/                  # genuine sample exports and measured reports
 ```
 
 The frontier lives in `storage/repository.py` (one module owns every SQL transaction) rather than a separate
 `runtime/frontier.py`; Safco parsing lives in `adapters/safco.py` (no separate `extraction/parsers.py`).
-`evaluation.py` (P1, FR-13) and the optional `Dockerfile` are not built.
+The optional `Dockerfile` is not built.
 
 ## 7. Developer interface
 
@@ -207,7 +211,7 @@ uv run catalog-agent resume --run-id RUN_ID --add-products 5   # added at M2: ra
 uv run catalog-agent export --run-id RUN_ID --format json
 uv run catalog-agent export --run-id RUN_ID --format csv
 uv run catalog-agent report --run-id RUN_ID
-uv run catalog-agent evaluate --fixtures tests/fixtures --mode compare   # P1 (FR-13): not built
+uv run catalog-agent evaluate --fixtures tests/fixtures/eval --mode compare   # P1 (FR-13)
 uv run catalog-agent crawl --replay tests/fixtures/live --db /tmp/replay.db   # added at M2: offline replay
 uv run pytest
 ```

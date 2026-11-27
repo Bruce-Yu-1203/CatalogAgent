@@ -32,26 +32,26 @@ flowchart LR
 
 ### P0 — Required
 
-- [ ] Confirm permitted access and set a scoped crawl configuration.
-- [ ] Discover both category roots and traverse descendants/listings.
-- [ ] Handle the site's dynamic content or pagination; report the stopping reason.
-- [ ] Extract product fields and every observed SKU variant from both categories.
-- [ ] Normalize and validate to the PRD §5 schema; preserve missing-field reasons.
-- [ ] Navigator, Classifier, Extractor and Validator implemented as separate agents behind the common contract; LLM-assisted extraction with typed output, SKU/price evidence checks, `llm_fields` tagging and bounded calls.
-- [ ] Persist tasks and catalog; exclusive single-process ownership, resume, retries, rate limiting, atomic completion and idempotent upserts.
-- [ ] Implement the `selected`/`all` switch with a root-selection unit test; record termination reasons; explain `all` in the README (Architecture §8.1).
-- [ ] P0 test suite (§3.1) passing.
-- [ ] Export genuine JSON and CSV samples and a run report including the §10.1 POC quality metrics.
-- [ ] Clean Git repository, secret-free configuration and a README covering every item in §7.
+- [x] Confirm permitted access and set a scoped crawl configuration.
+- [x] Discover both category roots and traverse descendants/listings.
+- [x] Handle the site's dynamic content or pagination; report the stopping reason.
+- [x] Extract product fields and every observed SKU variant from both categories.
+- [x] Normalize and validate to the PRD §5 schema; preserve missing-field reasons.
+- [x] Navigator, Classifier, Extractor and Validator implemented as separate agents behind the common contract; LLM-assisted extraction with typed output, SKU/price evidence checks, `llm_fields` tagging and bounded calls.
+- [x] Persist tasks and catalog; exclusive single-process ownership, resume, retries, rate limiting, atomic completion and idempotent upserts.
+- [x] Implement the `selected`/`all` switch with a root-selection unit test; record termination reasons; explain `all` in the README (Architecture §8.1).
+- [x] P0 test suite (§3.1) passing.
+- [x] Export genuine JSON and CSV samples and a run report including the §10.1 POC quality metrics.
+- [x] Clean Git repository, secret-free configuration and a README covering every item in §7.
 
 ### P1 — Competitive differentiators
 
-- [ ] Classifier LLM fallback for `unknown` pages (FR-11).
-- [ ] Recovery Agent repair suggestions with `test_selector` verification (FR-12).
-- [ ] Evidence references for pack, availability and attributes.
-- [ ] A second recovery case with typed validation feedback; recovery success measured.
-- [ ] Offline deterministic-vs-hybrid evaluation on manually checked fixtures (FR-13).
-- [ ] Adversarial/malformed extraction tests.
+- [x] Classifier LLM fallback for `unknown` pages (FR-11).
+- [x] Recovery Agent repair suggestions with `test_selector` verification (FR-12).
+- [x] Evidence references for pack, availability and attributes.
+- [x] A second recovery case with typed validation feedback; recovery success measured.
+- [x] Offline deterministic-vs-hybrid evaluation on checked fixtures (FR-13; labels by Claude, not a human).
+- [x] Adversarial/malformed extraction tests.
 - [ ] Short demo of the real crawl, recovery, evidence and measured AI value.
 
 ### P2 — Production evolution (documentation only)

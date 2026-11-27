@@ -1,0 +1,32 @@
+[
+  {
+    "failures_observed": 6,
+    "field": "variant_rows",
+    "template": "product",
+    "old_selector": "#pdp-grouped .table-grid-pdp .product-item-sku",
+    "failing_snapshots": [
+      "s_199c4fa12ddcb66d",
+      "s_06f53146d1c34a4a",
+      "s_1b1600f6a1ac2ba7"
+    ],
+    "control_snapshots": [
+      "s_7ef99f8bd6f29596",
+      "s_7728ea31bd358098",
+      "s_c0b0ffcfa48f856f"
+    ],
+    "candidates": [
+      {
+        "selector": "#pdp-grouped .table-grid-pdp .product-item-sku",
+        "failing_match_rate": 0.0,
+        "control_match_rate": 1.0,
+        "regressions": 0,
+        "error": null
+      }
+    ],
+    "rationale": "No selector can fix this on the failing pages. On all 3 failing snapshots, #pdp-grouped exists but contains only \"Loading...\". The .table-grid-pdp element and every product-item-sku node are absent, so there are zero matches for any candidate. On the controls, the table renders with 5 SKU rows, and the current selector already matches them. The root cause is that the grouped table is loaded asynch",
+    "status": "suggested",
+    "applied": false,
+    "model_calls": 3,
+    "tool_calls": 6
+  }
+]

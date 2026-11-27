@@ -265,3 +265,53 @@ product name). All 20 values appear in their own row's text.
 
 **P0 status**: every P0 checklist item is now done and exercised, including LLM-assisted extraction against a
 real model. Remaining non-P0 items: commits are not pushed; P1 not started.
+
+## Doc cleanup and rename (2026-11-27)
+
+At Amy's request every 24-hour, timebox, take-home, assessment, "Frontier Dental" and assignment
+reference was removed from the docs (constitution amended to 1.1.0, then retitled "CatalogAgent
+Constitution" in 1.1.1). The Tech Stack repository layout now matches the files that exist. The project
+name is CatalogAgent; the GitHub repo is to be renamed `catalog-agent` (pending at the time of writing:
+the rename must be done in GitHub settings). `main` was first pushed to GitHub at `d3ae07c`.
+
+## P1 (2026-11-27)
+
+P1 started after every P0 gate passed, including the live model check. Items in roadmap order:
+
+| Item | What was built | Tests |
+|---|---|---|
+| FR-11 classifier fallback | One reserved model call for `unknown` pages; closed enum + cited section IDs; accepted only if `adapter.type_signals` confirms the type's DOM signals; otherwise recorded for review. New `page-text` and `listing-hits` sections. Off by default. | `test_classifier_fallback.py` (6) |
+| FR-12 repair suggestions | Parsers record field-selector failures per template (`FIELD_SELECTORS`, `field_failures`). After `trigger_after_failures`, the Recovery agent gives the model a tag/class outline, lets it call `test_selector` on frozen failing + passing snapshots, and ranks up to 3 candidates by regressions, then coverage. Written to `run_report.json` / `repair_suggestions.json`; never applied. Off by default. | `test_repair_suggestions.py` (5) |
+| Evidence beyond SKU/price | `pack_label`, `availability_raw` and each `attributes.<key>` carry evidence refs on the SKU's row (exact match for availability and the group heading, containment for pack/attributes); unverifiable values are dropped with `parse_failed`. PRD §5.2/5.3, `EvidenceRef`, round-trip test updated together. | `test_extraction.py` (+2) |
+| Second recovery case | Rejected patch entries return typed issues (`sku_not_in_cited_row`, `price_not_in_own_row`, `attribute_not_in_row`, `schema`); a rejected patch earns another turn, identical rejections twice stop. Run report adds recovery attempted/resolved/success rate. | `test_agent_loop.py` (+2) |
+| FR-13 evaluation | `catalog-agent evaluate` over `tests/fixtures/eval/` (21 real pages, 17 held out, + 1 labelled synthetic). Labels: SKU/price from JSON-LD; attribute values written by Claude from the variant labels (not human-reviewed); keys not scored. | `test_agent_loop.py` (+1, offline) |
+| Adversarial tests | Malformed patches, unknown tools/bad args, bounded tool results, next-page self-cycle (`cycle_detected`, new in the Navigator), A→B→A cursor cycle ending through task dedup. | `test_adversarial.py` (5) |
+
+Not done: the optional short demo.
+
+**Evaluation results** (held-out real pages; full detail in `outputs/evaluation_report.json`, which holds run 3):
+
+| | Deterministic | Hybrid run 1 | Hybrid run 2 | Hybrid run 3 |
+|---|---|---|---|---|
+| Variant recall / price accuracy | 1.0 / 1.0 | 1.0 / 1.0 | 1.0 / 1.0 | 1.0 / 1.0 |
+| Attribute recall / precision | 0.0 / n/a | 1.0 / 0.99 | 0.54 / 0.99 | 0.96 / 0.99 |
+| Model calls / cost | 0 / $0 | 18 / $0.012 | 20 / $0.011 | 22 / $0.014 |
+
+Between runs: run 2 added a prompt line asking for the row's price cell on missing variants; it fixed the
+synthetic page (now `accepted` with a verified price) but one 18-variant page used all 3 calls without submitting.
+Run 3 sends attribute gaps 8 SKUs per turn; recall went back to 0.96. The variance between runs is itself a
+finding: attribute extraction with the model is useful but not stable.
+
+**Live run with all P1 features on** `run_20261127_p1` (scratch config with `llm_fallback_enabled` and
+`repair_suggestions_enabled` set to true; `configs/safco.yaml` keeps them off), now the source of `outputs/`:
+20 accepted products, 91 variants, 37 fetches, 0 retries, 154 s; 27 model calls (20 extraction, 3 repair, 0
+classifier fallback because no page was `unknown`), 70,115 + 20,481 tokens ≈ $0.017; recovery 19/20 pages; 0
+differences in SKU/price/pack/availability versus the deterministic parser on the same snapshots; evidence refs:
+91 SKU, 91 price, 91 availability, 66 pack, 139 attribute. Repair suggestion: `variant_rows` failed on 6 pages;
+the model tested selectors and concluded, correctly, that none can match because the table never renders
+("Loading..." only), so the ranked list holds just the unchanged current selector. Nothing was applied.
+
+**Tests**: 62 passed; `./scripts/smoke.sh` passed.
+
+Found while testing: an unclosed SQLite connection after a failing test keeps the pytest process alive (aiosqlite's
+worker thread), which looked like a hang. The P1 tests close the repository in `finally`; older P0 tests do not yet.

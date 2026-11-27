@@ -6,22 +6,27 @@ Products). Design: [docs/](docs/README.md). What was built and measured, milesto
 
 ## 1. Overview and results at a glance
 
-Measured on the live site, run `run_20261127_hybrid2` (2026-11-27, hybrid mode with `claude-haiku-5-5`, 139 s):
+Measured on the live site, run `run_20261127_p1` (2026-11-27, hybrid mode with `claude-haiku-5-5`, classifier
+fallback and repair suggestions switched on, 154 s):
 
 | | Result |
 |---|---|
 | Products exported | 20 (10 gloves, 10 sutures & surgical), all `accepted`, 0 partial, 0 quarantined |
 | Variants (SKUs) | 91 (53 gloves, 38 sutures & surgical); every SKU observed on each page was exported (91/91) |
 | Price check | 60 table prices agree with the page's own JSON-LD offer price, 0 disagree; 31 prices came from JSON-LD because the table never rendered (6 pages) |
+| Evidence | every SKU, price, availability, pack and attribute value carries an evidence ref to its row (91 SKU, 91 price, 91 availability, 66 pack, 139 attribute refs) |
 | Pages fetched | 37 of a 150-page budget (1 discovery, 16 listings, 20 product pages), 0 retries |
 | Stop | `BUDGET_EXHAUSTED` / `MAX_PRODUCTS_PER_CATEGORY` (10 per category configured); 69 tasks left resumable |
 | Duplicate SKU identities | 0 |
-| Tests | 41 passed (P0 suite, offline), smoke script passed |
-| LLM usage | 20 model calls (1 per product page), 0 tool calls, 41,684 input / 17,012 output tokens ≈ $0.013 at list price; 90 attribute patches accepted, 0 rejected |
-| What the model added | structured variant attributes on 90/91 variants (deterministic: 0/91 beyond the table group heading); SKU, price, pack and availability identical to deterministic extraction on the same snapshots (0 differences in 91 variants) |
+| LLM usage | 27 model calls (20 extraction, 3 repair suggestion, 0 classifier fallback), 70,115 input / 20,481 output tokens ≈ $0.017 at list price |
+| What the model added | structured variant attributes on 90/91 variants (deterministic: 0/91 beyond the table group heading); SKU, price, pack and availability identical to deterministic extraction on the same snapshots (0 differences); recovery success 19/20 pages |
+| Repair suggestion | `variant_rows` failed on 6 pages; the Recovery agent tested candidates and reported that no selector can fix it because the table never renders (JSON-LD is the right source); nothing was applied |
+| Offline evaluation (FR-13) | 22 frozen pages, 3 hybrid runs: SKU recall 1.0 and price accuracy 1.0 in both modes; held-out attribute recall 0 → 0.54–1.0 with the model (see §9) |
+| Tests | 62 passed (P0 + P1 suites, offline), smoke script passed |
 
 Outputs: [`outputs/products.json`](outputs/products.json), [`outputs/variants.csv`](outputs/variants.csv),
-[`outputs/run_report.json`](outputs/run_report.json), [`outputs/failed_tasks.json`](outputs/failed_tasks.json).
+[`outputs/run_report.json`](outputs/run_report.json), [`outputs/failed_tasks.json`](outputs/failed_tasks.json),
+[`outputs/repair_suggestions.json`](outputs/repair_suggestions.json), [`outputs/evaluation_report.json`](outputs/evaluation_report.json).
 
 ## 2. Architecture overview
 
@@ -66,10 +71,10 @@ One Python process per database, two async workers, one shared host pacer. Code:
 | Agent | Decides | Model |
 |---|---|---|
 | Navigator (`agents/navigator.py`) | roots to seed (`selected`/`all`), in-scope subcategories and products, pagination stop | never |
-| Page Classifier (`agents/classifier.py`) | category / listing / product / other / blocked / unknown | never (P1 fallback not built) |
+| Page Classifier (`agents/classifier.py`) | category / listing / product / other / blocked / unknown | P1, off by default: one call for `unknown` pages, accepted only if the type's DOM signals are present |
 | Extractor (`agents/extractor.py`) | product + variant candidate | bounded loop for recoverable gaps (`hybrid` mode) |
 | Validator & Deduplicator (`agents/validator.py`) | accept / partial / quarantine, evidence verification | never |
-| Recovery (`agents/recovery.py`) | retry with backoff, honor Retry-After, pause on 401/403/CAPTCHA, fail | never (P1 repair suggestions not built) |
+| Recovery (`agents/recovery.py`) | retry with backoff, honor Retry-After, pause on 401/403/CAPTCHA, fail | P1, off by default: selector-repair suggestions tested with `test_selector`, report only |
 
 All return `AgentResult` (`contracts.py`); none writes to storage.
 
@@ -99,7 +104,7 @@ degraded recovery. Offline replay of saved fixtures: add `--replay tests/fixture
 The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with nested variants in
 `products.json`, one row per variant in `variants.csv` (33 columns, in PRD order), with evidence refs,
 `llm_fields` and `missing` reasons. All 20 records in `outputs/` come from the single run
-`run_20261127_hybrid2`. Example (abridged, real):
+`run_20261127_p1`. Example (abridged, real):
 
 ```json
 {"name": "Safco Nitrilex Surpass Gloves", "product_key": "DRCCS", "brand": "Safco",
@@ -145,7 +150,7 @@ The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with n
 
 ## 9. Where AI adds value (measured)
 
-Measured on the 20 live product pages of `run_20261127_hybrid2`, comparing the hybrid output with the
+Measured on the 20 live product pages of `run_20261127_hybrid2` (the hybrid run before the P1 changes), comparing the hybrid output with the
 deterministic parser re-run on **the same saved snapshots**:
 
 | | Deterministic | Hybrid (Claude Haiku 5.5, effort `low`) |
@@ -163,11 +168,31 @@ model's value here is limited to splitting variant labels like `C-3, chromic gut
 every value was grounded in its own row's text (the Validator rejects any attribute that is not). These
 attributes are schema-checked and listed in `llm_fields`, not evidence-verified (PRD §5.3).
 
-The SKU/price recovery path was also run with the real model on a labeled synthetic gap (the real
-Surpass page with one table row removed): the model recovered the missing SKU with a verified
-`structured-data` evidence row in 3 calls. The scripted-fake tests in `tests/test_agent_loop.py` cover the
-rejection paths (SKU or price outside its cited row, overwrites, invented SKUs, instruction-following
-output). The full baseline-vs-hybrid evaluation on manually labeled fixtures (P1, FR-13) was not built.
+### Offline evaluation (FR-13)
+
+`uv run catalog-agent evaluate --mode compare` runs both modes on the same 22 frozen pages
+(`tests/fixtures/eval/`: 21 real pages, 17 of them held out from development, plus one labelled synthetic page
+with a variant row removed). SKU/price labels come from each page's JSON-LD; attribute labels were written by
+Claude from the visible variant labels, not reviewed by a human, and attribute keys are not scored.
+
+| Held-out real pages (17) | Deterministic | Hybrid run 1 | Hybrid run 2 | Hybrid run 3 (`outputs/evaluation_report.json`) |
+|---|---|---|---|---|
+| Variant recall / precision | 1.0 / 1.0 | 1.0 / 1.0 | 1.0 / 1.0 | 1.0 / 1.0 |
+| Price accuracy | 1.0 | 1.0 | 1.0 | 1.0 |
+| Attribute value recall | 0.0 | 1.0 | 0.54 | 0.96 |
+| Attribute value precision | n/a | 0.99 | 0.99 | 0.99 |
+| Model calls / cost | 0 / $0 | 18 / $0.012 | 20 / $0.011 | 22 / $0.014 |
+
+Runs 2 and 3 followed prompt changes: run 2 added the missing-variant price instruction and showed the
+variance problem (one 18-variant page used its 3 calls without submitting); run 3 sends attribute gaps 8 SKUs per
+turn. On the synthetic page the deterministic parser misses the removed SKU (recall 0.8, record `partial`);
+hybrid recovered it with a verified JSON-LD price in runs 2 and 3 (`accepted`) but returned it without a price in
+run 1 (`partial`). The model adds no value on SKU or price for these pages; its value is attribute structure, with
+noticeable run-to-run variance.
+
+The scripted-fake tests in `tests/test_agent_loop.py` and `tests/test_adversarial.py` cover the rejection paths
+(SKU or price outside its cited row, overwrites, invented SKUs, instruction-following output, malformed patches)
+and the typed-feedback retry.
 
 ## 10. Scaling to full-site crawling
 
@@ -193,9 +218,11 @@ is design only.
 
 - Only page 1 of each listing is read (robots.txt disallows `?page=`); 10 products per category were
   sampled; full coverage is not measured.
-- The model's attributes are not evidence-verified (only grounded in row text); key names can vary and
-  ~1 in 20 sampled values was semantically wrong. P1 features (classifier fallback, repair suggestions,
-  evaluation) are not built and are rejected by config validation if enabled.
+- Attribute values are verified only by appearing in their own row; key names can vary, ~1 in 20 sampled
+  values was semantically wrong, and attribute recall varies between runs (0.54–1.0 held out).
+- The classifier fallback never triggered on the live site (no `unknown` pages); it is tested only on
+  real pages served at a synthetic URL. P1 model features are off in `configs/safco.yaml`.
+- Evaluation labels were produced by Claude, not a human; no held-out set beyond these 17 pages.
 - In deterministic mode variant attributes are empty except for the table group heading.
 - Pack size is parsed from `N/unit`, `Box of N` and `N-pack`; volume labels like `1cc jar` stay null with
   `not_visible` (sutures & surgical pack fill rate 34%).
@@ -206,8 +233,8 @@ is design only.
 
 ## 13. Tests
 
-`uv run pytest` on 2026-11-26: **41 passed in 16.1 s**, all offline (saved fixtures, fake fetchers, fake
-models): `test_discovery.py` 11, `test_extraction.py` 8, `test_agent_loop.py` 9, `test_persistence.py` 6,
-`test_runtime.py` 7. `./scripts/smoke.sh` passed (lint, format check, tests, replay crawl → export →
-report → resume). Fixtures: `tests/fixtures/live/` are real snapshots; synthetic variants are built in
-the tests and labeled there.
+`uv run pytest` on 2026-11-27: **62 passed**, all offline (saved fixtures, fake fetchers, fake models):
+`test_discovery.py` 11, `test_extraction.py` 10, `test_agent_loop.py` 12, `test_persistence.py` 6, `test_runtime.py` 7
+(P0) and `test_classifier_fallback.py` 6, `test_repair_suggestions.py` 5, `test_adversarial.py` 5 (P1).
+`./scripts/smoke.sh` passed (lint, format check, tests, replay crawl → export → report → resume). Fixtures:
+`tests/fixtures/live/` and `tests/fixtures/eval/` are real snapshots; synthetic variants are labelled.

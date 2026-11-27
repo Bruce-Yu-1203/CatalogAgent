@@ -78,6 +78,7 @@ All return `AgentResult` (`contracts.py`); none writes to storage.
 Requires macOS or Linux, [uv](https://docs.astral.sh/uv/). Commands as tested on 2026-11-26:
 
 ```bash
+git clone https://github.com/Bruce-Yu-1203/catalog-agent.git && cd catalog-agent
 uv sync
 uv run playwright install chromium
 uv run catalog-agent crawl --config configs/safco.yaml --mode deterministic
@@ -201,7 +202,7 @@ is design only.
 - Six product pages (bone grafts and one trimmer) never render their variant table; their SKUs and
   prices come from the page's JSON-LD after one 15 s readiness wait.
 - Manufacturer is always null (`not_applicable`): Safco shows one label, used as brand.
-- Windows is not supported (`fcntl`). The repository has not been pushed from this environment.
+- Windows is not supported (`fcntl`).
 
 ## 13. Tests
 

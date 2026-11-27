@@ -1,8 +1,8 @@
-# web-crawler Constitution
+# CatalogAgent Constitution
 
-**Version:** 1.1.0 · **Ratified:** 2026-11-26 · **Last amended:** 2026-11-27
+**Version:** 1.1.1 · **Ratified:** 2026-11-26 · **Last amended:** 2026-11-27
 
-This document holds the non-negotiable rules for building web-crawler. It applies to every contributor, human or AI coding agent, and to every change in this repository.
+This document holds the non-negotiable rules for building CatalogAgent. It applies to every contributor, human or AI coding agent, and to every change in this repository.
 
 **Precedence:** this constitution → `docs/` (PRD, Technical Stack, Architecture, Roadmap) → code. If code contradicts the docs, the code is wrong or the docs must be amended in the same change. If the docs contradict this constitution, the constitution wins until it is formally amended (see Governance).
 

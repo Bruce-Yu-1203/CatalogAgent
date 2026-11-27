@@ -1,18 +1,18 @@
 {
-  "run_id": "run_20261127_sitemap30_hybrid",
+  "run_id": "run_20261127_sitemap30_merge_hybrid",
   "mode": "hybrid",
   "status": "COMPLETED",
   "termination_reason": "FRONTIER_DRAINED",
   "coverage_status": "unknown",
-  "started_at": "2026-11-27T03:37:14Z",
-  "finished_at": "2026-11-27T03:39:41Z",
+  "started_at": "2026-11-27T07:44:50Z",
+  "finished_at": "2026-11-27T07:47:33Z",
   "invocations": [
     {
       "kind": "crawl",
       "model_id": "anthropic:claude-haiku-5-5",
       "model_unavailable": null,
       "requeued": 0,
-      "seconds": 146.9,
+      "seconds": 163.6,
       "status": "COMPLETED"
     }
   ],
@@ -21,15 +21,14 @@
     "pages_used": 30,
     "max_products_per_category": 30,
     "max_model_calls": 60,
-    "model_calls_used": 40,
-    "input_tokens_used": 137772,
-    "output_tokens_used": 26843,
+    "model_calls_used": 48,
+    "input_tokens_used": 152310,
+    "output_tokens_used": 35119,
     "extensions": []
   },
   "tasks": {
     "by_status": {
-      "COMPLETED": 29,
-      "PARTIAL": 1
+      "COMPLETED": 30
     },
     "by_type": {
       "product": 30
@@ -44,30 +43,29 @@
   },
   "catalog": {
     "unique_products": 30,
-    "observed_skus": 218,
+    "observed_skus": 224,
     "duplicate_identity_count": 0
   },
   "model_usage": {
     "product_pages_with_model": 30,
     "degraded": {},
     "fallback_reasons": {
-      "unparsed_attributes": 30,
-      "missing_variant": 15
+      "unparsed_attributes": 30
     },
-    "patch_entries_applied": 105,
-    "patch_entries_rejected": 4,
-    "tool_calls": 23
+    "patch_entries_applied": 132,
+    "patch_entries_rejected": 6,
+    "tool_calls": 18
   },
-  "extraction_seconds_total": 121.55,
+  "extraction_seconds_total": 160.39,
   "per_category": {
     "sitemap-sample": {
       "root": "sitemap-sample",
       "product_pages": 30,
-      "accepted": 29,
-      "partial": 1,
+      "accepted": 30,
+      "partial": 0,
       "quarantined": 0,
       "products_exported": 30,
-      "variants_exported": 218,
+      "variants_exported": 224,
       "field_fill_rate": {
         "product": {
           "name": 1.0,
@@ -82,27 +80,27 @@
         "variant": {
           "sku": 1.0,
           "variant_name": 1.0,
-          "attributes": 0.5138,
-          "pack_label": 0.8119,
-          "pack_quantity": 0.8028,
-          "pack_unit": 0.8028,
+          "attributes": 0.6071,
+          "pack_label": 0.808,
+          "pack_quantity": 0.7991,
+          "pack_unit": 0.7991,
           "price": 1.0,
           "currency": 1.0,
-          "availability_raw": 0.9587
+          "availability_raw": 1.0
         }
       },
-      "validation_failure_rate": 0.0333,
+      "validation_failure_rate": 0.0,
       "quarantine_rate": 0.0,
       "llm_fallback_rate": 1.0,
-      "evidence_rejection_rate": 0.0367,
+      "evidence_rejection_rate": 0.0435,
       "recovery": {
         "attempted": 30,
-        "resolved": 23,
-        "success_rate": 0.7667
+        "resolved": 21,
+        "success_rate": 0.7
       },
       "variant_coverage": {
         "expected_skus": 224,
-        "exported_skus": 218
+        "exported_skus": 224
       },
       "missing_reason_distribution": {
         "alternatives": {
@@ -114,11 +112,8 @@
         "manufacturer": {
           "not_applicable": 30
         },
-        "variants.availability_raw": {
-          "not_visible": 9
-        },
         "variants.pack_label": {
-          "not_visible": 41
+          "not_visible": 43
         },
         "variants.pack_quantity": {
           "parse_failed": 2
@@ -129,7 +124,7 @@
   "failed_tasks": [],
   "field_failures": {},
   "render_notes": {
-    "table_not_rendered": 3,
+    "table_not_rendered": 4,
     "no_variant_table": 2,
     "no_options_listed": 1
   },

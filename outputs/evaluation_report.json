@@ -7,25 +7,25 @@
       "mode": "deterministic",
       "all": {
         "pages": 22,
-        "variant_recall": 0.991,
+        "variant_recall": 1.0,
         "variant_precision": 1.0,
         "price_accuracy": 1.0,
         "attribute_recall": 0.0,
         "attribute_precision": null,
-        "accepted": 21,
-        "partial": 1,
+        "accepted": 22,
+        "partial": 0,
         "quarantined": 0,
         "model_calls": 0,
         "tool_calls": 0,
         "input_tokens": 0,
         "output_tokens": 0,
         "cost_usd": 0.0,
-        "seconds_total": 2.02,
+        "seconds_total": 2.34,
         "counts": {
           "expected_skus": 111,
-          "predicted_skus": 110,
-          "matched_skus": 110,
-          "prices_correct": 110,
+          "predicted_skus": 111,
+          "matched_skus": 111,
+          "prices_correct": 111,
           "attr_required": 189,
           "attr_found": 0,
           "attr_predicted": 0,
@@ -51,7 +51,7 @@
         "input_tokens": 0,
         "output_tokens": 0,
         "cost_usd": 0.0,
-        "seconds_total": 1.63,
+        "seconds_total": 1.9,
         "counts": {
           "expected_skus": 81,
           "predicted_skus": 81,
@@ -82,7 +82,7 @@
         "input_tokens": 0,
         "output_tokens": 0,
         "cost_usd": 0.0,
-        "seconds_total": 0.32,
+        "seconds_total": 0.37,
         "counts": {
           "expected_skus": 25,
           "predicted_skus": 25,
@@ -100,25 +100,25 @@
       },
       "synthetic": {
         "pages": 1,
-        "variant_recall": 0.8,
+        "variant_recall": 1.0,
         "variant_precision": 1.0,
         "price_accuracy": 1.0,
         "attribute_recall": 0.0,
         "attribute_precision": null,
-        "accepted": 0,
-        "partial": 1,
+        "accepted": 1,
+        "partial": 0,
         "quarantined": 0,
         "model_calls": 0,
         "tool_calls": 0,
         "input_tokens": 0,
         "output_tokens": 0,
         "cost_usd": 0.0,
-        "seconds_total": 0.07,
+        "seconds_total": 0.08,
         "counts": {
           "expected_skus": 5,
-          "predicted_skus": 4,
-          "matched_skus": 4,
-          "prices_correct": 4,
+          "predicted_skus": 5,
+          "matched_skus": 5,
+          "prices_correct": 5,
           "attr_required": 5,
           "attr_found": 0,
           "attr_predicted": 0,
@@ -129,18 +129,7 @@
           "output_tokens": 0
         }
       },
-      "failures": [
-        {
-          "url": "https://www.safcodental.com/product/synthetic-gap-safco-nitrilex-surpass",
-          "decision": "partial",
-          "prices_wrong": [],
-          "attr_unexpected_examples": [],
-          "gaps_remaining": [
-            "missing_variant",
-            "unparsed_attributes"
-          ]
-        }
-      ]
+      "failures": []
     },
     {
       "mode": "hybrid",
@@ -149,30 +138,30 @@
         "variant_recall": 1.0,
         "variant_precision": 1.0,
         "price_accuracy": 1.0,
-        "attribute_recall": 0.9735,
-        "attribute_precision": 0.9949,
+        "attribute_recall": 0.8413,
+        "attribute_precision": 0.994,
         "accepted": 22,
         "partial": 0,
         "quarantined": 0,
-        "model_calls": 30,
+        "model_calls": 31,
         "tool_calls": 9,
-        "input_tokens": 83739,
-        "output_tokens": 22662,
-        "cost_usd": 0.0197,
-        "seconds_total": 95.43,
+        "input_tokens": 84782,
+        "output_tokens": 21362,
+        "cost_usd": 0.01916,
+        "seconds_total": 95.78,
         "counts": {
           "expected_skus": 111,
           "predicted_skus": 111,
           "matched_skus": 111,
           "prices_correct": 111,
           "attr_required": 189,
-          "attr_found": 184,
-          "attr_predicted": 196,
+          "attr_found": 159,
+          "attr_predicted": 166,
           "attr_unexpected": 1,
-          "model_calls": 30,
+          "model_calls": 31,
           "tool_calls": 9,
-          "input_tokens": 83739,
-          "output_tokens": 22662
+          "input_tokens": 84782,
+          "output_tokens": 21362
         }
       },
       "held_out_live": {
@@ -180,30 +169,30 @@
         "variant_recall": 1.0,
         "variant_precision": 1.0,
         "price_accuracy": 1.0,
-        "attribute_recall": 0.9569,
-        "attribute_precision": 0.9916,
+        "attribute_recall": 0.75,
+        "attribute_precision": 0.9888,
         "accepted": 17,
         "partial": 0,
         "quarantined": 0,
-        "model_calls": 22,
+        "model_calls": 23,
         "tool_calls": 6,
-        "input_tokens": 59386,
-        "output_tokens": 15962,
-        "cost_usd": 0.01392,
-        "seconds_total": 68.73,
+        "input_tokens": 59881,
+        "output_tokens": 15105,
+        "cost_usd": 0.01354,
+        "seconds_total": 69.05,
         "counts": {
           "expected_skus": 81,
           "predicted_skus": 81,
           "matched_skus": 81,
           "prices_correct": 81,
           "attr_required": 116,
-          "attr_found": 111,
-          "attr_predicted": 119,
+          "attr_found": 87,
+          "attr_predicted": 89,
           "attr_unexpected": 1,
-          "model_calls": 22,
+          "model_calls": 23,
           "tool_calls": 6,
-          "input_tokens": 59386,
-          "output_tokens": 15962
+          "input_tokens": 59881,
+          "output_tokens": 15105
         }
       },
       "dev_live": {
@@ -218,10 +207,10 @@
         "quarantined": 0,
         "model_calls": 5,
         "tool_calls": 0,
-        "input_tokens": 15948,
-        "output_tokens": 5374,
-        "cost_usd": 0.00428,
-        "seconds_total": 20.43,
+        "input_tokens": 16212,
+        "output_tokens": 5001,
+        "cost_usd": 0.00412,
+        "seconds_total": 20.1,
         "counts": {
           "expected_skus": 25,
           "predicted_skus": 25,
@@ -229,12 +218,12 @@
           "prices_correct": 25,
           "attr_required": 68,
           "attr_found": 68,
-          "attr_predicted": 72,
+          "attr_predicted": 73,
           "attr_unexpected": 0,
           "model_calls": 5,
           "tool_calls": 0,
-          "input_tokens": 15948,
-          "output_tokens": 5374
+          "input_tokens": 16212,
+          "output_tokens": 5001
         }
       },
       "synthetic": {
@@ -242,43 +231,43 @@
         "variant_recall": 1.0,
         "variant_precision": 1.0,
         "price_accuracy": 1.0,
-        "attribute_recall": 1.0,
+        "attribute_recall": 0.8,
         "attribute_precision": 1.0,
         "accepted": 1,
         "partial": 0,
         "quarantined": 0,
         "model_calls": 3,
         "tool_calls": 3,
-        "input_tokens": 8405,
-        "output_tokens": 1326,
+        "input_tokens": 8689,
+        "output_tokens": 1256,
         "cost_usd": 0.0015,
-        "seconds_total": 6.27,
+        "seconds_total": 6.63,
         "counts": {
           "expected_skus": 5,
           "predicted_skus": 5,
           "matched_skus": 5,
           "prices_correct": 5,
           "attr_required": 5,
-          "attr_found": 5,
-          "attr_predicted": 5,
+          "attr_found": 4,
+          "attr_predicted": 4,
           "attr_unexpected": 0,
           "model_calls": 3,
           "tool_calls": 3,
-          "input_tokens": 8405,
-          "output_tokens": 1326
+          "input_tokens": 8689,
+          "output_tokens": 1256
         }
       },
       "failures": [
         {
-          "url": "https://www.safcodental.com/product/hemostat-sup-trade-sup",
+          "url": "https://www.safcodental.com/product/foundation-trade",
           "decision": "accepted",
           "prices_wrong": [],
           "attr_unexpected_examples": [
             {
-              "sku": "3152001",
-              "label": "Box of 20",
+              "sku": "3430635",
+              "label": "Foundation pellets assortment 6/box (3 small, 3 medium)",
               "unexpected": [
-                "box"
+                "3 small, 3 medium"
               ]
             }
           ],
@@ -310,7 +299,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.178,
+          "seconds": 0.201,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -334,7 +323,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.074,
+          "seconds": 0.164,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -358,7 +347,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.11,
+          "seconds": 0.119,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -382,7 +371,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.069,
+          "seconds": 0.076,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -406,7 +395,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.074,
+          "seconds": 0.139,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -430,7 +419,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.135,
+          "seconds": 0.082,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -454,7 +443,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.075,
+          "seconds": 0.082,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -478,7 +467,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.075,
+          "seconds": 0.163,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -502,7 +491,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.164,
+          "seconds": 0.083,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -526,7 +515,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.075,
+          "seconds": 0.082,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -550,7 +539,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.047,
+          "seconds": 0.051,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -574,7 +563,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.047,
+          "seconds": 0.052,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -598,7 +587,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.172,
+          "seconds": 0.175,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -622,7 +611,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.065,
+          "seconds": 0.075,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -646,7 +635,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.048,
+          "seconds": 0.068,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -670,7 +659,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.047,
+          "seconds": 0.066,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -694,7 +683,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.046,
+          "seconds": 0.065,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -718,7 +707,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.047,
+          "seconds": 0.053,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -742,7 +731,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.055,
+          "seconds": 0.243,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -766,7 +755,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.217,
+          "seconds": 0.069,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -790,7 +779,7 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.132,
+          "seconds": 0.157,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -799,11 +788,11 @@
           "url": "https://www.safcodental.com/product/synthetic-gap-safco-nitrilex-surpass",
           "split": "dev",
           "source": "synthetic: real Surpass page with the 1027996 table row removed",
-          "decision": "partial",
+          "decision": "accepted",
           "expected_skus": 5,
-          "predicted_skus": 4,
-          "matched_skus": 4,
-          "prices_correct": 4,
+          "predicted_skus": 5,
+          "matched_skus": 5,
+          "prices_correct": 5,
           "prices_wrong": [],
           "attr_required": 5,
           "attr_found": 0,
@@ -814,9 +803,8 @@
           "tool_calls": 0,
           "input_tokens": 0,
           "output_tokens": 0,
-          "seconds": 0.07,
+          "seconds": 0.079,
           "gaps_remaining": [
-            "missing_variant",
             "unparsed_attributes"
           ]
         }
@@ -842,9 +830,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 2,
           "tool_calls": 0,
-          "input_tokens": 6631,
-          "output_tokens": 1495,
-          "seconds": 6.797,
+          "input_tokens": 6823,
+          "output_tokens": 1297,
+          "seconds": 5.872,
           "gaps_remaining": []
         },
         {
@@ -864,9 +852,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 2224,
-          "output_tokens": 820,
-          "seconds": 3.309,
+          "input_tokens": 2337,
+          "output_tokens": 726,
+          "seconds": 3.205,
           "gaps_remaining": []
         },
         {
@@ -886,9 +874,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 2126,
-          "output_tokens": 583,
-          "seconds": 2.793,
+          "input_tokens": 2239,
+          "output_tokens": 669,
+          "seconds": 2.941,
           "gaps_remaining": []
         },
         {
@@ -908,9 +896,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 2130,
-          "output_tokens": 635,
-          "seconds": 2.963,
+          "input_tokens": 2243,
+          "output_tokens": 828,
+          "seconds": 3.494,
           "gaps_remaining": []
         },
         {
@@ -930,9 +918,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 2224,
-          "output_tokens": 760,
-          "seconds": 3.235,
+          "input_tokens": 2337,
+          "output_tokens": 850,
+          "seconds": 3.445,
           "gaps_remaining": []
         },
         {
@@ -952,9 +940,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 2250,
-          "output_tokens": 582,
-          "seconds": 2.664,
+          "input_tokens": 2363,
+          "output_tokens": 910,
+          "seconds": 3.87,
           "gaps_remaining": []
         },
         {
@@ -974,9 +962,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 2262,
-          "output_tokens": 823,
-          "seconds": 3.256,
+          "input_tokens": 2375,
+          "output_tokens": 720,
+          "seconds": 3.403,
           "gaps_remaining": []
         },
         {
@@ -996,9 +984,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 2274,
-          "output_tokens": 781,
-          "seconds": 2.987,
+          "input_tokens": 2387,
+          "output_tokens": 791,
+          "seconds": 3.416,
           "gaps_remaining": []
         },
         {
@@ -1018,9 +1006,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 2258,
-          "output_tokens": 686,
-          "seconds": 3.055,
+          "input_tokens": 2371,
+          "output_tokens": 692,
+          "seconds": 3.066,
           "gaps_remaining": []
         },
         {
@@ -1040,9 +1028,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 2262,
-          "output_tokens": 861,
-          "seconds": 3.46,
+          "input_tokens": 2375,
+          "output_tokens": 661,
+          "seconds": 3.027,
           "gaps_remaining": []
         },
         {
@@ -1060,11 +1048,11 @@
           "attr_predicted": 3,
           "attr_unexpected": 0,
           "attr_unexpected_examples": [],
-          "model_calls": 3,
-          "tool_calls": 4,
-          "input_tokens": 7449,
-          "output_tokens": 1084,
-          "seconds": 5.715,
+          "model_calls": 1,
+          "tool_calls": 0,
+          "input_tokens": 1978,
+          "output_tokens": 643,
+          "seconds": 2.967,
           "gaps_remaining": []
         },
         {
@@ -1079,14 +1067,22 @@
           "prices_wrong": [],
           "attr_required": 3,
           "attr_found": 2,
-          "attr_predicted": 5,
-          "attr_unexpected": 0,
-          "attr_unexpected_examples": [],
-          "model_calls": 1,
+          "attr_predicted": 3,
+          "attr_unexpected": 1,
+          "attr_unexpected_examples": [
+            {
+              "sku": "3430635",
+              "label": "Foundation pellets assortment 6/box (3 small, 3 medium)",
+              "unexpected": [
+                "3 small, 3 medium"
+              ]
+            }
+          ],
+          "model_calls": 2,
           "tool_calls": 0,
-          "input_tokens": 1851,
-          "output_tokens": 865,
-          "seconds": 3.667,
+          "input_tokens": 4513,
+          "output_tokens": 1299,
+          "seconds": 6.283,
           "gaps_remaining": []
         },
         {
@@ -1101,23 +1097,17 @@
           "prices_wrong": [],
           "attr_required": 0,
           "attr_found": 0,
-          "attr_predicted": 1,
-          "attr_unexpected": 1,
-          "attr_unexpected_examples": [
-            {
-              "sku": "3152001",
-              "label": "Box of 20",
-              "unexpected": [
-                "box"
-              ]
-            }
-          ],
+          "attr_predicted": 0,
+          "attr_unexpected": 0,
+          "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 1670,
-          "output_tokens": 735,
-          "seconds": 3.876,
-          "gaps_remaining": []
+          "input_tokens": 1783,
+          "output_tokens": 600,
+          "seconds": 2.961,
+          "gaps_remaining": [
+            "unparsed_attributes"
+          ]
         },
         {
           "url": "https://www.safcodental.com/product/orasoothe-reg-sockit-gel",
@@ -1131,14 +1121,14 @@
           "prices_wrong": [],
           "attr_required": 1,
           "attr_found": 1,
-          "attr_predicted": 5,
+          "attr_predicted": 6,
           "attr_unexpected": 0,
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 1992,
-          "output_tokens": 1031,
-          "seconds": 4.366,
+          "input_tokens": 2105,
+          "output_tokens": 1016,
+          "seconds": 4.238,
           "gaps_remaining": []
         },
         {
@@ -1152,15 +1142,15 @@
           "prices_correct": 18,
           "prices_wrong": [],
           "attr_required": 52,
-          "attr_found": 48,
-          "attr_predicted": 48,
+          "attr_found": 24,
+          "attr_predicted": 24,
           "attr_unexpected": 0,
           "attr_unexpected_examples": [],
           "model_calls": 3,
-          "tool_calls": 2,
-          "input_tokens": 16753,
-          "output_tokens": 3549,
-          "seconds": 12.465,
+          "tool_calls": 3,
+          "input_tokens": 12855,
+          "output_tokens": 2119,
+          "seconds": 8.922,
           "gaps_remaining": [
             "unparsed_attributes"
           ]
@@ -1177,14 +1167,14 @@
           "prices_wrong": [],
           "attr_required": 3,
           "attr_found": 3,
-          "attr_predicted": 6,
+          "attr_predicted": 3,
           "attr_unexpected": 0,
           "attr_unexpected_examples": [],
-          "model_calls": 1,
-          "tool_calls": 0,
-          "input_tokens": 1909,
-          "output_tokens": 763,
-          "seconds": 3.474,
+          "model_calls": 3,
+          "tool_calls": 3,
+          "input_tokens": 7563,
+          "output_tokens": 1147,
+          "seconds": 6.402,
           "gaps_remaining": []
         },
         {
@@ -1204,9 +1194,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 1787,
-          "output_tokens": 630,
-          "seconds": 3.021,
+          "input_tokens": 1900,
+          "output_tokens": 626,
+          "seconds": 2.954,
           "gaps_remaining": []
         },
         {
@@ -1226,9 +1216,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 1758,
-          "output_tokens": 590,
-          "seconds": 2.897,
+          "input_tokens": 1871,
+          "output_tokens": 746,
+          "seconds": 3.489,
           "gaps_remaining": []
         },
         {
@@ -1248,9 +1238,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 1731,
-          "output_tokens": 593,
-          "seconds": 2.749,
+          "input_tokens": 1844,
+          "output_tokens": 560,
+          "seconds": 2.851,
           "gaps_remaining": []
         },
         {
@@ -1270,9 +1260,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 1,
           "tool_calls": 0,
-          "input_tokens": 1857,
-          "output_tokens": 578,
-          "seconds": 2.703,
+          "input_tokens": 1970,
+          "output_tokens": 628,
+          "seconds": 3.0,
           "gaps_remaining": []
         },
         {
@@ -1292,9 +1282,9 @@
           "attr_unexpected_examples": [],
           "model_calls": 2,
           "tool_calls": 0,
-          "input_tokens": 9936,
-          "output_tokens": 2892,
-          "seconds": 9.705,
+          "input_tokens": 9861,
+          "output_tokens": 2578,
+          "seconds": 9.343,
           "gaps_remaining": []
         },
         {
@@ -1308,16 +1298,18 @@
           "prices_correct": 5,
           "prices_wrong": [],
           "attr_required": 5,
-          "attr_found": 5,
-          "attr_predicted": 5,
+          "attr_found": 4,
+          "attr_predicted": 4,
           "attr_unexpected": 0,
           "attr_unexpected_examples": [],
           "model_calls": 3,
           "tool_calls": 3,
-          "input_tokens": 8405,
-          "output_tokens": 1326,
-          "seconds": 6.274,
-          "gaps_remaining": []
+          "input_tokens": 8689,
+          "output_tokens": 1256,
+          "seconds": 6.632,
+          "gaps_remaining": [
+            "unparsed_attributes"
+          ]
         }
       ]
     }

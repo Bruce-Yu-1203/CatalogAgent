@@ -420,3 +420,55 @@ the other cases are render notes (`no_variant_table`, `table_not_rendered`, `no_
 **README §7** now has the ten production items as subsections in the order the requirements list them, each
 with how it is done and the code and tests that cover it. Two tests were added so every item has one: JSON log
 fields with secret redaction, and a hybrid run without credentials completing in degraded mode. 72 tests pass.
+
+## Rules for normal pages, LLM for redesigns (2026-11-27)
+
+Goal agreed with Amy: rules handle normal pages; the LLM is insurance for redesigns and unseen layouts.
+
+**JSON-LD merge (rules).** `parse_product` now takes the rendered table rows and then adds every JSON-LD
+variant whose SKU the table did not render (a table row always wins, so "Non-purchasable" rows keep a null
+price). The 15 SKUs the model had recovered on the sitemap sample were all in JSON-LD; rules now fill them.
+Live re-runs on the same 30 sitemap products (seed 20261127): `run_20261127_sitemap30_merge` (deterministic)
+30 accepted, 224/224 SKUs, 107 s; `run_20261127_sitemap30_merge_hybrid` (source of `outputs/sitemap_sample/`)
+30 accepted, 224/224, 48 model calls, 152k + 35k tokens ≈ $0.033, 163 s. Every model call was attribute
+splitting: 0 SKUs and 0 prices came from the model; SKU, price, pack and availability identical in both runs.
+
+**Generic evidence path (Amy's option B).** Amy pointed out that parser, snapshot tools and EvidenceChecker
+all read `build_sections()`, so a redesign that breaks the Safco selectors would leave the model with no rows
+to cite and `find_gaps` with nothing to report. Changes, no new agent:
+- `build_sections` adds a `page-rows` section only when the table and JSON-LD give no row: repeated sibling
+  elements with the same tag and class signature (any class names) that each show a `$` price and an SKU-like
+  code; one cell per leaf text plus a `price` cell = the row's first displayed price. Groups split across
+  containers are joined; at least two rows are required.
+- New gap `no_variants` (no variant parsed, no expected SKU, generic rows present) starts the model loop.
+- Verification is not downgraded: SKU must equal a whole non-price cell of the cited row and contain a digit;
+  price must equal that row's `price` cell. A generic-row record is `partial` (`generic_rows_uncovered`) unless
+  every generic row got a verified variant.
+- Prompt: one line for the `no_variants` gap.
+
+**Tests.** `simulate_redesign` (in `evaluation.py`, labelled SYNTHETIC) removes JSON-LD and renames every class.
+The agent-loop tests that used a removed table row (now filled by rules) run on the redesigned Surpass page
+instead: rules find no variant; a valid patch is accepted with evidence on the cited generic row; SKU on the
+wrong row, the row's second price, an invented SKU and a price cell used as SKU are rejected; a redesigned page
+without prices builds no generic rows and never calls the model. 73 tests pass.
+
+**2×2 experiment** (`catalog-agent experiment --run-id run_20261127_sitemap30_merge_hybrid`,
+`outputs/redesign_experiment.json`), same 30 saved pages, reference = original JSON-LD (224 SKUs; 82 of them
+rendered as table rows):
+
+| | A original, rules | B original, rules + LLM | C redesign, rules | D redesign, rules + LLM |
+|---|---|---|---|---|
+| Accepted / partial | 30 / 0 | 30 / 0 | 0 / 30 | 16 / 14 |
+| SKUs / correct prices / wrong prices | 224 / 224 / 0 | 224 / 224 / 0 | 0 / 0 / 0 | 56 / 56 / 0 |
+| Model calls (pages) | 0 | 47 (30) | 0 | 35 (17) |
+| List cost | $0 | $0.032 | $0 | $0.026 |
+
+D recovered every rendered row on 16 of 17 multi-row pages; Filtek (20 rows) returned no usable patch in this
+run (18 of 20 in the first run of the experiment, before a fix). Not recoverable by design: 142 SKUs that exist
+only in JSON-LD and 6 single-variant pages. First run of the experiment found that single-row sub-groups (e.g.
+one product in its own group container) were dropped from generic rows (5 pages lost one row each); groups with
+one row are now joined to a matching signature elsewhere on the page.
+
+**Docs.** README §9 "Why an LLM" with the 2×2, §10 sitemap table before/after the merge and selector
+self-repair as design only, §12 limitation of the generic path; Architecture §4 extraction paragraph.
+Offline evaluation re-run (hybrid run 4): held-out SKU recall and price accuracy 1.0, attribute recall 0.75.

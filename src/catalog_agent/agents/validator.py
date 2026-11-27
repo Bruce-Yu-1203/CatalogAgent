@@ -50,6 +50,15 @@ class EvidenceChecker:
         return row.cells.get(name) if name else None
 
     def verify(self, field: str, section_id: str, row_id: str | None, raw: str) -> bool:
+        cell_map = self.adapter.SKU_CELL if field == "sku" else self.adapter.PRICE_CELL
+        if cell_map.get(section_id) == "*":
+            # Generic rows have no named SKU cell: the value must equal one whole cell of that same row.
+            sec = self.sections.get(section_id)
+            row = sec.row(row_id) if sec and row_id else None
+            raw = raw.strip()
+            if not raw or row is None or not any(ch.isdigit() for ch in raw) or raw == row.cells.get("price"):
+                return False
+            return any(c.strip() == raw for k, c in row.cells.items() if k != "price")
         value = self.cell(section_id, row_id, field)
         # Exact cell equality: a substring match does not establish row association.
         return value is not None and value.strip() == raw.strip() and raw.strip() != ""
@@ -87,6 +96,15 @@ def find_gaps(
     for sku in candidate.expected_skus:
         if sku not in have:
             gaps.append(Gap(kind="missing_variant", sku=sku, detail="SKU observed on page but not extracted"))
+    if not candidate.variants and not candidate.expected_skus:
+        generic = [s for s in adapter.build_sections(snapshot) if s.kind == "generic_rows" and s.rows]
+        if generic:
+            gaps.append(
+                Gap(
+                    kind="no_variants",
+                    detail=f"no variant parsed; {len(generic[0].rows)} generic rows show a price and a code",
+                )
+            )
     for v in candidate.variants:
         if v.price_raw and normalize_price(v.price_raw) is None:
             gaps.append(Gap(kind="unparsed_price", sku=v.sku, detail=f"price text not parseable: {v.price_raw!r}"))
@@ -364,6 +382,18 @@ class ValidatorAgent:
         if not variants:
             partial = True
             issues.append(Issue(code="no_variants_observed", message="no sellable variant rows observed"))
+        # Unrecognised layout: no expected SKU list exists, so every generic row must be covered by a variant.
+        generic = next((s for s in ev.sections.values() if s.kind == "generic_rows"), None)
+        if generic is not None and variants:
+            cited = {o.row_id for o in cand.variants if o.section_id == generic.section_id and o.sku in got}
+            if len(cited) < len(generic.rows):
+                partial = True
+                issues.append(
+                    Issue(
+                        code="generic_rows_uncovered",
+                        message=f"{len(generic.rows) - len(cited)} of {len(generic.rows)} generic rows have no variant",
+                    )
+                )
         if any(m.reason == MissingReason.PARSE_FAILED for v in variants for m in v.missing if m.field == "price"):
             partial = True
 

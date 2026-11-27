@@ -164,5 +164,56 @@ def evaluate(
     _print([{k: s[k] for k in ("mode", "all", "held_out_live", "synthetic")} for s in report["summaries"]])
 
 
+@app.command()
+def experiment(
+    run_id: Annotated[str, typer.Option(help="run whose saved product snapshots are replayed")],
+    groups: Annotated[str, typer.Option(help="subset of A,B,C,D")] = "A,B,C,D",
+    config: Path = Path("configs/safco.yaml"),
+    db: Annotated[str | None, typer.Option(help="override storage.database")] = None,
+    out: Path = Path("outputs/redesign_experiment.json"),
+) -> None:
+    """Offline 2x2: original vs SYNTHETIC redesigned pages (JSON-LD removed, classes renamed), rules vs rules + LLM."""
+    from catalog_agent.adapters import safco
+    from catalog_agent.evaluation import redesign_experiment, summarize_experiment
+    from catalog_agent.extraction.llm import ModelUnavailable, model_from_env
+    from catalog_agent.runtime.fetcher import SnapshotStore
+    from catalog_agent.storage.repository import Repository
+
+    cfg = load_config(config)
+    gs = [g.strip().upper() for g in groups.split(",") if g.strip()]
+    model = None
+    if {"B", "D"} & set(gs):
+        try:
+            model = model_from_env(cfg.llm.max_output_tokens_per_call)
+        except ModelUnavailable as e:
+            raise typer.BadParameter(f"groups B and D need a model: {e}") from e
+
+    async def run() -> dict:
+        repo = await Repository.open(db or cfg.storage.database)
+        try:
+            tasks = await repo.tasks(run_id)
+        finally:
+            await repo.close()
+        store = SnapshotStore(cfg.storage.snapshot_dir)
+        snaps = [store.load(t["snapshot_path"]) for t in tasks if t["page_type"] == "product" and t["snapshot_path"]]
+        return await redesign_experiment(cfg, safco, snaps, gs, model)
+
+    result = asyncio.run(run())
+    summary = summarize_experiment(result, cfg.llm.input_price_per_mtok, cfg.llm.output_price_per_mtok)
+    report = {
+        "run_id": run_id,
+        "model_id": getattr(model, "model_id", None),
+        "note": (
+            "Offline replay of the run's saved product pages. C and D use SYNTHETIC redesigned copies (JSON-LD "
+            "removed, every class renamed); reference SKUs and prices come from the original page's JSON-LD."
+        ),
+        "summary": summary,
+        "groups": result,
+    }
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(report, indent=2, default=str) + "\n")
+    _print(summary)
+
+
 if __name__ == "__main__":
     app()

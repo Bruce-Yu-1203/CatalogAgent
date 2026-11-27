@@ -45,6 +45,9 @@ Rules:
   a row you need is missing or truncated.
 - For a missing_variant gap, return the SKU with section_id, row_id and sku_raw, and price_raw copied exactly
   from that row's price cell (it may lack a currency symbol).
+- For a no_variants gap the page layout was not recognised: return one entry per row of the page-rows section,
+  with the SKU (Item #) copied exactly from one whole cell of that row, price_raw copied from that row's "price"
+  cell, and variant_name copied from that row's label. Skip a row if you cannot tell which cell is its SKU.
 - For an unparsed_attributes gap, return attributes for every listed SKU. Do not repeat values that already
   have their own field (pack size, stock, item or manufacturer number). Use Title Case keys and the same key
   for the same property across rows.

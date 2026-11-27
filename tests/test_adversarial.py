@@ -27,8 +27,8 @@ async def test_malformed_patches_never_crash_the_loop_or_reach_the_record():
                     variants=[
                         {
                             "sku": MISSING,
-                            "section_id": "structured-data",
-                            "row_id": "ld-3",
+                            "section_id": "page-rows",
+                            "row_id": "generic-3",
                             "sku_raw": MISSING,
                             "price_raw": {"amount": 1},
                             "attributes": {"Size": 5, "": "x", "Color": "Z" * 5000},

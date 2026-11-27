@@ -367,7 +367,7 @@ class ProductCandidate(BaseModel):
 class Gap(BaseModel):
     """A recoverable gap the model may try to resolve (never a field that is simply not shown)."""
 
-    kind: Literal["missing_variant", "unparsed_price", "unparsed_attributes"]
+    kind: Literal["missing_variant", "unparsed_price", "unparsed_attributes", "no_variants"]
     sku: str | None = None
     detail: str = ""
 

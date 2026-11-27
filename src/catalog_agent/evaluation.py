@@ -7,16 +7,32 @@ Replay results describe replay behaviour only (A-11) and are reported separately
 from __future__ import annotations
 
 import gzip
+import hashlib
 import json
 import time
 from pathlib import Path
 from types import ModuleType
 from typing import Any
 
+from bs4 import BeautifulSoup
+
 from catalog_agent.agents.extractor import ExtractorAgent, ExtractorInput
 from catalog_agent.agents.validator import ValidatorAgent
 from catalog_agent.config import AppConfig
+from catalog_agent.contracts import PageSnapshot
+from catalog_agent.extraction.normalize import normalize_price
 from catalog_agent.runtime.fetcher import make_snapshot
+
+
+def simulate_redesign(html: str) -> str:
+    """SYNTHETIC site redesign of a saved page: JSON-LD removed and every class name renamed (consistently, so
+    repeated elements still look alike). Text, ids and structure are unchanged. Never written to `outputs/`."""
+    soup = BeautifulSoup(html, "lxml")
+    for tag in soup.select('script[type="application/ld+json"]'):
+        tag.decompose()
+    for el in soup.find_all(class_=True):
+        el["class"] = ["x" + hashlib.sha1(c.encode()).hexdigest()[:8] for c in el.get("class", [])]
+    return str(soup)
 
 
 def _rate(n: float, d: float) -> float | None:
@@ -154,3 +170,114 @@ def summarize(result: dict[str, Any], price_in: float | None, price_out: float |
             or p["matched_skus"] < p["expected_skus"]
         ],
     }
+
+
+# ---------------------------------------------------------------------------
+# Redesign experiment: original vs simulated-redesign pages, rules only vs rules + LLM (2 x 2)
+# ---------------------------------------------------------------------------
+
+GROUPS = {
+    "A": ("original", "deterministic"),
+    "B": ("original", "hybrid"),
+    "C": ("redesign", "deterministic"),
+    "D": ("redesign", "hybrid"),
+}
+_FIELDS = ("price", "pack_label", "availability_raw", "variant_name")
+
+
+def reference_variants(adapter: ModuleType, snap: PageSnapshot) -> dict[str, str | None]:
+    """SKU -> price from the ORIGINAL page's JSON-LD (the same reference as the eval labels)."""
+    sd = adapter.section_by_id(snap, "structured-data")
+    return {r.cells["sku"]: (normalize_price(r.cells.get("price")) or None) for r in (sd.rows if sd else [])}
+
+
+async def redesign_experiment(
+    cfg: AppConfig, adapter: ModuleType, snaps: list[PageSnapshot], groups: list[str], model: Any = None
+) -> dict[str, Any]:
+    extractor = ExtractorAgent(adapter, cfg.agents.extractor, cfg.llm)
+    validator = ValidatorAgent(adapter, adapter.SOURCE)
+    refs = {s.url: reference_variants(adapter, s) for s in snaps}
+    # SKUs the original page actually rendered as rows: the most a redesigned page (no JSON-LD) can still show.
+    shown = {}
+    for s in snaps:
+        table = adapter.section_by_id(s, "variant-table")
+        shown[s.url] = {r.cells.get("item_no") for r in (table.rows if table else [])} - {"", None}
+    redesigned = {s.url: make_snapshot(s.url, s.final_url, s.status, simulate_redesign(s.html)) for s in snaps}
+    out: dict[str, Any] = {}
+    for g in groups:
+        pages_kind, mode = GROUPS[g]
+        pages = []
+        for s in snaps:
+            snap = s if pages_kind == "original" else redesigned[s.url]
+            res = await extractor.run(
+                ExtractorInput(
+                    snapshot=snap,
+                    mode=mode,
+                    model_allowance=cfg.agents.extractor.max_model_calls_per_task,
+                    model=model if mode == "hybrid" else None,
+                )
+            )
+            val, _ = validator.validate(res.output.candidate, snap, "experiment", [])
+            got = {v.sku: v for v in (val.product.variants if val.product else [])}
+            ref = refs[s.url]
+            b = res.budget_used
+            pages.append(
+                {
+                    "url": s.url,
+                    "decision": val.decision,
+                    "reference_skus": len(ref),
+                    "exported_skus": len(got),
+                    "matched_skus": len(set(got) & set(ref)),
+                    "extra_skus": sorted(set(got) - set(ref)) if ref else [],
+                    "shown_skus": len(shown[s.url]),
+                    "matched_shown_skus": len(set(got) & shown[s.url]),
+                    "prices_correct": sum(1 for k, v in got.items() if k in ref and v.price and v.price == ref[k]),
+                    "prices_wrong": [
+                        k for k, v in got.items() if k in ref and v.price and ref[k] and v.price != ref[k]
+                    ],
+                    "filled": {f: sum(1 for k, v in got.items() if k in ref and getattr(v, f)) for f in _FIELDS},
+                    "llm_skus": sum(1 for v in got.values() if "sku" in v.llm_fields),
+                    "model_calls": b.model_calls,
+                    "input_tokens": b.input_tokens,
+                    "output_tokens": b.output_tokens,
+                    "gaps_before_model": [
+                        e.data.get("gaps") for e in res.events if e.event == "deterministic_extraction"
+                    ][0],
+                }
+            )
+        out[g] = {"pages": pages_kind, "mode": mode, "per_page": pages}
+    return out
+
+
+def summarize_experiment(result: dict[str, Any], price_in: float, price_out: float) -> dict[str, Any]:
+    rows = {}
+    for g, r in result.items():
+        ps = r["per_page"]
+        with_ref = [p for p in ps if p["reference_skus"]]
+        ref = sum(p["reference_skus"] for p in with_ref)
+        tin, tout = sum(p["input_tokens"] for p in ps), sum(p["output_tokens"] for p in ps)
+        rows[g] = {
+            "pages": r["pages"],
+            "mode": r["mode"],
+            "products": len(ps),
+            "accepted": sum(p["decision"] == "accepted" for p in ps),
+            "partial": sum(p["decision"] == "partial" for p in ps),
+            "quarantined": sum(p["decision"] == "quarantined" for p in ps),
+            "reference_skus": ref,
+            "sku_completeness": _rate(sum(p["matched_skus"] for p in with_ref), ref),
+            "shown_skus": sum(p["shown_skus"] for p in ps),
+            "sku_completeness_of_shown_rows": _rate(
+                sum(p["matched_shown_skus"] for p in ps), sum(p["shown_skus"] for p in ps)
+            ),
+            "price_completeness": _rate(sum(p["prices_correct"] for p in with_ref), ref),
+            **{f"{f}_completeness": _rate(sum(p["filled"][f] for p in with_ref), ref) for f in _FIELDS if f != "price"},
+            "wrong_prices": sum(len(p["prices_wrong"]) for p in ps),
+            "extra_skus": sum(len(p["extra_skus"]) for p in ps),
+            "skus_from_llm": sum(p["llm_skus"] for p in ps),
+            "pages_with_model_call": sum(p["model_calls"] > 0 for p in ps),
+            "model_calls": sum(p["model_calls"] for p in ps),
+            "input_tokens": tin,
+            "output_tokens": tout,
+            "cost_usd": round(tin / 1e6 * price_in + tout / 1e6 * price_out, 5),
+        }
+    return rows

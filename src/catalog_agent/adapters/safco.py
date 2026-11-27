@@ -343,6 +343,62 @@ def _price_tiers(row: Tag) -> list[tuple[str, str]]:
     return tiers
 
 
+# Generic evidence path for an unrecognised layout (site redesign): used only when neither the variant table
+# nor JSON-LD yields a single row. It relies on no Safco class names: rows are repeated sibling elements of the
+# same tag and class signature that each show a price and an SKU-like code; each leaf text is one cell. The model
+# may cite these rows; the Validator still requires the SKU to equal a whole cell of the cited row and the price to
+# equal that same row's first displayed price.
+_GENERIC_SKIP = {"script", "style", "template", "svg", "noscript", "head", "img", "path"}
+_GENERIC_PRICE = re.compile(r"^\$\s?\d[\d,]*(\.\d{1,2})?$")
+_GENERIC_CODE = re.compile(r"^(?=.*\d)[A-Za-z0-9][A-Za-z0-9-]{3,20}$")
+
+
+def _leaf_cells(el: Tag, limit: int = 24) -> list[str]:
+    cells: list[str] = []
+    for node in el.find_all(True):
+        if node.name in _GENERIC_SKIP or any(p.name in _GENERIC_SKIP for p in node.parents):
+            continue
+        if node.find(lambda t: isinstance(t, Tag) and t.name not in _GENERIC_SKIP) is not None:
+            continue
+        t = _text(node)
+        if t and (not cells or cells[-1] != t):
+            cells.append(t[:200])
+        if len(cells) >= limit:
+            break
+    return cells
+
+
+def generic_rows(soup: BeautifulSoup) -> list[Row]:
+    root = soup.select_one("main") or soup.body
+    if root is None:
+        return []
+    # Qualifying sibling groups, keyed by tag and class signature; groups split across containers (e.g. one
+    # table per variant group, some with a single row) are joined in document order. The signature with the most
+    # rows wins and needs at least two rows in total.
+    by_sig: dict[tuple, list[list[str]]] = {}
+    for parent in [root, *root.find_all(True)]:
+        if parent.name in _GENERIC_SKIP:
+            continue
+        groups: dict[tuple, list[Tag]] = {}
+        for child in parent.find_all(True, recursive=False):
+            groups.setdefault((child.name, tuple(sorted(child.get("class", [])))), []).append(child)
+        for sig, members in groups.items():
+            rows = [_leaf_cells(m) for m in members]
+            if all(any(_GENERIC_PRICE.match(c) for c in r) and any(_GENERIC_CODE.match(c) for c in r) for r in rows):
+                by_sig.setdefault(sig, []).extend(rows)
+    best = max(by_sig.values(), key=len, default=[])[:60]
+    if len(best) < 2:
+        return []  # one lone element is not a repeated row structure (single-variant pages stay unrecovered)
+    out: list[Row] = []
+    for i, r in enumerate(best):
+        cells = {f"c{j + 1}": c for j, c in enumerate(r)}
+        # The row's first displayed price is its price (as the table parser takes the first quantity tier);
+        # later prices in the same row (tiers, sale prices) are never accepted as the variant price.
+        cells["price"] = next(c for c in r if _GENERIC_PRICE.match(c))
+        out.append(Row(row_id=f"generic-{i + 1}", cells=cells))
+    return out
+
+
 def build_sections(snapshot: PageSnapshot) -> list[Section]:
     return list(_build_sections_cached(snapshot.snapshot_id, snapshot.html))
 
@@ -427,6 +483,11 @@ def _build_sections_cached(snapshot_id: str, html: str) -> tuple[Section, ...]:
         text = "" if rows else (_text(grouped) or "")[:500]
         sections.append(Section(section_id="variant-table", kind="variant_table", text=text, rows=rows))
 
+    if not any(sec.rows for sec in sections) and _ld_of_type(soup, "ProductGroup", "Product") is None:
+        rows = generic_rows(soup)
+        if rows:
+            sections.append(Section(section_id="page-rows", kind="generic_rows", text="", rows=rows))
+
     body_text = soup.body.get_text(" ", strip=True) if soup.body else ""
     hits = soup.select(".ais-Hits-item")
     if hits:
@@ -459,8 +520,9 @@ def section_by_id(snapshot: PageSnapshot, section_id: str) -> Section | None:
 
 
 # Which cell of a row holds the SKU / price, per section kind (used by the Validator).
-SKU_CELL = {"variant-table": "item_no", "structured-data": "sku"}
-PRICE_CELL = {"variant-table": "price", "structured-data": "price"}
+# "*" (generic rows): the SKU must equal one whole cell of the cited row; their price is the row's first price.
+SKU_CELL = {"variant-table": "item_no", "structured-data": "sku", "page-rows": "*"}
+PRICE_CELL = {"variant-table": "price", "structured-data": "price", "page-rows": "price"}
 AVAILABILITY_CELL = {"variant-table": "stock", "structured-data": "availability"}
 GROUP_CELL = {"variant-table": "group"}
 
@@ -561,11 +623,14 @@ def parse_product(snapshot: PageSnapshot) -> ProductCandidate:
                     availability_raw=r.cells.get("stock") or None,
                 )
             )
-    elif sd and sd.rows:
-        # Variant table not rendered: structured data is the observed source.
+    if sd and sd.rows:
+        # JSON-LD fills every SKU the table did not render (or all of them when the table is absent). SKUs already
+        # in the table keep their table values: a table row is what the page displays, so JSON-LD never overrides
+        # it (e.g. a "Non-purchasable" row stays without a price).
+        in_table = {v.sku for v in variants}
         for r in sd.rows:
             sku = r.cells.get("sku", "").strip()
-            if not sku:
+            if not sku or sku in in_table:
                 continue
             pack_label, _, _ = parse_pack(r.cells.get("name"))
             price_raw = r.cells.get("price") or None

@@ -112,8 +112,8 @@ def report(
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "run_report.json").write_text(json.dumps(rep, indent=2, default=str) + "\n")
     (out_dir / "failed_tasks.json").write_text(json.dumps(rep["failed_tasks"], indent=2, default=str) + "\n")
-    if rep.get("repair_suggestions"):
-        (out_dir / "repair_suggestions.json").write_text(json.dumps(rep["repair_suggestions"], indent=2) + "\n")
+    # Always written, so a file from an earlier run can never be mistaken for this run's result.
+    (out_dir / "repair_suggestions.json").write_text(json.dumps(rep.get("repair_suggestions", []), indent=2) + "\n")
     _print({k: rep[k] for k in ("run_id", "status", "termination_reason", "catalog", "tasks")})
 
 

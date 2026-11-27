@@ -24,7 +24,7 @@ classifier fallback and repair suggestions switched on, 131 s):
 | What the model added | structured variant attributes on 87/87 variants (deterministic: 0/87 beyond the table group heading); SKU, price, pack and availability identical to deterministic extraction on the same snapshots (0 differences); recovery 20/20 pages |
 | Repair suggestions | none: the 3 pages whose table never renders are recorded as the render note `table_not_rendered` (expected JSON-LD fallback), not as a selector failure |
 | Offline evaluation (FR-13) | 22 frozen pages, 3 hybrid runs: SKU recall 1.0 and price accuracy 1.0 in both modes; held-out attribute recall 0 → 0.54–1.0 with the model (see §9) |
-| Tests | 68 passed (P0 + P1 suites, offline), smoke script passed |
+| Tests | 72 passed (P0 + P1 suites, offline), smoke script passed |
 
 Outputs: [`outputs/products.json`](outputs/products.json), [`outputs/variants.csv`](outputs/variants.csv),
 [`outputs/run_report.json`](outputs/run_report.json), [`outputs/failed_tasks.json`](outputs/failed_tasks.json),
@@ -119,24 +119,95 @@ The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with n
 
 ## 7. Production-minded controls
 
-- **Rate limiting:** one host pacer, ≥ 2 s (+ jitter) between requests, concurrency 2; images, fonts and
-  third-party analytics are blocked in the browser (only the Adobe recommendations service that renders the
-  "Trending Products" carousel is allowed). Throttling (429) widens the interval.
-- **Robots and scope:** robots.txt is fetched at start and enforced on every URL and redirect (with `*`/`$`
-  wildcards); hosts are allow-listed; subcategories must sit under their root.
-- **Retries:** bounded (`max_attempts: 3`), exponential backoff with jitter, Retry-After honored.
-- **Resumability:** SQLite frontier; `fcntl.flock` lock held for the whole crawl/resume (a second process
-  fails fast); interrupted RUNNING tasks are requeued only after the lock is acquired; resume uses the
-  run's stored configuration.
-- **Budgets** (Architecture §6.1): page and model calls are reserved in the database before dispatch;
-  product limits per category; `BUDGET_EXHAUSTED` runs continue only with explicit `--add-*` flags,
-  recorded in the run; `max_invocation_seconds` pauses the run.
-- **Idempotency/dedup:** unique `(run_id, task_key)` tasks, upserts keyed by `(run_id, product_id)` and
-  `(run_id, variant_id)`; IDs are stable hashes; a product found under two categories keeps both paths.
-- **Atomicity:** children + parent completion, and product/variants + task completion, each in one
-  transaction; no transaction is held across network or model I/O.
-- **Logging:** JSON lines (`data/logs/<run_id>.jsonl`) with run, task, agent, event, outcome, duration.
-- **Secrets:** environment only; `.env` is git-ignored; secret-like keys are redacted from logs.
+One subsection per production item, in the order the requirements list them. Each says how it is done and
+where to check it.
+
+### 7.1 Rate limiting
+One per-host pacer allows a request at most every 2 s plus jitter (`request_interval_seconds`); two workers
+share it, a 429 widens the interval, and images, fonts and third-party analytics are blocked (only the Adobe
+recommendations service for the "Trending Products" carousel is allowed). robots.txt is enforced on every URL
+and redirect.
+*Code:* `runtime/fetcher.py` (`HostPacer`, `check_url`), `runtime/robots.py`. *Tests:*
+`test_runtime.py::test_429_honors_retry_after_then_succeeds`, `test_discovery.py::test_robots_wildcards_match_live_rules`,
+`test_discovery.py::test_fetcher_rejects_disallowed_and_off_host_urls_without_requesting`.
+
+### 7.2 Retries
+Transient failures (timeout, connection, 5xx, incomplete render) retry up to `max_attempts: 3` with exponential
+backoff and jitter; Retry-After is honored; retry times are stored, so they survive a restart.
+*Code:* `agents/recovery.py`, `storage/repository.py` (`RETRY_WAIT`). *Tests:*
+`test_runtime.py::test_backoff_is_bounded_exponential_with_jitter`,
+`test_runtime.py::test_transient_errors_retry_with_bounded_attempts`.
+
+### 7.3 Error handling
+Every failure gets a typed error code and a decision from the Recovery agent: retry, fail (404, robots,
+off-host redirect, unsupported page), or pause the run on 401/403/CAPTCHA without any bypass. Unverifiable data
+is quarantined or kept null with a reason; model errors degrade to the deterministic result (§8).
+*Code:* `contracts.py` (`ErrorCode`), `agents/recovery.py`, `runtime/orchestrator.py`, `agents/validator.py`.
+*Tests:* `test_runtime.py::test_403_pauses_the_scope_without_bypass`,
+`test_runtime.py::test_captcha_page_is_treated_as_restriction`,
+`test_extraction.py::test_conflicting_prices_for_one_sku_are_quarantined_not_silently_merged`,
+`test_agent_loop.py::test_model_error_degrades_and_keeps_verified_fields`.
+
+### 7.4 Resumability / checkpointing
+The SQLite frontier is the checkpoint: every task state change commits immediately. `resume --run-id` takes the
+`fcntl.flock` lock (a second process fails fast), requeues interrupted tasks, keeps completed ones, and uses the
+run's stored configuration; page and model budgets are cumulative, and a budget-exhausted run continues only
+with `--add-*` flags.
+*Code:* `runtime/runner.py`, `runtime/lock.py`, `storage/repository.py` (`reconcile_running`). *Tests:*
+`test_persistence.py::test_interrupt_and_resume_recovers_running_tasks_only_after_lock`,
+`test_persistence.py::test_second_process_on_the_same_database_fails_fast`,
+`test_runtime.py::test_page_budget_and_resume_semantics`,
+`test_runtime.py::test_time_limit_pauses_and_plain_resume_continues`.
+
+### 7.5 Logging
+Structured JSON lines to stderr and `data/logs/<run_id>.jsonl`, each with `run_id`, `task_id`, `agent`, `event`,
+`outcome` and `duration_ms`; model events add model ID, tool names and token usage. Every run also writes
+`run_report.json` with the quality metrics.
+*Code:* `telemetry.py`, `quality.py`. *Test:*
+`test_runtime.py::test_logs_are_structured_json_and_secret_like_fields_are_redacted`.
+
+### 7.6 Deduplication
+URLs are canonicalized and each task is unique per run (`run_id`, `task_key`), so a product linked from several
+listings is fetched once and keeps every category path. Repeated variant rows are merged when consistent and
+quarantined when they conflict; the run report counts SKUs that appear under two products (0 in every run).
+*Code:* `extraction/normalize.py` (`canonicalize_url`), `storage/repository.py` (`_enqueue`),
+`agents/validator.py`. *Tests:* `test_discovery.py::test_listing_schedules_in_scope_children_once_with_hierarchy`,
+`test_extraction.py::test_consistent_duplicate_rows_are_merged_once`,
+`test_adversarial.py::test_two_page_cursor_cycle_terminates_through_task_dedup`.
+
+### 7.7 Idempotency
+`product_id` and `variant_id` are stable hashes; products and variants are upserted by `(run_id, id)`; a task's
+children and its completion, and a product's rows and its completion, each commit in one transaction, so
+replaying a task changes nothing and a crash never leaves half a result.
+*Code:* `contracts.py` (`product_id_for`, `variant_id_for`), `storage/repository.py`. *Tests:*
+`test_persistence.py::test_same_task_twice_keeps_unique_counts`,
+`test_persistence.py::test_failure_before_commit_leaves_nothing_partially_committed`,
+`test_persistence.py::test_navigation_children_and_completion_commit_together`,
+`test_persistence.py::test_same_product_in_two_runs_keeps_separate_rows`.
+
+### 7.8 Config-driven execution
+`configs/safco.yaml` sets roots, scope (`selected`/`all`), rate, retries, budgets, model limits, P1 switches and
+storage paths, validated by Pydantic; the CLI adds only run options (`--mode`, `--replay`, `--sitemap-sample`).
+Site-specific selectors live only in `adapters/safco.py`.
+*Code:* `config.py`, `configs/safco.yaml`, `cli.py`. *Tests:*
+`test_discovery.py::test_selected_seeds_exactly_the_two_configured_roots`,
+`test_discovery.py::test_all_seeds_every_permitted_root_on_the_saved_navigation_snapshot`,
+`test_runtime.py::test_page_budget_and_resume_semantics` (edited YAML does not change a running run).
+
+### 7.9 Secrets management
+Model credentials come only from the environment or a git-ignored `.env` (`.env.example` lists names only);
+nothing secret is in config or code, secret-like log fields are redacted, and without credentials a hybrid run
+still completes in degraded mode.
+*Code:* `config.py` (`Secrets`), `extraction/llm.py`, `telemetry.py`, `.gitignore`. *Tests:*
+`test_runtime.py::test_logs_are_structured_json_and_secret_like_fields_are_redacted`,
+`test_runtime.py::test_hybrid_run_without_credentials_degrades_instead_of_failing`.
+
+### 7.10 Deployment path
+Today: a local CLI with SQLite and a snapshot folder. Next: the same code in a Docker image on the Playwright base,
+run as a scheduled container job with PostgreSQL, object storage and a secrets manager; then queue-based workers
+when a second source is added. Not built; the staged plan with triggers is in
+[Architecture §9](docs/03-overall-architecture.md#9-deployment-path). *Check now:* `./scripts/smoke.sh` runs the
+documented setup and commands end to end offline.
 
 ## 8. Failure handling
 
@@ -216,6 +287,27 @@ information, so seeding a full crawl from it means fetching every product page a
 JSON-LD `category`; not built yet. What remains to prove full coverage: seed product tasks from the sitemap,
 crawl the two categories' share, and report expected (listing totals) vs found vs missing.
 
+**Extraction outside the two categories (sitemap sample).** `crawl --sitemap-sample 30 --sample-seed 20261127`
+seeded 30 random products from `products.xml` (18 different top-level categories, from restoratives and burs
+to endodontics, orthodontics and patient giveaways) and ran the same pipeline, with no Safco code changed for
+it. Output: [`outputs/sitemap_sample/`](outputs/sitemap_sample/).
+
+| Same 30 pages | Deterministic (`run_20261127_sitemap30`) | Hybrid (`run_20261127_sitemap30_hybrid`) |
+|---|---|---|
+| Records | 27 accepted, 3 partial, 0 quarantined | 29 accepted, 1 partial, 0 quarantined |
+| SKUs exported / observed on the pages | 209 / 224 | 218 / 224 |
+| Fetches, retries, time | 30, 0, 97 s | 30, 0, 147 s |
+| Model calls / list cost | 0 | 40 / ≈ $0.027 |
+
+The 3 partial pages render fewer table rows than their JSON-LD lists (15 SKUs missing in total). In the live
+hybrid run the model recovered 9 of them with verified JSON-LD evidence and prices; on the Kerr glide-path
+page it spent its 3 calls without recovering the remaining 6, so that record stays `partial`. Re-running the
+extractor on the same 3 saved pages afterwards recovered all 15 (9 calls), which is the same run-to-run variance
+as in §9. The sample also surfaced templates the two categories did not show (pages with no variant table,
+and "No options of this product are available"); they are now render notes, not selector failures. This is
+evidence that extraction generalizes across categories and that the sitemap is a usable discovery path; it is
+not evidence of complete coverage.
+
 `scope: all` seeds every root found on `/catalog` (20 roots, unit-tested against the saved snapshot) and runs
 the identical traversal; it was **not** run against the live site. Sizing with measured inputs: ≈ 3.5 s per
 page fetch (131 s / 37 fetches in the current run, two workers sharing a 2 s pacer, 0 retries), so crawling all
@@ -260,8 +352,8 @@ is design only.
 
 ## 13. Tests
 
-`uv run pytest` on 2026-11-27: **68 passed**, all offline (saved fixtures, fake fetchers, fake models):
-`test_discovery.py` 11, `test_extraction.py` 14, `test_agent_loop.py` 12, `test_persistence.py` 6, `test_runtime.py` 8
-(P0) and `test_classifier_fallback.py` 6, `test_repair_suggestions.py` 6, `test_adversarial.py` 5 (P1).
+`uv run pytest` on 2026-11-27: **72 passed**, all offline (saved fixtures, fake fetchers, fake models):
+`test_discovery.py` 12, `test_extraction.py` 14, `test_agent_loop.py` 12, `test_persistence.py` 6, `test_runtime.py` 10
+(P0) and `test_classifier_fallback.py` 6, `test_repair_suggestions.py` 7, `test_adversarial.py` 5 (P1).
 `./scripts/smoke.sh` passed (lint, format check, tests, replay crawl → export → report → resume). Fixtures:
 `tests/fixtures/live/` and `tests/fixtures/eval/` are real snapshots; synthetic variants are labelled.

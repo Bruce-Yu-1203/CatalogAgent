@@ -401,3 +401,22 @@ this work; nothing in the code depends on the folder name.
    3,980 product URLs with `lastmod`; all 89 discovered products are in it. The sitemap has no categories, so a
    full crawl would fetch every product page and read its category. README §10 and §12 now say full coverage
    is not proven and give these numbers. Seeding from the sitemap is not built.
+
+## Sitemap sample and README §7 (2026-11-27)
+
+**Sitemap sample.** New option `crawl --sitemap-sample N --sample-seed S`: one robots-checked, paced request to
+`products.xml`, then N randomly chosen products (reproducible by seed) are seeded instead of category discovery.
+Two live runs on the same 30 products (seed 20261127), spanning 18 top-level categories:
+- deterministic `run_20261127_sitemap30`: 27 accepted, 3 partial; 209 of 224 observed SKUs; 30 fetches, 0 retries, 97 s.
+- hybrid `run_20261127_sitemap30_hybrid` (source of `outputs/sitemap_sample/`): 29 accepted, 1 partial; 218 of 224;
+  40 model calls, 137,772 + 26,843 tokens ≈ $0.027; 147 s.
+The partial pages render fewer table rows than their JSON-LD (Filtek flowable 20/27, Kerr glide-path files 4/10,
+Premier bur blocks 2/4). Live hybrid recovered 9 SKUs; Kerr kept 6 missing. An offline re-run of the extractor on
+the 3 saved pages recovered all 15 (9 calls, ≈ $0.007). The sample also found two templates not seen before:
+products without a `#pdp-grouped` table (personalized items) and tables showing "No options of this product are
+available." Selector failures are now counted only when the table rendered rows but the SKU selector missed;
+the other cases are render notes (`no_variant_table`, `table_not_rendered`, `no_options_listed`).
+
+**README §7** now has the ten production items as subsections in the order the requirements list them, each
+with how it is done and the code and tests that cover it. Two tests were added so every item has one: JSON log
+fields with secret redaction, and a hybrid run without credentials completing in degraded mode. 72 tests pass.

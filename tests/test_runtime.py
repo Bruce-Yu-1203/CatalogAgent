@@ -198,3 +198,52 @@ async def test_product_claims_rotate_across_subcategories(tmp_path):
         assert task is None and reason == "waiting"  # budget of 4 reserved by the running claims
     finally:
         await repo.close()
+
+
+def test_logs_are_structured_json_and_secret_like_fields_are_redacted(tmp_path):
+    import json as _json
+
+    from catalog_agent.telemetry import log_event, setup_logging
+
+    setup_logging(tmp_path, "run_log", quiet=True)
+    log_event(
+        "model_loop",
+        run_id="run_log",
+        task_id=7,
+        agent="extractor",
+        outcome="ok",
+        duration_ms=12.5,
+        llm_api_key="sk-should-not-appear",
+        prompt="full prompt text",
+    )
+    rec = _json.loads((tmp_path / "run_log.jsonl").read_text().splitlines()[-1])
+    assert {"ts", "run_id", "task_id", "agent", "event", "outcome", "duration_ms"} <= set(rec)
+    assert rec["llm_api_key"] == "[redacted]" and rec["prompt"] == "[redacted]"
+
+
+async def test_hybrid_run_without_credentials_degrades_instead_of_failing(tmp_path, monkeypatch):
+    from conftest import ScriptedFetcher, make_config
+
+    for k in ("LLM_PROVIDER", "LLM_MODEL", "LLM_API_KEY"):
+        monkeypatch.setenv(k, "")
+    monkeypatch.chdir(tmp_path)  # no .env here
+    cfg = make_config(tmp_path, max_products_per_category=1, concurrency=1)
+
+    async def factory(_c):
+        return ScriptedFetcher()
+
+    res = await execute(
+        database=cfg.storage.database,
+        cfg=cfg,
+        mode="hybrid",
+        run_id="run_nokey",
+        fetcher_factory=factory,
+        quiet_logs=True,
+    )
+    repo = await Repository.open(cfg.storage.database)
+    try:
+        run = await repo.get_run("run_nokey")
+        assert run["model_calls_used"] == 0 and "MODEL_UNAVAILABLE" in run["invocations_json"]
+    finally:
+        await repo.close()
+    assert res["status"] in ("BUDGET_EXHAUSTED", "COMPLETED_WITH_ERRORS")

@@ -1,6 +1,6 @@
 # web-crawler Constitution
 
-**Version:** 1.0.0 · **Ratified:** 2026-11-26 · **Last amended:** 2026-11-26
+**Version:** 1.1.0 · **Ratified:** 2026-11-26 · **Last amended:** 2026-11-27
 
 This document holds the non-negotiable rules for building web-crawler. It applies to every contributor, human or AI coding agent, and to every change in this repository.
 
@@ -24,8 +24,7 @@ Keywords **MUST**, **MUST NOT**, **SHOULD** and **MAY** are used in their RFC 21
 
 - Work follows the Roadmap milestone order: a genuine end-to-end slice across both categories comes before durability, agents, evaluation or polish.
 - P0 is the scope. P1 starts only after all P0 gates pass. P2 is documentation only and MUST NOT be implemented.
-- When time runs short, cut in this order: P1 items, test sample size, secondary parser strategies. Never cut: genuine two-category data, variant correctness, basic reliability, stated limitations.
-- The total effort is capped at 24 hours.
+- When scope must be cut, cut in this order: P1 items, test sample size, secondary parser strategies. Never cut: genuine two-category data, variant correctness, basic reliability, stated limitations.
 
 ### III. Deterministic first; the model only where it earns its place
 
@@ -126,7 +125,7 @@ Keywords **MUST**, **MUST NOT**, **SHOULD** and **MAY** are used in their RFC 21
    - no secrets, `.env`, database files or unlabeled synthetic data are staged;
    - configuration defaults still run in deterministic mode without credentials.
 5. **Commits:** small and focused, imperative subject line, one logical change each.
-6. **Before submission:** every P0 checklist item is done or disclosed as a gap in the README; README follows Roadmap §7; sample outputs come from one identified run.
+6. **Before release:** every P0 checklist item is done or disclosed as a gap in the README; README follows Roadmap §7; sample outputs come from one identified run.
 
 ---
 

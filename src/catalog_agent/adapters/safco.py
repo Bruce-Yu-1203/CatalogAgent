@@ -63,8 +63,22 @@ def table_not_rendered(snapshot: PageSnapshot) -> bool:
     return not rows and not text
 
 
+def no_variant_table(snapshot: PageSnapshot) -> bool:
+    """Some product templates (e.g. personalized items) have no grouped variant table at all; their variants
+    come from JSON-LD. That is a different template, not a broken selector."""
+    return soup_for(snapshot).select_one("#pdp-grouped") is None
+
+
 def render_notes(snapshot: PageSnapshot, template: str) -> list[str]:
-    return ["table_not_rendered"] if template == "product" and table_not_rendered(snapshot) else []
+    if template != "product":
+        return []
+    if no_variant_table(snapshot):
+        return ["no_variant_table"]
+    if table_not_rendered(snapshot):
+        return ["table_not_rendered"]
+    if not soup_for(snapshot).select("#pdp-grouped .table-grid-pdp"):
+        return ["no_options_listed"]  # e.g. "No options of this product are available."
+    return []
 
 
 def field_failures(snapshot: PageSnapshot, template: str) -> list[str]:
@@ -77,7 +91,7 @@ def field_failures(snapshot: PageSnapshot, template: str) -> list[str]:
         if (
             has_variants
             and not soup.select(FIELD_SELECTORS["product"]["variant_rows"])
-            and not table_not_rendered(snapshot)
+            and soup.select("#pdp-grouped .table-grid-pdp")  # the table rendered rows, yet the SKU selector missed
         ):
             failed.append("variant_rows")
     elif template == "listing":

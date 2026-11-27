@@ -142,3 +142,13 @@ def test_unrendered_table_is_a_render_note_not_a_selector_failure():
     assert safco.field_failures(snap, "product") == []
     assert safco.render_notes(snap, "product") == ["table_not_rendered"]
     assert safco.render_notes(control(NAMES[0]), "product") == []
+
+
+def test_product_template_without_a_variant_table_is_not_a_selector_failure():
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(fixture_html("product_surpass_gloves"), "lxml")
+    soup.select_one("#pdp-grouped").decompose()  # SYNTHETIC: template without a grouped table (variants in JSON-LD)
+    snap = snapshot("product_surpass_gloves", html=str(soup))
+    assert safco.field_failures(snap, "product") == []
+    assert safco.render_notes(snap, "product") == ["no_variant_table"]

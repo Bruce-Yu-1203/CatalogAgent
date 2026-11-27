@@ -118,11 +118,11 @@ scripted fake model on a labeled synthetic gap (a real page with one table row r
 **Done**: root-selection unit test for `all`/`selected` on the saved `/catalog` snapshot, crash/resume,
 limits and access policy tests, §10.1 metrics in `run_report.json`, `scripts/smoke.sh`.
 
-**Not done**: baseline-vs-hybrid evaluation (needs a model; listed as "if time permits" and P1 FR-13).
+**Not done**: baseline-vs-hybrid evaluation (needs a model; optional in M4 and P1 FR-13).
 Instead, an independent consistency check was run on the live output: for every exported price taken
 from the rendered table, the page's own JSON-LD offer price for the same SKU was compared.
 
-## M5 — Submission artifacts
+## M5 — Release artifacts
 
 **Live run** `run_20261126_live`, deterministic mode, default `configs/safco.yaml`, 2026-11-26 23:07–23:10 UTC:
 

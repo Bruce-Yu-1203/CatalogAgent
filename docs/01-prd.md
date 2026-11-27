@@ -1,8 +1,7 @@
 # CatalogAgent — Product Requirements Document
 
 **Version:** 3.0 — Production-minded POC  
-**Scope:** Proof of concept · 24-hour implementation timebox  
-**Source:** *Take-Home Test: Build an AI Agent for Product Scraping and Structured Catalog Extraction (POC)*, pp. 1–6.  
+**Scope:** Proof of concept  
 **Assumptions:** All assumptions and items to verify are collected in [§9](#9-assumptions-and-open-questions). The rest of this document states decisions.
 
 ## 1. Executive summary
@@ -48,7 +47,7 @@ The system discovers categories from site navigation (or sitemap, where permitte
 
 ### 3.3 Non-goals
 
-Full-site completion in 24 hours; authenticated or restricted pricing; CAPTCHA bypass or access-control circumvention; cross-supplier product matching; automatic permanent selector changes; distributed infrastructure, RAG, fine-tuning, an LLM supervisor, dynamic agent spawning, multi-process task leases/heartbeats, history tables, large-scale stress testing and a dashboard.
+Full-site completion in the POC; authenticated or restricted pricing; CAPTCHA bypass or access-control circumvention; cross-supplier product matching; automatic permanent selector changes; distributed infrastructure, RAG, fine-tuning, an LLM supervisor, dynamic agent spawning, multi-process task leases/heartbeats, history tables, large-scale stress testing and a dashboard.
 
 ## 4. Functional requirements
 
@@ -76,7 +75,7 @@ A **product** is a logical catalog entry; a **variant** is a sellable item (SKU)
 
 ### 5.1 Product fields
 
-| Field | Type | Nullable | Description | Assignment field |
+| Field | Type | Nullable | Description | Requirement field |
 |---|---|---|---|---|
 | `product_id` | string | no | Stable catalog ID: hash of `source` + `product_key`. Identical across runs; stored rows are keyed by `(run_id, product_id)`. | — |
 | `run_id` | string | no | Run that observed this record. | — |
@@ -100,7 +99,7 @@ A **product** is a logical catalog entry; a **variant** is a sellable item (SKU)
 
 ### 5.2 Variant fields
 
-| Field | Type | Nullable | Description | Assignment field |
+| Field | Type | Nullable | Description | Requirement field |
 |---|---|---|---|---|
 | `variant_id` | string | no | Stable ID: hash of `product_id` + `sku`. Identical across runs; stored rows are keyed by `(run_id, variant_id)`. | — |
 | `product_id` | string | no | Parent product. Omitted inside nested JSON variants (implied by the parent). | — |
@@ -244,7 +243,7 @@ The run report shows discovered and accepted counts, pending/failed tasks and th
 
 ## 8. Release acceptance and deliverables
 
-The submission is ready when P0 requirements are implemented and exercised, the repository has setup and execution instructions, outputs contain genuine data from both categories and limitations are stated. Deliverables: sample JSON/CSV (optional SQLite dump), run report and a README structured per [Roadmap §7](04-roadmap.md#7-final-readme-outline). A short demo or demo script is included if time permits.
+The POC is ready when P0 requirements are implemented and exercised, the repository has setup and execution instructions, outputs contain genuine data from both categories and limitations are stated. Deliverables: sample JSON/CSV (optional SQLite dump), run report and a README structured per [Roadmap §7](04-roadmap.md#7-final-readme-outline). A short demo script is optional.
 
 ## 9. Assumptions and open questions
 
@@ -252,7 +251,7 @@ These are the only unverified premises in the design. Each is checked at the lis
 
 | ID | Assumption | Basis / current evidence | Verified in | If wrong |
 |---|---|---|---|---|
-| A-01 | The §2 users are representative. | Proposed personas; not confirmed Frontier Dental workflows. | Review | Adjust exports, not architecture. |
+| A-01 | The §2 users are representative. | Proposed personas; not confirmed with real users. | Review | Adjust exports, not architecture. |
 | A-02 | Public catalog pages may be crawled at low rate. | Public catalog. | M0: robots.txt and terms | Stop live crawling; document; use only clearly labeled permitted fixtures. |
 | A-03 | Listing content renders client-side, so a browser is required. | A non-browser fetch of the gloves page returned a "JavaScript seems to be disabled" notice and no product cards. | M0: inspect network calls | If a permitted JSON or server-rendered endpoint exists, add HTTPX for it. |
 | A-04 | Prices may require sign-in. | The same fetch showed a Sign in link and no prices. | M0 | `price_visibility` and the `login_required` reason already cover both cases. |

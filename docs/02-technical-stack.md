@@ -12,7 +12,7 @@ Use the simplest reliable mechanism for each decision. Every agent is rule-first
 
 | Layer | Technology | Rationale |
 |---|---|---|
-| Language/runtime | Python 3.11+ (tested version pinned) | Assignment preference; mature web, async and AI libraries. |
+| Language/runtime | Python 3.11+ (tested version pinned) | Mature web, async and AI libraries. |
 | Package management | `pyproject.toml`, `uv`, committed lockfile | Reproducible installs, including the browser version. |
 | CLI | Typer | Typed commands for crawl, resume, export, report and evaluate. |
 | Configuration | YAML + Pydantic Settings | Validated configuration; credentials from the environment. |
@@ -143,15 +143,16 @@ Credentials (`LLM_PROVIDER`, `LLM_MODEL`, `LLM_API_KEY`) come from `.env` or the
 ## 6. Repository layout
 
 ```text
-catalog-agent/
-├── pyproject.toml
+Web-Crawler/                 # repository root (GitHub: Bruce-Yu-1203/Web-Crawler)
+├── pyproject.toml           # package `catalog-agent`, CLI `catalog-agent`
 ├── uv.lock
 ├── README.md
-├── Dockerfile               # optional, after P0/P1
+├── AGENTS.md
+├── constitution.md
 ├── .env.example
 ├── .gitignore
 ├── configs/safco.yaml
-├── docs/
+├── docs/                    # PRD, tech stack, architecture, roadmap, implementation log
 ├── src/catalog_agent/
 │   ├── cli.py
 │   ├── config.py
@@ -159,8 +160,9 @@ catalog-agent/
 │   ├── adapters/safco.py
 │   ├── runtime/
 │   │   ├── orchestrator.py
-│   │   ├── frontier.py
-│   │   ├── fetcher.py
+│   │   ├── runner.py         # crawl/resume lifecycle, budgets, extensions
+│   │   ├── fetcher.py        # Playwright + offline replay fetcher
+│   │   ├── robots.py
 │   │   └── lock.py
 │   ├── agents/
 │   │   ├── navigator.py
@@ -169,18 +171,17 @@ catalog-agent/
 │   │   ├── validator.py
 │   │   └── recovery.py
 │   ├── extraction/
-│   │   ├── parsers.py
+│   │   ├── llm.py            # ModelClient boundary
 │   │   ├── tools.py
 │   │   └── normalize.py
 │   ├── storage/
 │   │   ├── schema.sql
-│   │   ├── repository.py
+│   │   ├── repository.py     # frontier tasks, run state and catalog
 │   │   └── export.py
 │   ├── quality.py            # run-level data-quality metrics
-│   ├── evaluation.py
 │   └── telemetry.py
 ├── tests/
-│   ├── fixtures/
+│   ├── fixtures/live/        # real snapshots + manifest for replay
 │   ├── test_discovery.py     # P0 suite: Roadmap §3.1
 │   ├── test_extraction.py
 │   ├── test_agent_loop.py
@@ -189,6 +190,10 @@ catalog-agent/
 ├── scripts/smoke.sh
 └── outputs/                  # genuine sample exports and measured reports
 ```
+
+The frontier lives in `storage/repository.py` (one module owns every SQL transaction) rather than a separate
+`runtime/frontier.py`; Safco parsing lives in `adapters/safco.py` (no separate `extraction/parsers.py`).
+`evaluation.py` (P1, FR-13) and the optional `Dockerfile` are not built.
 
 ## 7. Developer interface
 

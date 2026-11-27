@@ -1,21 +1,20 @@
-# CatalogAgent — 24-Hour Implementation Roadmap
+# CatalogAgent — Implementation Roadmap
 
 **Version:** 3.0 — Production-minded POC  
-**Constraint:** At most 24 hours of work, per the Frontier Dental assessment.  
 **Principle:** Deliver a genuine, reproducible vertical slice before optimizing architecture or adding optional features.  
-**Assumptions:** see [PRD §9](01-prd.md#9-assumptions-and-open-questions). Timeboxes are planning estimates; actual effort is tracked and scope stops at the limit.
+**Assumptions:** see [PRD §9](01-prd.md#9-assumptions-and-open-questions).
 
 ## 1. Delivery milestones
 
-| Timebox | Milestone | Work | Exit criteria |
-|---|---|---|---|
-| 0–3 h | M0 — Site spike | Check robots.txt and terms; inspect navigation, DOM, network calls, structured data, pagination and variants; resolve A-02…A-06; save representative fixtures; basic Playwright fetch. | One real product page captured per root; crawl strategy chosen; PRD §9 updated with outcomes; field mapping to PRD §5. |
-| 3–8 h | M1 — Vertical slice | CLI/config, Safco adapter, Navigator and Classifier rules, deterministic Extractor; small bounded sample. | At least one real product per category reaches typed storage and JSON export with variant data. |
-| 8–11 h | M2 — Durable runtime | SQLite frontier/catalog, exclusive lock, transactional enqueue/commit, dedup, restart recovery, Recovery Agent retry policy, pacing. | Resume test passes; repeated task creates no duplicates; pagination/dynamic loading works. |
-| 11–14 h | M3 — LLM agents and quality gate | Normalizer, SKU/price evidence, `llm_fields` tagging, Validator issues, LangGraph Extractor loop, read-only tools, budgets, partial/quarantine. P1 if on schedule: Classifier fallback, repair suggestions. | One reproducible fallback case passes through the model and independent validation; an unsupported candidate is rejected; deterministic mode still works. |
-| 14–18 h | M4 — Robustness and evaluation | Root-selection unit test for `all`, crash/resume, limits, access policy; §10.1 POC metrics in run report; baseline vs hybrid on a checked sample if time permits. | Core tests pass or failures are disclosed; evaluation reports denominators, outcomes, failures and model use. |
-| 18–22 h | M5 — Submission artifacts | Genuine two-category output, CSV/JSON, run report, README per §7, clean setup check. | A reviewer can run the documented commands and inspect a real dataset with no unstated steps. |
-| 22–24 h | M6 — Verification and buffer | Re-run smoke tests, inspect sample records against the site, remove secrets, check Git status; short demo if time permits. | P0 checklist complete or gaps disclosed in the README. |
+| Milestone | Work | Exit criteria |
+|---|---|---|
+| M0 — Site spike | Check robots.txt and terms; inspect navigation, DOM, network calls, structured data, pagination and variants; resolve A-02…A-06; save representative fixtures; basic Playwright fetch. | One real product page captured per root; crawl strategy chosen; PRD §9 updated with outcomes; field mapping to PRD §5. |
+| M1 — Vertical slice | CLI/config, Safco adapter, Navigator and Classifier rules, deterministic Extractor; small bounded sample. | At least one real product per category reaches typed storage and JSON export with variant data. |
+| M2 — Durable runtime | SQLite frontier/catalog, exclusive lock, transactional enqueue/commit, dedup, restart recovery, Recovery Agent retry policy, pacing. | Resume test passes; repeated task creates no duplicates; pagination/dynamic loading works. |
+| M3 — LLM agents and quality gate | Normalizer, SKU/price evidence, `llm_fields` tagging, Validator issues, LangGraph Extractor loop, read-only tools, budgets, partial/quarantine. P1 if on schedule: Classifier fallback, repair suggestions. | One reproducible fallback case passes through the model and independent validation; an unsupported candidate is rejected; deterministic mode still works. |
+| M4 — Robustness and evaluation | Root-selection unit test for `all`, crash/resume, limits, access policy; §10.1 POC metrics in run report; baseline vs hybrid on a checked sample where possible. | Core tests pass or failures are disclosed; evaluation reports denominators, outcomes, failures and model use. |
+| M5 — Release artifacts | Genuine two-category output, CSV/JSON, run report, README per §7, clean setup check. | A new user can run the documented commands and inspect a real dataset with no unstated steps. |
+| M6 — Verification | Re-run smoke tests, inspect sample records against the site, remove secrets, check Git status; optional short demo. | P0 checklist complete or gaps disclosed in the README. |
 
 ## 2. Dependency order and priority
 
@@ -31,7 +30,7 @@ flowchart LR
     G --> H[Final verification]
 ```
 
-### P0 — Required submission
+### P0 — Required
 
 - [ ] Confirm permitted access and set a scoped crawl configuration.
 - [ ] Discover both category roots and traverse descendants/listings.
@@ -62,7 +61,7 @@ flowchart LR
 - Large-scale capacity testing, automatic selector rollout, incremental crawling, centralized telemetry.
 - No dashboard or extra agent hierarchy. Docker packaging only after P0/P1 and clean setup.
 
-If the schedule slips, cut in this order: P1 items, test sample size, secondary parser strategies. Genuine two-category data, variant correctness, basic reliability and clear limitations are never cut.
+If scope must be cut, cut in this order: P1 items, test sample size, secondary parser strategies. Genuine two-category data, variant correctness, basic reliability and clear limitations are never cut.
 
 ## 3. Verification plan
 
@@ -123,10 +122,10 @@ Zero denominators are reported as not applicable. Results are broken down by cat
 | Model API unavailable | Deterministic mode keeps working; README states which LLM behavior was not demonstrated. |
 | LangGraph slows M3 | Swap the graph for a plain async loop behind the same `ExtractorAgent` interface (ADR-09). |
 | SQLite contention | Short transactions, serialized writes; reduce concurrency before adding infrastructure. |
-| Time overrun | Freeze P1/P2 immediately; protect P0 and genuine output. |
+| Scope creep | Freeze P1/P2 until P0 gates pass; protect P0 and genuine output. |
 | Layout changes during the demo | Replay saved fixtures; label replay versus live behavior. |
 
-## 6. Final submission package
+## 6. Release package
 
 ```text
 README.md                         # see §7
@@ -148,25 +147,25 @@ A database dump is included only if useful and safe to share. Outputs are scoped
 
 ## 7. Final README outline
 
-The README is what the reviewer reads first, so it answers every assignment item directly and links to the design docs for depth. Sections in order, with the assignment item each one answers:
+The README is what a new reader opens first, so it answers the core questions directly and links to the design docs for depth. Sections in order:
 
-| README section | Answers assignment item | Source in docs |
-|---|---|---|
-| 1. Overview and results at a glance | — (headline: products, SKUs, categories, tests passed, LLM usage from the real run) | `run_report.json` |
-| 2. Architecture overview | B: Architecture overview | Architecture §1 diagram |
-| 3. Why this approach | B: Why you chose your approach | Tech Stack §3 ADRs (summarized) |
-| 4. Agent responsibilities | B: Agent responsibilities | Tech Stack §4 roster table |
-| 5. Setup and execution | B: Setup & execution; minimum bar: setup & workflow instructions | Tech Stack §7 commands, as actually tested |
-| 6. Output schema and samples | B: Sample output schema; C: Output sample; 2) schema clearly documented | PRD §5 tables + links to `outputs/` |
-| 7. Production-minded controls | 4) rate limiting, retries, errors, resumability, logging, dedup, idempotency, config, secrets | Architecture §6, Tech Stack §5 |
-| 8. Failure handling | B: Failure handling | Architecture §6 failure table |
-| 9. Where AI adds value (measured) | "use AI/agents where they add value" | Evaluation report, fallback stats |
-| 10. Scaling to full-site crawling | B: How you would scale to full-site crawling | Architecture §8.1 `all`-scope explanation (what it does, its budgets, what was and was not verified), §8.2 sizing with measured inputs, §9 deployment path |
-| 11. Data-quality monitoring | B: How you would monitor data quality | Architecture §10.1 (what the POC measures now) and §10.2 (production monitoring and alerts) |
-| 12. Limitations | B: Limitations; minimum bar: notes on current limitations | Actual gaps, PRD §9 outcomes |
-| 13. Tests | — (tests actually run and their results) | `pytest` output |
+| README section | Source in docs |
+|---|---|
+| 1. Overview and results at a glance | `run_report.json` |
+| 2. Architecture overview | Architecture §1 diagram |
+| 3. Why this approach | Tech Stack §3 ADRs (summarized) |
+| 4. Agent responsibilities | Tech Stack §4 roster table |
+| 5. Setup and execution | Tech Stack §7 commands, as actually tested |
+| 6. Output schema and samples | PRD §5 tables + links to `outputs/` |
+| 7. Production-minded controls | Architecture §6, Tech Stack §5 |
+| 8. Failure handling | Architecture §6 failure table |
+| 9. Where AI adds value (measured) | Evaluation report, fallback stats |
+| 10. Scaling to full-site crawling | Architecture §8.1 `all`-scope explanation (what it does, its budgets, what was and was not verified), §8.2 sizing with measured inputs, §9 deployment path |
+| 11. Data-quality monitoring | Architecture §10.1 (what the POC measures now) and §10.2 (production monitoring and alerts) |
+| 12. Limitations | Actual gaps, PRD §9 outcomes |
+| 13. Tests | `pytest` output |
 
-## 8. Reviewer demonstration (optional, about five minutes)
+## 8. Demonstration (optional, about five minutes)
 
 | Segment | Demonstration |
 |---|---|
@@ -177,7 +176,7 @@ The README is what the reviewer reads first, so it answers every assignment item
 | 3:15–4:00 | Interrupt/resume, budget extension and deduplicated data. |
 | 4:00–5:00 | Measured evaluation, quality metrics, trade-offs, limitations and scaling plan. |
 
-## 9. Post-POC roadmap (outside the 24-hour delivery)
+## 9. Post-POC roadmap
 
 1. Confirm site authorization, crawl coverage, identifier semantics and data retention.
 2. Expand adapter coverage and collect more independently checked evaluation samples.
@@ -186,4 +185,4 @@ The README is what the reviewer reads first, so it answers every assignment item
 5. Object storage, managed secrets, telemetry and the reviewed repair-suggestion → PR → canary flow.
 6. Data-quality service objectives, human review workflow and cost/performance regression gates.
 
-Before submission, milestone status and proposed metrics in this document are replaced with actual observations.
+Before release, milestone status and proposed metrics in this document are replaced with actual observations.

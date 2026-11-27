@@ -261,3 +261,49 @@ async def test_sitemap_sample_seeds_products_reproducibly(tmp_path):
     a, b = await one("run_sm1", 7), await one("run_sm2", 7)
     assert a == b and len(a) == 2  # same seed, same sample
     assert all(u.startswith(f"{BASE}/product/") for u in a)
+
+
+async def test_full_sitemap_pass_resumes_from_stored_config_without_reseeding(tmp_path):
+    from conftest import ScriptedFetcher, make_config
+
+    from catalog_agent.config import AppConfig
+    from catalog_agent.runtime.runner import Extensions, execute
+    from catalog_agent.storage.repository import Repository
+
+    cfg = make_config(tmp_path, max_products_per_category=4000, concurrency=1, max_pages=2)
+    cfg.site.sitemap_sample = 3980  # more than the sitemap holds: every product is seeded
+    AppConfig.model_validate_json(cfg.model_dump_json())  # what `resume` does with the stored config
+
+    async def factory(_c):
+        return ScriptedFetcher()
+
+    first = await execute(
+        database=cfg.storage.database,
+        cfg=cfg,
+        mode="deterministic",
+        run_id="run_full",
+        fetcher_factory=factory,
+        quiet_logs=True,
+    )
+    assert first["status"] == "BUDGET_EXHAUSTED"
+    repo = await Repository.open(cfg.storage.database)
+    try:
+        seeded = await repo.tasks("run_full")
+    finally:
+        await repo.close()
+    resumed = await execute(
+        database=cfg.storage.database,
+        run_id="run_full",
+        resume=True,
+        extensions=Extensions(add_pages=50),
+        fetcher_factory=factory,
+        quiet_logs=True,
+    )
+    assert resumed["status"] in ("COMPLETED", "COMPLETED_WITH_ERRORS")
+    repo = await Repository.open(cfg.storage.database)
+    try:
+        after = await repo.tasks("run_full")
+    finally:
+        await repo.close()
+    assert sorted(t["url"] for t in after) == sorted(t["url"] for t in seeded)  # resume did not re-read the sitemap
+    assert all(t["status"] != "PENDING" for t in after)

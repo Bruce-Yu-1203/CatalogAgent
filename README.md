@@ -24,7 +24,7 @@ product of both categories and the P1 model features switched on; 435 s):
 | What the model added | structured variant attributes on 446/556 variants; SKU, price, pack and availability identical to the deterministic parser on the same snapshots (0 differences) |
 | Offline evaluation (FR-13) | 22 frozen pages, 4 hybrid runs: SKU recall 1.0 and price accuracy 1.0 in both modes; held-out attribute recall 0 → 0.54–1.0 with the model (see §9) |
 | Why an LLM (§9) | normal pages and redesigns that keep the page's data: rules get every visible row, no model needed; a synthetic redesign that removes all structured data: rules 0 / 82 visible rows, rules + LLM 82 / 82 with price and stock, 0 wrong values |
-| Tests | 78 passed (P0 + P1 suites, offline), smoke script passed |
+| Tests | 79 passed (P0 + P1 suites, offline), smoke script passed |
 
 Outputs: [`outputs/products.json`](outputs/products.json), [`outputs/variants.csv`](outputs/variants.csv),
 [`outputs/catalog_sample.sql`](outputs/catalog_sample.sql) (SQLite dump, §6), [`outputs/summary.md`](outputs/summary.md),
@@ -469,7 +469,8 @@ and the typed-feedback retry.
 
    Checked on the sample run `run_20261127_full` (category-seeded), where it gives the same split as its roots:
    Dental Exam Gloves 39 products / 193 SKUs, Sutures & Surgical Products 50 / 363. A resume of a sitemap run uses
-   the run's stored tasks and does not re-read the sitemap; there is no test specific to resuming a sitemap run.
+   the run's stored tasks and does not re-read the sitemap: `test_discovery.py` seeds a 3,980-product sitemap pass,
+   stops it at `BUDGET_EXHAUSTED`, resumes it with `--add-pages` and checks that the task list is unchanged.
 5. **Not run before submission.** At the polite rate this is about 4.5 h (sizing below). Full coverage of the 148
    listed products is therefore designed and partly evidenced, not measured.
 
@@ -593,8 +594,8 @@ that were not in their row and were dropped; the one duplicate identity is a SKU
 
 ## 13. Tests
 
-`uv run pytest` on 2026-11-27: **78 passed**, all offline (saved fixtures, fake fetchers, fake models):
-`test_discovery.py` 12, `test_extraction.py` 14, `test_agent_loop.py` 18, `test_persistence.py` 6, `test_runtime.py` 10
+`uv run pytest` on 2026-11-27: **79 passed**, all offline (saved fixtures, fake fetchers, fake models):
+`test_discovery.py` 13, `test_extraction.py` 14, `test_agent_loop.py` 18, `test_persistence.py` 6, `test_runtime.py` 10
 (P0) and `test_classifier_fallback.py` 6, `test_repair_suggestions.py` 7, `test_adversarial.py` 5 (P1).
 `./scripts/smoke.sh` passed (lint, format check, tests, replay crawl → export → report → resume). Fixtures:
 `tests/fixtures/live/` and `tests/fixtures/eval/` are real snapshots; synthetic variants are labelled.

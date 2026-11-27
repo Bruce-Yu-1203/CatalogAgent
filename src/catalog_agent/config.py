@@ -20,7 +20,9 @@ class SiteConfig(BaseModel):
     # Product sitemap advertised in robots.txt. With `sitemap_sample` set, a run seeds that many randomly chosen
     # sitemap products (reproducible with `sitemap_seed`) instead of category discovery.
     sitemap_url: str | None = None
-    sitemap_sample: int | None = Field(None, ge=1, le=500)
+    # No upper bound: a full pass seeds every sitemap product (3,980 on 2026-11-27); page, product and time budgets
+    # still bound the run.
+    sitemap_sample: int | None = Field(None, ge=1)
     sitemap_seed: int = 0
 
 

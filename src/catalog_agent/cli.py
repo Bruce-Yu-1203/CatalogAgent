@@ -9,7 +9,7 @@ from typing import Annotated
 
 import typer
 
-from catalog_agent.config import load_config
+from catalog_agent.config import AppConfig, load_config
 from catalog_agent.quality import build_report
 from catalog_agent.runtime.lock import LockHeldError
 from catalog_agent.runtime.runner import Extensions, execute
@@ -50,6 +50,12 @@ def crawl(
         cfg.site.sitemap_sample = sitemap_sample
         cfg.site.sitemap_seed = sample_seed
         cfg.crawler.max_products_per_category = max(cfg.crawler.max_products_per_category, sitemap_sample)
+    # CLI overrides are assigned after loading; validate again so a value that `resume` would reject later
+    # (it re-reads the run's stored configuration) fails here instead.
+    try:
+        cfg = AppConfig.model_validate(cfg.model_dump())
+    except ValueError as e:
+        raise typer.BadParameter(str(e)) from e
     try:
         res = asyncio.run(execute(database=cfg.storage.database, cfg=cfg, mode=mode, run_id=run_id))
     except LockHeldError as e:

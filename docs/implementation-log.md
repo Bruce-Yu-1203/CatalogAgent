@@ -562,3 +562,8 @@ Checked against the requirements document again; three gaps were closed before s
 - Amy spotted that the per-root SQL cannot split a sitemap run (every sitemap task has root `sitemap-sample`).
   README §10 step 4 now gives a breadcrumb-based SQL (checked on `run_20261127_full`: 39 / 193 and 50 / 363, the same
   as its roots) and the budgets a full sitemap pass needs (`max_pages`, `max_invocation_seconds`, deterministic mode).
+- **Bug fixed (found by Amy):** `site.sitemap_sample` was capped at 500 in the config model, but the CLI assigned
+  `--sitemap-sample 3980` after loading, so the first crawl ran and `resume` (which re-validates the stored config)
+  failed. The cap is removed (budgets still bound a run) and the CLI now re-validates the config after its overrides,
+  so an invalid value fails at `crawl`. Regression test: a 3,980-product sitemap pass stopped at `BUDGET_EXHAUSTED`
+  resumes from its stored config with `--add-pages` without re-reading the sitemap. 79 tests pass.

@@ -6,23 +6,25 @@ Products). Design: [docs/](docs/README.md). What was built and measured, milesto
 
 ## 1. Overview and results at a glance
 
-Measured on the live site, run `run_20261127_p1` (2026-11-27, hybrid mode with `claude-haiku-5-5`, classifier
-fallback and repair suggestions switched on, 154 s):
+Measured on the live site, run `run_20261127_alts` (2026-11-27, hybrid mode with `claude-haiku-5-5`, classifier
+fallback and repair suggestions switched on, 146 s):
 
 | | Result |
 |---|---|
 | Products exported | 20 (10 gloves, 10 sutures & surgical), all `accepted`, 0 partial, 0 quarantined |
 | Variants (SKUs) | 91 (53 gloves, 38 sutures & surgical); every SKU observed on each page was exported (91/91) |
 | Price check | 60 table prices agree with the page's own JSON-LD offer price, 0 disagree; 31 prices came from JSON-LD because the table never rendered (6 pages) |
-| Evidence | every SKU, price, availability, pack and attribute value carries an evidence ref to its row (91 SKU, 91 price, 91 availability, 66 pack, 139 attribute refs) |
+| Alternatives | 160 (8 per product) from the rendered "Trending Products" carousel, `source: trending_carousel`, product itself excluded |
+| Evidence | every SKU, price, availability, pack and attribute value carries an evidence ref to its row (91 SKU, 91 price, 91 availability, 66 pack, 112 attribute refs) |
 | Pages fetched | 37 of a 150-page budget (1 discovery, 16 listings, 20 product pages), 0 retries |
 | Stop | `BUDGET_EXHAUSTED` / `MAX_PRODUCTS_PER_CATEGORY` (10 per category configured); 69 tasks left resumable |
 | Duplicate SKU identities | 0 |
-| LLM usage | 27 model calls (20 extraction, 3 repair suggestion, 0 classifier fallback), 70,115 input / 20,481 output tokens ≈ $0.017 at list price |
-| What the model added | structured variant attributes on 90/91 variants (deterministic: 0/91 beyond the table group heading); SKU, price, pack and availability identical to deterministic extraction on the same snapshots (0 differences); recovery success 19/20 pages |
-| Repair suggestion | `variant_rows` failed on 6 pages; the Recovery agent tested candidates and reported that no selector can fix it because the table never renders (JSON-LD is the right source); nothing was applied |
+| Stability check | SKU, price, pack and availability identical to the previous live run `run_20261127_p1` on all 91 variants, and identical to the deterministic parser re-run on the same snapshots |
+| LLM usage | 26 model calls (20 extraction, 6 repair suggestion, 0 classifier fallback), 64,607 input / 17,323 output tokens ≈ $0.015 at list price |
+| What the model added | structured variant attributes on 80/91 variants (deterministic: 0/91 beyond the table group heading); recovery success 18/20 pages; the previous run had 90/91, which shows the run-to-run variance (see §9) |
+| Repair suggestion | `variant_rows` failed on 6 pages (table never renders). In `run_20261127_p1` the Recovery agent concluded no selector can fix it; in this run it returned no candidate. Nothing is ever applied |
 | Offline evaluation (FR-13) | 22 frozen pages, 3 hybrid runs: SKU recall 1.0 and price accuracy 1.0 in both modes; held-out attribute recall 0 → 0.54–1.0 with the model (see §9) |
-| Tests | 62 passed (P0 + P1 suites, offline), smoke script passed |
+| Tests | 64 passed (P0 + P1 suites, offline), smoke script passed |
 
 Outputs: [`outputs/products.json`](outputs/products.json), [`outputs/variants.csv`](outputs/variants.csv),
 [`outputs/run_report.json`](outputs/run_report.json), [`outputs/failed_tasks.json`](outputs/failed_tasks.json),
@@ -104,7 +106,7 @@ degraded recovery. Offline replay of saved fixtures: add `--replay tests/fixture
 The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with nested variants in
 `products.json`, one row per variant in `variants.csv` (33 columns, in PRD order), with evidence refs,
 `llm_fields` and `missing` reasons. All 20 records in `outputs/` come from the single run
-`run_20261127_p1`. Example (abridged, real):
+`run_20261127_alts`. Example (abridged, real):
 
 ```json
 {"name": "Safco Nitrilex Surpass Gloves", "product_key": "DRCCS", "brand": "Safco",
@@ -118,7 +120,8 @@ The schema is [PRD §5](docs/01-prd.md#5-catalog-data-contract): products with n
 ## 7. Production-minded controls
 
 - **Rate limiting:** one host pacer, ≥ 2 s (+ jitter) between requests, concurrency 2; images, fonts and
-  third-party analytics are blocked in the browser. Throttling (429) widens the interval.
+  third-party analytics are blocked in the browser (only the Adobe recommendations service that renders the
+  "Trending Products" carousel is allowed). Throttling (429) widens the interval.
 - **Robots and scope:** robots.txt is fetched at start and enforced on every URL and redirect (with `*`/`$`
   wildcards); hosts are allow-listed; subcategories must sit under their root.
 - **Retries:** bounded (`max_attempts: 3`), exponential backoff with jitter, Retry-After honored.
@@ -224,6 +227,12 @@ is design only.
   real pages served at a synthetic URL. P1 model features are off in `configs/safco.yaml`.
 - Evaluation labels were produced by Claude, not a human; no held-out set beyond these 17 pages.
 - In deterministic mode variant attributes are empty except for the table group heading.
+- `alternatives` holds only the items the "Trending Products" carousel had rendered in the DOM when the page
+  was captured (8 per page in the live run); the carousel's arrows are never clicked, so items it would load
+  later are not collected. The cards show no SKU, so `sku` is null. "Trending" is the site's merchandising
+  list (for a suture page it lists other surgical items, for a bone graft other graft materials), not a
+  verified substitute. "Best Value Options" is deliberately not collected: it cross-sells Safco private-label
+  products of other types (e.g. prophy angles and curettes on a glove page), which are not alternatives.
 - Pack size is parsed from `N/unit`, `Box of N` and `N-pack`; volume labels like `1cc jar` stay null with
   `not_visible` (sutures & surgical pack fill rate 34%).
 - Six product pages (bone grafts and one trimmer) never render their variant table; their SKUs and
@@ -233,8 +242,8 @@ is design only.
 
 ## 13. Tests
 
-`uv run pytest` on 2026-11-27: **62 passed**, all offline (saved fixtures, fake fetchers, fake models):
-`test_discovery.py` 11, `test_extraction.py` 10, `test_agent_loop.py` 12, `test_persistence.py` 6, `test_runtime.py` 7
+`uv run pytest` on 2026-11-27: **64 passed**, all offline (saved fixtures, fake fetchers, fake models):
+`test_discovery.py` 11, `test_extraction.py` 12, `test_agent_loop.py` 12, `test_persistence.py` 6, `test_runtime.py` 7
 (P0) and `test_classifier_fallback.py` 6, `test_repair_suggestions.py` 5, `test_adversarial.py` 5 (P1).
 `./scripts/smoke.sh` passed (lint, format check, tests, replay crawl → export → report → resume). Fixtures:
 `tests/fixtures/live/` and `tests/fixtures/eval/` are real snapshots; synthetic variants are labelled.

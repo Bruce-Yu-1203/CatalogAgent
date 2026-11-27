@@ -8,7 +8,16 @@ from typing import Any
 
 from catalog_agent.storage.repository import Repository
 
-PRODUCT_FIELDS = ["name", "brand", "manufacturer", "description", "category_paths", "image_urls", "attributes"]
+PRODUCT_FIELDS = [
+    "name",
+    "brand",
+    "manufacturer",
+    "description",
+    "category_paths",
+    "image_urls",
+    "attributes",
+    "alternatives",
+]
 VARIANT_FIELDS = [
     "sku",
     "variant_name",

@@ -315,3 +315,38 @@ the model tested selectors and concluded, correctly, that none can match because
 
 Found while testing: an unclosed SQLite connection after a failing test keeps the pytest process alive (aiosqlite's
 worker thread), which looked like a hang. The P1 tests close the repository in `finally`; older P0 tests do not yet.
+
+## Alternatives from the Trending Products carousel (2026-11-27)
+
+Checked against the assignment PDF Amy shared: every listed field was covered except "alternative
+products" (`alternatives` was always empty because the crawler blocked the Adobe recommendations service
+that renders Safco's carousels). Amy chose to collect the "Trending Products" carousel only.
+
+**Built** (commit "Collect alternatives from the Trending Products carousel"):
+- `commerce.adobe.io` removed from the blocked hosts; every other third party stays blocked.
+- After the product readiness signal, a best-effort wait (≤ 6 s, no error) for the carousel. A live probe
+  showed it renders without scrolling in ≈ 0.8 s.
+- `parse_alternatives`: items of the rendered "Trending Products" slider only, taken from the DOM as rendered
+  (no arrow clicks, no scrolling), canonical product URLs, the current product excluded, `sku` null (the
+  rendered card has no SKU), `source: "trending_carousel"`. "Best Value Options" is skipped: on the sampled
+  pages it lists Safco private-label items of other types (prophy angles, curettes, saliva ejectors on a
+  glove page), i.e. cross-sell.
+- Empty `alternatives` now records `missing`: `not_observed` (carousel did not render) or `not_visible`.
+- Schema change in one commit (constitution VIII): PRD §5.1/§5.5, `Alternative` model (`source`), exporters
+  (serialize the new key unchanged), JSON/CSV round-trip test; plus 2 new tests (Trending only, self excluded,
+  `not_observed`). 64 tests pass. Fill rate for `alternatives` added to the run report.
+
+**Live re-crawl** `run_20261127_alts` (same scratch config as `run_20261127_p1`, hybrid, P1 features on),
+now the source of `outputs/`: 20 accepted products, 91 variants, 37 fetches, 0 retries, 146 s; 160 alternatives
+(8 per product, all `trending_carousel`, none pointing at the product itself); 26 model calls, 64,607 + 17,323
+tokens ≈ $0.015.
+
+**Stability checks** on SKU, price, pack and availability:
+1. New code, deterministic re-parse of this run's snapshots vs the export: 0 differences in 91 variants.
+2. New code on the previous run's (`run_20261127_p1`) snapshots vs that run's export: 0 differences.
+3. This run vs the previous run: same 20 products, same 91 variants, 0 field differences (the site did not
+   change between the two runs).
+
+The model results moved with the usual run-to-run variance: attributes on 80/91 variants (previous run 90/91),
+recovery 18/20 pages, and the repair agent returned no candidate this time (previous run: a correct "no
+selector can fix this" diagnosis).

@@ -1,10 +1,10 @@
 {
-  "run_id": "run_20261127_p1",
+  "run_id": "run_20261127_alts",
   "mode": "hybrid",
   "status": "BUDGET_EXHAUSTED",
   "termination_reason": "MAX_PRODUCTS_PER_CATEGORY",
   "coverage_status": "partial",
-  "started_at": "2026-11-27T02:13:11Z",
+  "started_at": "2026-11-27T02:33:47Z",
   "finished_at": null,
   "invocations": [
     {
@@ -12,7 +12,7 @@
       "model_id": "anthropic:claude-haiku-5-5",
       "model_unavailable": null,
       "requeued": 0,
-      "seconds": 154.2,
+      "seconds": 146.3,
       "status": "BUDGET_EXHAUSTED"
     }
   ],
@@ -21,9 +21,9 @@
     "pages_used": 37,
     "max_products_per_category": 10,
     "max_model_calls": 60,
-    "model_calls_used": 27,
-    "input_tokens_used": 70115,
-    "output_tokens_used": 20481,
+    "model_calls_used": 26,
+    "input_tokens_used": 64607,
+    "output_tokens_used": 17323,
     "extensions": []
   },
   "tasks": {
@@ -161,11 +161,11 @@
     "fallback_reasons": {
       "unparsed_attributes": 20
     },
-    "patch_entries_applied": 90,
-    "patch_entries_rejected": 1,
-    "tool_calls": 0
+    "patch_entries_applied": 80,
+    "patch_entries_rejected": 0,
+    "tool_calls": 3
   },
-  "extraction_seconds_total": 82.72,
+  "extraction_seconds_total": 72.4,
   "per_category": {
     "gloves": {
       "root": "https://www.safcodental.com/catalog/gloves",
@@ -183,7 +183,8 @@
           "description": 1.0,
           "category_paths": 1.0,
           "image_urls": 1.0,
-          "attributes": 0.8
+          "attributes": 0.8,
+          "alternatives": 1.0
         },
         "variant": {
           "sku": 1.0,
@@ -232,12 +233,13 @@
           "description": 1.0,
           "category_paths": 1.0,
           "image_urls": 1.0,
-          "attributes": 0.1
+          "attributes": 0.1,
+          "alternatives": 1.0
         },
         "variant": {
           "sku": 1.0,
           "variant_name": 1.0,
-          "attributes": 0.9737,
+          "attributes": 0.7105,
           "pack_label": 0.3421,
           "pack_quantity": 0.3421,
           "pack_unit": 0.3421,
@@ -249,11 +251,11 @@
       "validation_failure_rate": 0.0,
       "quarantine_rate": 0.0,
       "llm_fallback_rate": 1.0,
-      "evidence_rejection_rate": 0.0263,
+      "evidence_rejection_rate": 0.0,
       "recovery": {
         "attempted": 10,
-        "resolved": 9,
-        "success_rate": 0.9
+        "resolved": 8,
+        "success_rate": 0.8
       },
       "variant_coverage": {
         "expected_skus": 38,
@@ -280,26 +282,18 @@
       "template": "product",
       "old_selector": "#pdp-grouped .table-grid-pdp .product-item-sku",
       "failing_snapshots": [
-        "s_199c4fa12ddcb66d",
-        "s_06f53146d1c34a4a",
-        "s_1b1600f6a1ac2ba7"
+        "s_50e21ed0fb1a935f",
+        "s_5f5fb9987ac8fe38",
+        "s_bbc91e882d2de3ce"
       ],
       "control_snapshots": [
-        "s_7ef99f8bd6f29596",
-        "s_7728ea31bd358098",
-        "s_c0b0ffcfa48f856f"
+        "s_45e1d27f1f356aae",
+        "s_795f3303c1687284",
+        "s_9407f483bf009063"
       ],
-      "candidates": [
-        {
-          "selector": "#pdp-grouped .table-grid-pdp .product-item-sku",
-          "failing_match_rate": 0.0,
-          "control_match_rate": 1.0,
-          "regressions": 0,
-          "error": null
-        }
-      ],
-      "rationale": "No selector can fix this on the failing pages. On all 3 failing snapshots, #pdp-grouped exists but contains only \"Loading...\". The .table-grid-pdp element and every product-item-sku node are absent, so there are zero matches for any candidate. On the controls, the table renders with 5 SKU rows, and the current selector already matches them. The root cause is that the grouped table is loaded asynch",
-      "status": "suggested",
+      "candidates": [],
+      "rationale": null,
+      "status": "no_candidate",
       "applied": false,
       "model_calls": 3,
       "tool_calls": 6

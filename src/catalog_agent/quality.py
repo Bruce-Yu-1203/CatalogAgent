@@ -222,6 +222,11 @@ async def build_report(repo: Repository, run_id: str) -> dict[str, Any]:
                 for f in o.get("field_failures") or []
             )
         ),
+        "render_notes": dict(
+            Counter(
+                n for t in tasks if t["outcome_json"] for n in json.loads(t["outcome_json"]).get("render_notes") or []
+            )
+        ),
         "repair_suggestions": json.loads(run["metrics_json"]).get("repair_suggestions", [])
         if run["metrics_json"]
         else [],

@@ -52,6 +52,21 @@ FIELD_SELECTORS: dict[str, dict[str, str]] = {
 }
 
 
+def table_not_rendered(snapshot: PageSnapshot) -> bool:
+    """The variant table container is present but still shows only its loading placeholder. This is the
+    expected JSON-LD fallback case, not a selector failure, so it never triggers repair suggestions."""
+    grouped = soup_for(snapshot).select_one("#pdp-grouped")
+    if grouped is None:
+        return False
+    rows = grouped.select(".table-grid-pdp")
+    text = (_text(grouped) or "").replace("Loading...", "").strip()
+    return not rows and not text
+
+
+def render_notes(snapshot: PageSnapshot, template: str) -> list[str]:
+    return ["table_not_rendered"] if template == "product" and table_not_rendered(snapshot) else []
+
+
 def field_failures(snapshot: PageSnapshot, template: str) -> list[str]:
     """Fields whose selector matched nothing although the page shows the data exists."""
     soup = soup_for(snapshot)
@@ -59,7 +74,11 @@ def field_failures(snapshot: PageSnapshot, template: str) -> list[str]:
     if template == "product":
         ld = _ld_of_type(soup, "ProductGroup", "Product")
         has_variants = bool(ld and (ld.get("hasVariant") or ld.get("sku")))
-        if has_variants and not soup.select(FIELD_SELECTORS["product"]["variant_rows"]):
+        if (
+            has_variants
+            and not soup.select(FIELD_SELECTORS["product"]["variant_rows"])
+            and not table_not_rendered(snapshot)
+        ):
             failed.append("variant_rows")
     elif template == "listing":
         stats = _text(soup.select_one(".ais-Stats")) or ""

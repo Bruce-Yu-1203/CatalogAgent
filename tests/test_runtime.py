@@ -153,3 +153,48 @@ async def test_transient_errors_retry_with_bounded_attempts(tmp_path):
     task = next(x for x in await repo.tasks("run_retry") if x["url"] == URLS["listing_sutures"])
     assert task["status"] == "FAILED" and task["attempts"] == 2 and task["error_code"] == "TIMEOUT"
     await repo.close()
+
+
+async def test_product_claims_rotate_across_subcategories(tmp_path):
+    from catalog_agent.contracts import ChildTask, TaskType
+
+    repo = await Repository.open(tmp_path / "db.sqlite")
+    try:
+        await repo.create_run("run_rr", "deterministic", {}, 100, 4, 0)
+        root = "https://x/catalog/gloves"
+        top = [["Gloves"]]
+        kids = [
+            ChildTask(task_type=TaskType.PRODUCT, url=f"https://x/p/top{i}", root=root, lineage=top, depth=1)
+            for i in range(4)
+        ]  # first listing page: discovered first
+        kids += [
+            ChildTask(
+                task_type=TaskType.PRODUCT,
+                url=f"https://x/p/latex{i}",
+                root=root,
+                lineage=[["Gloves", "Latex"]],
+                depth=2,
+            )
+            for i in range(2)
+        ]
+        kids += [
+            ChildTask(
+                task_type=TaskType.PRODUCT,
+                url=f"https://x/p/nitrile{i}",
+                root=root,
+                lineage=[["Gloves", "Nitrile"]],
+                depth=2,
+            )
+            for i in range(2)
+        ]
+        await repo.enqueue("run_rr", kids)
+        order = []
+        for _ in range(4):
+            task, _ = await repo.claim_next("run_rr", 0)
+            order.append(task.url.rsplit("/", 1)[1])
+        # One product per subcategory before any subcategory gets a second one.
+        assert order == ["top0", "latex0", "nitrile0", "top1"]
+        task, reason = await repo.claim_next("run_rr", 0)
+        assert task is None and reason == "waiting"  # budget of 4 reserved by the running claims
+    finally:
+        await repo.close()

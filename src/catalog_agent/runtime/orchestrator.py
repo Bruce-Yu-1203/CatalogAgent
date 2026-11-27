@@ -301,6 +301,7 @@ class Orchestrator:
             "agent": "validator",
             "template": "product",
             "field_failures": self.adapter.field_failures(snapshot, "product"),
+            "render_notes": self.adapter.render_notes(snapshot, "product"),
             "decision": val.decision,
             "expected_skus": val.expected_skus,
             "variants": val.observed_skus,

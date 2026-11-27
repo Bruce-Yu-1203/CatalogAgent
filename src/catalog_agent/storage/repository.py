@@ -247,6 +247,29 @@ class Repository:
         )
         return {r[0]: r[1] for r in await cur.fetchall()}
 
+    @staticmethod
+    def _bucket(lineage_json: str, root: str | None) -> str:
+        """Deepest category path the product was discovered under (its subcategory), else its root."""
+        paths = json.loads(lineage_json or "[]")
+        deepest = max(paths, key=len) if paths else None
+        return " > ".join(deepest) if deepest else (root or "")
+
+    async def _balanced_product(self, c: aiosqlite.Connection, run_id: str, eligible: list[aiosqlite.Row]):
+        """Round-robin across subcategories: pick the product whose subcategory has been sampled least so far
+        (completed, partial or running), ties broken by discovery order. Without this the first listing page
+        of a root fills the whole per-category budget."""
+        products = [r for r in eligible if r["task_type"] == TaskType.PRODUCT.value]
+        cur = await c.execute(
+            "SELECT lineage_json, root FROM crawl_tasks WHERE run_id = ? AND task_type = 'product'"
+            " AND status IN ('COMPLETED','PARTIAL','RUNNING')",
+            (run_id,),
+        )
+        sampled: dict[str, int] = {}
+        for r in await cur.fetchall():
+            b = self._bucket(r["lineage_json"], r["root"])
+            sampled[b] = sampled.get(b, 0) + 1
+        return min(products, key=lambda r: (sampled.get(self._bucket(r["lineage_json"], r["root"]), 0), r["task_id"]))
+
     async def claim_next(self, run_id: str, per_task_model_calls: int) -> tuple[CrawlTask | None, str | None]:
         """Atomically claim the next eligible task and reserve its page (and model) budget.
 
@@ -271,6 +294,8 @@ class Repository:
                 return done.get(row["root"], 0) < limit
 
             chosen = next((r for r in candidates if eligible(r)), None)
+            if chosen is not None and chosen["task_type"] == TaskType.PRODUCT.value:
+                chosen = await self._balanced_product(c, run_id, [r for r in candidates if eligible(r)])
             if chosen is None:
                 # Nothing claimable now. Wait only for work that can still run: tasks in flight, or
                 # retries whose category quota is not full. Otherwise the category budget is spent.

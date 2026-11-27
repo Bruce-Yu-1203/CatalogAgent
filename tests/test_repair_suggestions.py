@@ -135,3 +135,10 @@ async def test_run_level_trigger_and_report(tmp_path):
     [s] = rep["repair_suggestions"]
     assert s["field"] == "variant_rows" and s["applied"] is False and s["candidates"][0]["regressions"] == 0
     assert run["model_calls_used"] == 1 == len(model.calls)
+
+
+def test_unrendered_table_is_a_render_note_not_a_selector_failure():
+    snap = snapshot("product_trimmer_incomplete_render")
+    assert safco.field_failures(snap, "product") == []
+    assert safco.render_notes(snap, "product") == ["table_not_rendered"]
+    assert safco.render_notes(control(NAMES[0]), "product") == []

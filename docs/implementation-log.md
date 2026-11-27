@@ -350,3 +350,38 @@ tokens ≈ $0.015.
 The model results moved with the usual run-to-run variance: attributes on 80/91 variants (previous run 90/91),
 recovery 18/20 pages, and the repair agent returned no candidate this time (previous run: a correct "no
 selector can fix this" diagnosis).
+
+## Sampling and reporting fixes (2026-11-27)
+
+Amy reviewed `run_20261127_alts` and found four problems; all four were confirmed in the database first.
+
+1. **No sutures in the sutures sample.** The 10 sutures & surgical products were bone grafts, haemostatics and a
+   trimmer; the 5 products of the Sutures subcategory (and every latex, chloroprene and surgical glove) stayed
+   PENDING. Cause: product tasks were claimed in discovery order, so the 12 products of each root's first
+   listing page used the whole 10-per-category budget. **Fix:** `claim_next` now picks the product whose
+   subcategory (deepest discovered category path) has been sampled least, ties by discovery order. Test:
+   `test_product_claims_rotate_across_subcategories`.
+2. **README model-call split was wrong.** It said 20 extraction + 6 repair; the database shows 23 extraction (18
+   pages × 1, Alasta × 2, OSSIF-i × 3, because attribute gaps go 8 SKUs per call) + 3 repair. Total 26 was right.
+   The README now states the split per page from the current run.
+3. **Repair suggestions triggered by an expected fallback.** Pages whose variant table never renders were
+   counted as `variant_rows` selector failures, so every run spent 3 model calls to conclude "no selector can
+   fix this". **Fix:** a table container that only shows its loading placeholder is recorded as the render note
+   `table_not_rendered` (reported in `run_report.json`) and no longer counts as a field failure; a rendered table
+   whose SKU selector matches nothing still does. Test: `test_unrendered_table_is_a_render_note_not_a_selector_failure`.
+4. **README §9 used an older run.** §9 now leads with the current run and the offline evaluation; earlier runs
+   appear only as an example of run-to-run variance.
+
+**Live re-crawl** `run_20261127_balanced` (same scratch config, hybrid, P1 features on), now the source of
+`outputs/`: 20 accepted products covering every subcategory (gloves: chloroprene 2, latex 2, nitrile 2,
+surgical 2, vinyl 1, holder 1; sutures & surgical: all 8 subcategories, including Safco SureStitch Sutures with
+15 variants), 87 variants, 37 fetches, 0 retries, 131 s; 24 model calls (all extraction), 57,129 + 18,048 tokens
+≈ $0.015; 0 field failures, 3 `table_not_rendered` notes, no repair suggestions; attributes on 87/87 variants;
+160 alternatives. Checks: SKU sets equal JSON-LD on 20/20 pages; 78 table prices agree with JSON-LD, 0 disagree,
+8 from JSON-LD; deterministic re-parse of the same snapshots gives 0 differences in price, pack and
+availability. New real edge case: Aurelia Refresh x-large (`4870048`) shows "Non-purchasable" and no price in
+the table while JSON-LD lists $10.49 in stock; the export keeps price null (`not_visible`) and availability
+`unknown` with the raw text, because only displayed values are exported.
+
+Tests: 66 passed; smoke script passed. The project folder was renamed to `CatalogAgent` on Amy's machine during
+this work; nothing in the code depends on the folder name.

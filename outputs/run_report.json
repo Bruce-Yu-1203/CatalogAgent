@@ -1,10 +1,10 @@
 {
-  "run_id": "run_20261127_alts",
+  "run_id": "run_20261127_balanced",
   "mode": "hybrid",
   "status": "BUDGET_EXHAUSTED",
   "termination_reason": "MAX_PRODUCTS_PER_CATEGORY",
   "coverage_status": "partial",
-  "started_at": "2026-11-27T02:33:47Z",
+  "started_at": "2026-11-27T02:57:50Z",
   "finished_at": null,
   "invocations": [
     {
@@ -12,7 +12,7 @@
       "model_id": "anthropic:claude-haiku-5-5",
       "model_unavailable": null,
       "requeued": 0,
-      "seconds": 146.3,
+      "seconds": 130.5,
       "status": "BUDGET_EXHAUSTED"
     }
   ],
@@ -21,9 +21,9 @@
     "pages_used": 37,
     "max_products_per_category": 10,
     "max_model_calls": 60,
-    "model_calls_used": 26,
-    "input_tokens_used": 64607,
-    "output_tokens_used": 17323,
+    "model_calls_used": 24,
+    "input_tokens_used": 57129,
+    "output_tokens_used": 18048,
     "extensions": []
   },
   "tasks": {
@@ -152,7 +152,7 @@
   },
   "catalog": {
     "unique_products": 20,
-    "observed_skus": 91,
+    "observed_skus": 87,
     "duplicate_identity_count": 0
   },
   "model_usage": {
@@ -161,11 +161,11 @@
     "fallback_reasons": {
       "unparsed_attributes": 20
     },
-    "patch_entries_applied": 80,
+    "patch_entries_applied": 87,
     "patch_entries_rejected": 0,
-    "tool_calls": 3
+    "tool_calls": 4
   },
-  "extraction_seconds_total": 72.4,
+  "extraction_seconds_total": 78.55,
   "per_category": {
     "gloves": {
       "root": "https://www.safcodental.com/catalog/gloves",
@@ -174,7 +174,7 @@
       "partial": 0,
       "quarantined": 0,
       "products_exported": 10,
-      "variants_exported": 53,
+      "variants_exported": 51,
       "field_fill_rate": {
         "product": {
           "name": 1.0,
@@ -183,16 +183,75 @@
           "description": 1.0,
           "category_paths": 1.0,
           "image_urls": 1.0,
-          "attributes": 0.8,
+          "attributes": 0.7,
           "alternatives": 1.0
         },
         "variant": {
           "sku": 1.0,
           "variant_name": 1.0,
           "attributes": 1.0,
-          "pack_label": 1.0,
-          "pack_quantity": 1.0,
-          "pack_unit": 1.0,
+          "pack_label": 0.9412,
+          "pack_quantity": 0.9412,
+          "pack_unit": 0.9412,
+          "price": 0.9804,
+          "currency": 0.9804,
+          "availability_raw": 1.0
+        }
+      },
+      "validation_failure_rate": 0.0,
+      "quarantine_rate": 0.0,
+      "llm_fallback_rate": 1.0,
+      "evidence_rejection_rate": 0.0,
+      "recovery": {
+        "attempted": 10,
+        "resolved": 10,
+        "success_rate": 1.0
+      },
+      "variant_coverage": {
+        "expected_skus": 51,
+        "exported_skus": 51
+      },
+      "missing_reason_distribution": {
+        "manufacturer": {
+          "not_applicable": 10
+        },
+        "variants.currency": {
+          "not_visible": 1
+        },
+        "variants.pack_label": {
+          "not_visible": 3
+        },
+        "variants.price": {
+          "not_visible": 1
+        }
+      }
+    },
+    "sutures-surgical-products": {
+      "root": "https://www.safcodental.com/catalog/sutures-surgical-products",
+      "product_pages": 10,
+      "accepted": 10,
+      "partial": 0,
+      "quarantined": 0,
+      "products_exported": 10,
+      "variants_exported": 36,
+      "field_fill_rate": {
+        "product": {
+          "name": 1.0,
+          "brand": 1.0,
+          "manufacturer": 0.0,
+          "description": 1.0,
+          "category_paths": 1.0,
+          "image_urls": 1.0,
+          "attributes": 0.1,
+          "alternatives": 1.0
+        },
+        "variant": {
+          "sku": 1.0,
+          "variant_name": 1.0,
+          "attributes": 1.0,
+          "pack_label": 0.75,
+          "pack_quantity": 0.75,
+          "pack_unit": 0.75,
           "price": 1.0,
           "currency": 1.0,
           "availability_raw": 1.0
@@ -208,95 +267,23 @@
         "success_rate": 1.0
       },
       "variant_coverage": {
-        "expected_skus": 53,
-        "exported_skus": 53
-      },
-      "missing_reason_distribution": {
-        "manufacturer": {
-          "not_applicable": 10
-        }
-      }
-    },
-    "sutures-surgical-products": {
-      "root": "https://www.safcodental.com/catalog/sutures-surgical-products",
-      "product_pages": 10,
-      "accepted": 10,
-      "partial": 0,
-      "quarantined": 0,
-      "products_exported": 10,
-      "variants_exported": 38,
-      "field_fill_rate": {
-        "product": {
-          "name": 1.0,
-          "brand": 1.0,
-          "manufacturer": 0.0,
-          "description": 1.0,
-          "category_paths": 1.0,
-          "image_urls": 1.0,
-          "attributes": 0.1,
-          "alternatives": 1.0
-        },
-        "variant": {
-          "sku": 1.0,
-          "variant_name": 1.0,
-          "attributes": 0.7105,
-          "pack_label": 0.3421,
-          "pack_quantity": 0.3421,
-          "pack_unit": 0.3421,
-          "price": 1.0,
-          "currency": 1.0,
-          "availability_raw": 1.0
-        }
-      },
-      "validation_failure_rate": 0.0,
-      "quarantine_rate": 0.0,
-      "llm_fallback_rate": 1.0,
-      "evidence_rejection_rate": 0.0,
-      "recovery": {
-        "attempted": 10,
-        "resolved": 8,
-        "success_rate": 0.8
-      },
-      "variant_coverage": {
-        "expected_skus": 38,
-        "exported_skus": 38
+        "expected_skus": 36,
+        "exported_skus": 36
       },
       "missing_reason_distribution": {
         "manufacturer": {
           "not_applicable": 10
         },
         "variants.pack_label": {
-          "not_visible": 25
+          "not_visible": 9
         }
       }
     }
   },
   "failed_tasks": [],
-  "field_failures": {
-    "product.variant_rows": 6
+  "field_failures": {},
+  "render_notes": {
+    "table_not_rendered": 3
   },
-  "repair_suggestions": [
-    {
-      "failures_observed": 6,
-      "field": "variant_rows",
-      "template": "product",
-      "old_selector": "#pdp-grouped .table-grid-pdp .product-item-sku",
-      "failing_snapshots": [
-        "s_50e21ed0fb1a935f",
-        "s_5f5fb9987ac8fe38",
-        "s_bbc91e882d2de3ce"
-      ],
-      "control_snapshots": [
-        "s_45e1d27f1f356aae",
-        "s_795f3303c1687284",
-        "s_9407f483bf009063"
-      ],
-      "candidates": [],
-      "rationale": null,
-      "status": "no_candidate",
-      "applied": false,
-      "model_calls": 3,
-      "tool_calls": 6
-    }
-  ]
+  "repair_suggestions": []
 }

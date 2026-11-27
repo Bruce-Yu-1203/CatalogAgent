@@ -91,7 +91,33 @@ class Orchestrator:
     # ---------------------------------------------------------------- seeding
 
     async def seed(self, run_id: str) -> None:
-        url = canonicalize_url(self.cfg.site.discovery_url) or self.cfg.site.discovery_url
+        site = self.cfg.site
+        if site.sitemap_sample:
+            # Seeded random sample of sitemap products: exercises extraction on categories outside the two
+            # configured roots, through the permitted sitemap path. Category comes from each page's breadcrumb.
+            import random
+
+            xml = await self.fetcher.fetch_text(site.sitemap_url)
+            urls = self.adapter.sitemap_product_urls(xml)
+            pick = random.Random(site.sitemap_seed).sample(urls, min(site.sitemap_sample, len(urls)))
+            await self.repo.bump_counters(run_id, sitemap_fetches=1, sitemap_product_urls=len(urls))
+            await self.repo.enqueue(
+                run_id,
+                [
+                    ChildTask(task_type=TaskType.PRODUCT, url=u, root="sitemap-sample", lineage=[], depth=1)
+                    for u in pick
+                ],
+            )
+            log_event(
+                "sitemap_seeded",
+                run_id=run_id,
+                outcome="ok",
+                sitemap_urls=len(urls),
+                sampled=len(pick),
+                seed=site.sitemap_seed,
+            )
+            return
+        url = canonicalize_url(site.discovery_url) or site.discovery_url
         await self.repo.enqueue(
             run_id, [ChildTask(task_type=TaskType.DISCOVERY, url=url, root=None, lineage=[], depth=0)]
         )

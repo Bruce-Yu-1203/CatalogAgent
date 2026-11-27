@@ -226,3 +226,38 @@ async def test_playwright_fetcher_accepts_structured_data_when_variant_table_nev
         await f.close()
     assert e.value.code == ErrorCode.INCOMPLETE_RENDER
     assert [r.cells["sku"] for r in safco.section_by_id(snap, "structured-data").rows] == ["4605716", "4605738"]
+
+
+async def test_sitemap_sample_seeds_products_reproducibly(tmp_path):
+    from conftest import ScriptedFetcher, make_config
+
+    from catalog_agent.runtime.runner import execute
+    from catalog_agent.storage.repository import Repository
+
+    async def one(run_id: str, seed: int) -> list[str]:
+        cfg = make_config(tmp_path, max_products_per_category=10, concurrency=1)
+        cfg.site.sitemap_sample, cfg.site.sitemap_seed = 2, seed
+
+        async def factory(_c):
+            return ScriptedFetcher()
+
+        await execute(
+            database=cfg.storage.database,
+            cfg=cfg,
+            mode="deterministic",
+            run_id=run_id,
+            fetcher_factory=factory,
+            quiet_logs=True,
+        )
+        repo = await Repository.open(cfg.storage.database)
+        try:
+            tasks = await repo.tasks(run_id)
+        finally:
+            await repo.close()
+        assert {t["task_type"] for t in tasks} == {"product"}  # no category discovery in sample mode
+        assert all(t["root"] == "sitemap-sample" for t in tasks)
+        return sorted(t["url"] for t in tasks)
+
+    a, b = await one("run_sm1", 7), await one("run_sm2", 7)
+    assert a == b and len(a) == 2  # same seed, same sample
+    assert all(u.startswith(f"{BASE}/product/") for u in a)

@@ -31,6 +31,10 @@ def crawl(
     run_id: Annotated[str | None, typer.Option(help="explicit run id")] = None,
     replay: Annotated[Path | None, typer.Option(help="replay saved fixtures (offline) instead of live")] = None,
     db: Annotated[str | None, typer.Option(help="override storage.database")] = None,
+    sitemap_sample: Annotated[
+        int | None, typer.Option(help="seed N random sitemap products instead of discovery")
+    ] = None,
+    sample_seed: Annotated[int, typer.Option(help="random seed for --sitemap-sample")] = 0,
 ) -> None:
     """Start a new bounded crawl."""
     if mode not in ("deterministic", "hybrid"):
@@ -40,6 +44,12 @@ def crawl(
         cfg.replay_dir = str(replay)
     if db is not None:
         cfg.storage.database = db
+    if sitemap_sample is not None:
+        if not cfg.site.sitemap_url:
+            raise typer.BadParameter("site.sitemap_url is not configured")
+        cfg.site.sitemap_sample = sitemap_sample
+        cfg.site.sitemap_seed = sample_seed
+        cfg.crawler.max_products_per_category = max(cfg.crawler.max_products_per_category, sitemap_sample)
     try:
         res = asyncio.run(execute(database=cfg.storage.database, cfg=cfg, mode=mode, run_id=run_id))
     except LockHeldError as e:

@@ -17,6 +17,11 @@ class SiteConfig(BaseModel):
     discovery_url: str
     category_roots: list[str]
     user_agent: str = "CatalogAgent-POC/0.1 (low-rate research crawler)"
+    # Product sitemap advertised in robots.txt. With `sitemap_sample` set, a run seeds that many randomly chosen
+    # sitemap products (reproducible with `sitemap_seed`) instead of category discovery.
+    sitemap_url: str | None = None
+    sitemap_sample: int | None = Field(None, ge=1, le=500)
+    sitemap_seed: int = 0
 
 
 class CrawlerConfig(BaseModel):

@@ -149,6 +149,22 @@ class PlaywrightFetcher:
         if self.robots is not None and not self.robots.allowed(url):
             raise FetchError(ErrorCode.ROBOTS_DISALLOWED, f"robots.txt disallows {url}")
 
+    async def fetch_text(self, url: str) -> str:
+        """Plain HTTP GET (no rendering) through the same scope, robots and pacing rules, e.g. for a sitemap."""
+        assert self._context is not None, "call start() first"
+        self.check_url(url)
+        await self.pacer.wait(urlsplit(url).hostname or "")
+        resp = await self._context.request.get(url, timeout=self.timeout_ms)
+        if resp.status == 429:
+            raise FetchError(ErrorCode.THROTTLED, "429", 429)
+        if resp.status in (401, 403):
+            raise FetchError(ErrorCode.ACCESS_DENIED, f"http {resp.status}", resp.status)
+        if resp.status >= 400:
+            raise FetchError(
+                ErrorCode.NOT_FOUND if resp.status < 500 else ErrorCode.HTTP_5XX, f"http {resp.status}", resp.status
+            )
+        return await resp.text()
+
     async def fetch(self, url: str, kind: str, require_ready: bool = True) -> PageSnapshot:
         assert self._context is not None, "call start() first"
         self.check_url(url)
@@ -257,6 +273,13 @@ class ReplayFetcher:
             if soup.select_one(selector) is None and (fallback is None or soup.select_one(fallback) is None):
                 raise FetchError(ErrorCode.INCOMPLETE_RENDER, f"readiness signal missing: {selector}")
         return make_snapshot(url, url, 200, html)
+
+    async def fetch_text(self, url: str) -> str:
+        self.check_url(url)
+        name = self.manifest.get(url)
+        if name is None:
+            raise FetchError(ErrorCode.NOT_FOUND, f"no fixture for {url}", 404)
+        return (self.dir / name).read_text()
 
     async def close(self) -> None:
         return None

@@ -3,6 +3,7 @@ site:
   allowed_hosts: [www.safcodental.com, safcodental.com]
   scope: selected  # selected | all (permitted discovered roots)
   discovery_url: https://www.safcodental.com/catalog
+  sitemap_url: https://www.safcodental.com/products.xml   # product sitemap listed in robots.txt
   category_roots:
     - https://www.safcodental.com/catalog/gloves
     - https://www.safcodental.com/catalog/sutures-surgical-products

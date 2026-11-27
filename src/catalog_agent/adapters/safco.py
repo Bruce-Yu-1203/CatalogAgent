@@ -188,6 +188,13 @@ def path_of(url: str) -> str:
     return urlsplit(url).path.rstrip("/") or "/"
 
 
+def sitemap_product_urls(xml: str) -> list[str]:
+    """Product URLs from a sitemap (`<loc>` entries under /product/), canonicalized, in file order."""
+    soup = BeautifulSoup(xml, "xml")
+    urls = [canonicalize_url(loc.get_text(strip=True)) for loc in soup.find_all("loc")]
+    return list(dict.fromkeys(u for u in urls if u and is_product_url(u)))
+
+
 def is_product_url(url: str) -> bool:
     return bool(re.fullmatch(r"/product/[^/]+", path_of(url)))
 

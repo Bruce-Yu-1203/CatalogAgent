@@ -571,3 +571,63 @@ Checked against the requirements document again; three gaps were closed before s
   LLM). `make tour` (`scripts/tour.sh`) replays the saved real pages offline in about 5 s: a run stopped by a page
   budget of 8 (`BUDGET_EXHAUSTED`), `resume --add-pages 60` to completion with no duplicate tasks (46/46 distinct),
   the 4 products and their variants, and the evidence rows behind SKU `1027990`.
+
+
+## README sections moved here (2026-11-27)
+
+To shorten README §9 for reviewers, these passages were moved verbatim from it.
+
+### Why an LLM: details moved from the README
+
+Details:
+- **Situation ①: three rule sources.** The parser merges the rendered table, the JSON-LD and the inline
+  page data, in that order of priority; a later source only fills SKUs the earlier ones did not show (so a
+  "Non-purchasable" table row keeps its null price). On this sample rules-only went from 27/30 accepted and
+  209/224 SKUs (`run_20261127_sitemap30`, before the merge) to 30/30 and 224/224, where the earlier hybrid run
+  needed the model (29/30, 218/224). Live re-runs on the same 30 products, `run_20261127_sitemap30_merge` (rules)
+  and `run_20261127_sitemap30_merge_hybrid` (rules + LLM), both give 30 accepted and 224/224 SKUs.
+- **Situation ②: inline page data, read by rules (203/224 SKUs, no model).** Inline product
+  objects are found by shape (an `sku` string plus a numeric price), not by variable name. On 50 normal pages
+  this found 290 SKUs, all equal to the JSON-LD SKUs with equal prices. The 21 SKUs it cannot give are
+  personalized items whose inline objects carry no price (11) and SKUs missing from the inline data (10).
+
+### What went wrong on the way (moved from the README)
+
+What went wrong on the way, measured on the same pages:
+- Before steps 2–3 the model copied rows by hand: 56/82 SKUs with classes renamed; the 20-row page failed.
+- With columns reordered and no column labels, the model took the manufacturer number (`Mfr #`) for the SKU on 6
+  pages (9–10 SKUs). Those codes are whole cells of the right row, so the evidence gate alone could not catch
+  this; the column labels (step 2) fixed it.
+- Stock first reached only 49–55 of 82: rows styled differently per status got different cell keys, so the model
+  left stock out, and "Special order" was not accepted as a status. The labelled-column fallback and the stock
+  column rule fixed both (82/82 with classes renamed).
+
+### Run-to-run variance (moved from the README)
+
+The output varies between runs on the same site: the earlier live runs `run_20261127_hybrid2` and
+`run_20261127_alts` got attributes on 90/91 and 80/91 variants. The offline evaluation below measures this on
+frozen pages.
+
+### Offline evaluation, all runs (moved from the README)
+
+| Held-out real pages (17) | Deterministic | Hybrid run 1 | Hybrid run 2 | Hybrid run 3 | Hybrid run 4 (`outputs/evaluation_report.json`) |
+|---|---|---|---|---|---|
+| Variant recall / precision | 1.0 / 1.0 | 1.0 / 1.0 | 1.0 / 1.0 | 1.0 / 1.0 | 1.0 / 1.0 |
+| Price accuracy | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 |
+| Attribute value recall | 0.0 | 1.0 | 0.54 | 0.96 | 0.75 |
+| Attribute value precision | n/a | 0.99 | 0.99 | 0.99 | 0.99 |
+| Model calls / cost | 0 / $0 | 18 / $0.012 | 20 / $0.011 | 22 / $0.014 | 23 / $0.014 |
+
+Runs 2 and 3 followed prompt changes: run 2 added the missing-variant price instruction and showed the
+variance problem (one 18-variant page used its 3 calls without submitting); run 3 sends attribute gaps 8 SKUs per
+turn. Run 4 uses the JSON-LD merge described above. On the synthetic page (one table row removed) the
+deterministic parser missed the SKU in runs 1–3 (recall 0.8) and the model recovered it in runs 2 and 3; since the
+merge, rules fill it from JSON-LD (recall 1.0, `accepted`, no model call needed for it). The model adds no value on SKU or price for these pages; its value is attribute structure, with
+noticeable run-to-run variance.
+
+## README tightened for reviewers (2026-11-27)
+
+A requirement-to-section map and a short legend for P0/P1/P2, ADR, FR and § references now follow the two-minute
+path; §1 has 9 rows instead of 14; §9 keeps the three-situation result, how recovery works, the live run and the
+final offline evaluation, and its development history moved to the section above. PRD A-05 now records the one
+SKU the site lists on two products.

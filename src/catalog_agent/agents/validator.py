@@ -336,6 +336,10 @@ class ValidatorAgent:
         seen: set[str] = set()
         for obs in cand.variants:
             if obs.sku in seen:
+                # Repeated row with consistent values (conflicts were quarantined above): merged, first row kept.
+                issues.append(
+                    Issue(code="duplicate_row_merged", message=f"{obs.sku} row {obs.row_id}", severity="info")
+                )
                 continue
             seen.add(obs.sku)
             v, r = self._variant(obs, pid, ev, cand, snapshot, issues)

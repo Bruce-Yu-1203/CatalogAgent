@@ -511,16 +511,16 @@ def parse_product(snapshot: PageSnapshot) -> ProductCandidate:
     description = clean_text(desc.text) if desc and desc.text else clean_text(data.get("description"))
     attributes = _kv_attributes((desc.data or {}).get("list_items", [])) if desc else {}
 
+    # Every row is kept as its own observation, duplicates included: the Validator checks repeated SKUs for
+    # conflicting values before merging them, so a conflict can never be hidden by the parser.
     variants: list[VariantObservation] = []
-    seen: set[str] = set()
     ld_rows = {r.cells.get("sku"): r for r in (sd.rows if sd else []) if r.cells.get("sku")}
 
     if table and table.rows:
         for r in table.rows:
             sku = r.cells.get("item_no", "").strip()
-            if not sku or sku in seen:
+            if not sku:
                 continue
-            seen.add(sku)
             label = r.cells.get("description") or None
             pack_label, _, _ = parse_pack(label or r.cells.get("product_name"))
             attrs = {"Group": r.cells["group"]} if r.cells.get("group") else {}
@@ -544,9 +544,8 @@ def parse_product(snapshot: PageSnapshot) -> ProductCandidate:
         # Variant table not rendered: structured data is the observed source.
         for r in sd.rows:
             sku = r.cells.get("sku", "").strip()
-            if not sku or sku in seen:
+            if not sku:
                 continue
-            seen.add(sku)
             pack_label, _, _ = parse_pack(r.cells.get("name"))
             price_raw = r.cells.get("price") or None
             variants.append(

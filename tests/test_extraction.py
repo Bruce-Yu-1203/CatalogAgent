@@ -192,3 +192,34 @@ def test_self_link_is_excluded_and_unrendered_carousel_is_not_observed():
     assert {"field": "alternatives", "reason": "not_observed"} in [
         m.model_dump(mode="json") for m in out.product.missing
     ]
+
+
+def _with_duplicate_row(price_text: str):
+    """SYNTHETIC: the real Surpass page with its first variant row repeated, the copy showing `price_text`."""
+    import copy
+
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(fixture_html("product_surpass_gloves"), "lxml")
+    first = next(r for r in soup.select("#pdp-grouped .table-grid-pdp") if r.select_one(".product-item-sku"))
+    dup = copy.copy(first)
+    for p in dup.select(".price-wrapper .price"):
+        p.string = price_text
+    first.insert_after(dup)
+    return snapshot("product_surpass_gloves", html=str(soup))
+
+
+def test_conflicting_prices_for_one_sku_are_quarantined_not_silently_merged():
+    snap = _with_duplicate_row("$999.99")
+    cand = safco.parse_product(snap)
+    assert [v.price_raw for v in cand.variants if v.sku == "1027990"] == ["$15.99", "$999.99"]  # both kept
+    out, issues = validate(snap)
+    assert out.decision == "quarantined" and out.product is None
+    assert any(i.code == "sku_ambiguous" and i.severity == "critical" for i in issues)
+
+
+def test_consistent_duplicate_rows_are_merged_once():
+    out, issues = validate(_with_duplicate_row("$15.99"))
+    assert out.decision == "accepted" and out.product.variant_count == 5
+    assert [v.sku for v in out.product.variants].count("1027990") == 1
+    assert any(i.code == "duplicate_row_merged" for i in issues)
